@@ -1,2 +1,2 @@
 # IOLITE_Multimodal-Interaction
-This Project is about an application for a Multimodal-Interaction Plattform for the IOLITE environment
+This Project is about developing an application for the IOLITE Plattform.
