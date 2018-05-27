@@ -207,30 +207,9 @@ public final class ExampleDriver implements Driver {
 				LOGGER.error("Failed to start existing device '{}' due to error: {}", device.getIdentifier(), e.getMessage());
 			}
 		});
-		LOGGER.debug("Start SlackBot");
-		inizializeSlackBot();
-		LOGGER.debug("did something happend?");
 		return new DeviceStarter(factory);
 	}
-
-	/**
-	 *
-	 *
-	 */
-	public void inizializeSlackBot(){
-
-		SlackSession session = SlackSessionFactory.createWebSocketSlackSession("xoxb-13855094563-364153675334-tOcIgTMrUrqXdFmxpV38fvLM");
-		try {
-			session.connect();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//SlackChannel channel = session.findChannelByName("general"); //make sure bot is a member of the channel.
-		//session.sendMessage(channel, "hi im a bot" );
-		SlackUser user = session.findUserByEmail("tscharffranz@gmail.com");
-		session.sendMessageToUser(user, "Hi, how are you", null);
-
-	}
+	
 
 	/**
 	 * {@inheritDoc}
