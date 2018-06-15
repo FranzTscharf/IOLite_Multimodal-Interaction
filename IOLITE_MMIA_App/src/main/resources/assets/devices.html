@@ -24,6 +24,11 @@
 		<div class="example-responsive-content">
 			StorageAPI.loadInt("test")= <span ng-bind="testValueLoadedFromStorageAPI"></span>
 		</div>
+
+		<div class="example-title">Execute StorageAPI.loadString action</div>
+		<div class="example-responsive-content">
+			StorageAPI.loadString("apikey")= <span ng-bind="ApiKeyValueLoadedFromStorageAPI"></span>
+		</div>
 		
 		<div class="example-title">Query EnvironmentAPI with path "./locations" </div>
 		<div class="example-responsive-content" ng-repeat="location in roomsQueredWithEnvironmentAPI">

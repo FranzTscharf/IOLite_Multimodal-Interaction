@@ -414,8 +414,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		// save an integer under the key 'test'
 		this.storageAPI.saveInt("test", 10);
 		// now let's store a string
-		this.storageAPI.saveString("apikey", "exampleApiKey");
-
+		this.storageAPI.saveString("apikey", "");
 		// log the value of an entry, just to demonstrate
 		LOGGER.debug("loading 'test' from storage: {}", Integer.valueOf(this.storageAPI.loadInt("test")));
 	}

@@ -236,7 +236,7 @@ public final class ExampleDriver implements Driver {
 			throws DeviceConfigurationException {
 		
 		  try {
-		        Server server = new Server(8080);
+		        Server server = new Server(8000);
 
 		        // Create the ResourceHandler. It is the object that will actually handle the request for a given file. It is
 		        // a Jetty Handler object so it is suitable for chaining with other handlers as you will see in other examples.
