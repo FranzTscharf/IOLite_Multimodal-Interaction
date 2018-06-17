@@ -307,6 +307,15 @@ public final class ExampleApp extends AbstractIOLITEApp {
 			throw new StartFailedException(MessageFormat.format("Start failed due to an error in the App API examples: {0}", e.getMessage()), e);
 		}
 
+		// initialize the SlackBot
+		try {
+			JBotApplication jba = new JBotApplication();
+			LOGGER.debug("SlackBot started");
+
+		} catch(Exception e){
+			LOGGER.debug("SlackBot error" + e.getMessage());
+		}
+
 		LOGGER.debug("Started");
 	}
 
@@ -422,7 +431,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 	/**
 	 * A response handler returning all rooms as JSON array.
 	 */
-	class testClass extends FrontendAPIRequestHandler {
+	class TestClass extends FrontendAPIRequestHandler {
 
 		@Override
 		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
@@ -458,7 +467,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		this.frontendAPI.registerRequestHandler("rooms", new RoomsResponseHandler());
 		this.frontendAPI.registerRequestHandler("devices", new DevicesResponseHandler());
 		//new methode !TODO
-		this.frontendAPI.registerRequestHandler("testClass", new testClass());
+		this.frontendAPI.registerRequestHandler("TestClass", new TestClass());
 
 		this.frontendAPI.registerRequestHandler("get_devices.json", new DeviceJSONRequestHandler());
 	}

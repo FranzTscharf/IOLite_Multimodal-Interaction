@@ -4,26 +4,48 @@
     /**
      * This controller calls 'rooms' and 'devices' request handlers which are registered in the ExampleApp.java.
      */
-    exampleApp.controller('ExampleController3', [ '$scope', '$http', function($scope, $http) {
-        $scope.rooms = [];
-        $scope.devices = [];
-
-        // the App had registered 'rooms' path, request it with the angular service $http.
-        $http.get('rooms').then(function onSuccess(response) {
-            console.debug("fetchig rooms was successfull");
-            console.debug(response.data);
-            $scope.rooms = response.data.rooms;
-        }, function onFailure(response) {
-            console.error("can't get rooms");
+    exampleApp.controller('chatbot-controller', [ '$scope', '$http', function($scope, $http) {
+        $scope.ApiKeyValueLoadedFromStorageAPI = null;
+        ModelAPIProfiles.get(ModelAPIProfiles.storageId, {
+            success : function(storageAPI) {
+                storageAPI.action({
+                    request : new ActionRequest(/* requestIdentifier */null, /* modelIdentifier */null, /* objectQuery */ ".", /* actionName */ "loadString", /* parameters */ [ new ValueParameter("apikey") ]),
+                    success : function(value, storageAPI, request) {
+                        $scope.ApiKeyValueLoadedFromStorageAPI = value;
+                    },
+                    error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
+                        console.error("Action " + responseRequestID + " '" + objectQuery + "' failed due to " + responseErrorCode + ": " + responseError);
+                    }
+                });
+            }
         });
+        $scope.ApiKeyValueSaveToStorageAPI = function() {
+            //call the stoage API to save the APIKEY
+            ModelAPIProfiles.get(ModelAPIProfiles.storageId, {
+                success : function(storageAPI) {
+                    storageAPI.action({
+                        request : new ActionRequest(/* requestIdentifier */null, /* modelIdentifier */null, /* objectQuery */ ".", /* actionName */ "saveString", /* parameters */ [ new ValueParameter("apikey") , new ValueParameter($scope.ApiKeyChanged)]),
+                        success : function(value, storageAPI, request) {
+                            console.log("ApiKeyChanged");
+                            console.log($scope.ApiKeyChanged);
+                        },
+                        error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
+                            console.error("Action " + responseRequestID + " '" + objectQuery + "' failed due to " + responseErrorCode + ": " + responseError);
+                        }
+                    });
+                }
+            });
+        };
+        $scope.sendTestMessage = function() {
+            //call the stoage API to save the APIKEY
+            $http.get('TestClass').then(function onSuccess(response) {
+                console.log("send test message");
+                console.log(response);
+            }, function onFailure(response) {
+                console.log(response);
+                console.log("can't get rooms");
+            });
+        };
 
-        // example request with POST with a parameter
-        $http.post('devices', { 'propertyType' : "http://iolite.de#on" }).then(function onSuccess(response) {
-            console.debug("fetchig devices was successfull");
-            console.debug(response.data);
-            $scope.devices = response.data.devices;
-        }, function onFailure(response) {
-            console.error("can't get devices");
-        });
     } ]);
 })();

@@ -140,7 +140,7 @@
 					<!-- Enables analysis which takes more memory but finds more bugs. If you run out of memory, changes the value of the effort element to 'Low'. -->
 					<effort>Max</effort>
 					<!-- Values are 'Low', 'Medium' and 'High'. 'Low' reports all bugs, 'High' reports only most critical bugs -->
-					<threshold>Low</threshold>
+					<threshold>High</threshold>
 					<!-- Produces XML report -->
 					<xmlOutput>true</xmlOutput>
 					<!-- Configures the directory in which the XML report is created -->
@@ -244,25 +244,35 @@
 			<version>3.5</version>
 		</dependency>
 
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.21</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.1.7</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 		</dependency>
+
+		<dependency>
+			<groupId>me.ramswaroop.jbot</groupId>
+			<artifactId>jbot</artifactId>
+			<version>4.0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.25</version>
+		</dependency>
+
+
 	</dependencies>
 </project>

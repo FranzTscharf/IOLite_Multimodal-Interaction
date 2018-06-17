@@ -18,53 +18,6 @@
 				}
 			}
 		}
-		// ----------- #!TODO new Controller START --------------------------------------------
-        $scope.ApiKeyValueLoadedFromStorageAPI = null;
-        ModelAPIProfiles.get(ModelAPIProfiles.storageId, {
-            success : function(storageAPI) {
-                storageAPI.action({
-                    request : new ActionRequest(/* requestIdentifier */null, /* modelIdentifier */null, /* objectQuery */ ".", /* actionName */ "loadString", /* parameters */ [ new ValueParameter("apikey") ]),
-                    success : function(value, storageAPI, request) {
-                        $scope.ApiKeyValueLoadedFromStorageAPI = value;
-                    },
-                    error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
-                        console.error("Action " + responseRequestID + " '" + objectQuery + "' failed due to " + responseErrorCode + ": " + responseError);
-                    }
-                });
-            }
-        });
-        $scope.ApiKeyValueSaveToStorageAPI = function() {
-        	//call the stoage API to save the APIKEY
-            ModelAPIProfiles.get(ModelAPIProfiles.storageId, {
-                success : function(storageAPI) {
-                    storageAPI.action({
-                        request : new ActionRequest(/* requestIdentifier */null, /* modelIdentifier */null, /* objectQuery */ ".", /* actionName */ "saveString", /* parameters */ [ new ValueParameter("apikey") , new ValueParameter($scope.ApiKeyChanged)]),
-                        success : function(value, storageAPI, request) {
-                            console.log("ApiKeyChanged");
-                            console.log($scope.ApiKeyChanged);
-                        },
-                        error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
-                            console.error("Action " + responseRequestID + " '" + objectQuery + "' failed due to " + responseErrorCode + ": " + responseError);
-                        }
-                    });
-                }
-            });
-            //reload page
-            $route.reload();
-        };
-        $scope.sendTestMessage = function() {
-            //call the stoage API to save the APIKEY
-            $http.get('testClass').then(function onSuccess(response) {
-                console.debug("send test message");
-                console.debug(response);
-            }, function onFailure(response) {
-                console.error("can't get rooms");
-            });
-        };
-
-
-        // ----------- #!TODO new Controller END --------------------------------------------
-
         // first request StorageAPI and then execute the StorageAPI.loadInt action
 		$scope.testValueLoadedFromStorageAPI = null;
 		ModelAPIProfiles.get(ModelAPIProfiles.storageId, {

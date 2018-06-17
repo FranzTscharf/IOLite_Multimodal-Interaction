@@ -9,8 +9,8 @@
                     <a href="#" class="list-group-item">Impressum</a>
                 </div>
             </div>
-            <div class="example-row" ng-controller="ExampleController2">
-                <div class="col-md-10">
+            <div class="col-md-8">
+                <div class="example-row" ng-controller="chatbot-controller">
                 <div class="card">
                     <div class="card-header bg-light">
                         <h1>IOLITE <i class="far fa-heart"></i> Slack</h1>
@@ -29,9 +29,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-control-label">Create a bot in Slack and save the ApiKey somewhere secure. Also you will need him later.</label>
-                                            <form method="get" action="http://slack.com/slack.com/apps/manage/custom-integrations">
-                                                <button type="submit" class="btn btn-primary">Create a bot in Slack</button>
-                                             </form>
+                                            <a href="http://slack.com/apps/manage/custom-integrations">https://slack.com/services/new/bot</a>
+                                            <label>Click on Bots and add a new configuration.</label>
                                         </div>
                                     </div>
                                 </div>
@@ -50,6 +49,7 @@
                                         <div class="form-group">
                                             <label class="form-control-label">API-Key:</label>
                                             <input class="form-control" ng-model="ApiKeyChanged" ng-value="ApiKeyValueLoadedFromStorageAPI">
+                                            <button class="btn btn-primary" type="submit" ng-click='ApiKeyValueSaveToStorageAPI()'>Save Changes</button>
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-control-label">Send a test message with the Slack bot:</label>
-                                            <button type="button" class="btn btn-primary">Send the message</button>
+                                            <button type="button" class="btn btn-primary" ng-click='sendTestMessage()'>Send the message</button>
                                         </div>
                                     </div>
                                 </div>
@@ -77,12 +77,9 @@
                     </div>
 
                     <div class="card-footer bg-light text-right">
-                        <form action="#">
-                        <button class="btn btn-primary" type="submit" ng-click='ApiKeyValueSaveToStorageAPI()'>Save Changes</button>
-                        </form>
                     </div>
                 </div>
-            </div>
+                </div>
             </div>
         </div>
     </div>
