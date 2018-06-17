@@ -420,6 +420,21 @@ public final class ExampleApp extends AbstractIOLITEApp {
 	}
 
 	/**
+	 * A response handler returning all rooms as JSON array.
+	 */
+	class testClass extends FrontendAPIRequestHandler {
+
+		@Override
+		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
+			JSONObject object = new JSONObject();
+			object.append("testKey", "valueString");
+			//test message \ server start kommt in die init methode etc.
+
+			return new IOLITEHTTPStaticResponse(object.toString(), IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+		}
+	}
+
+	/**
 	 * Registering web resources.
 	 *
 	 * @throws FrontendAPIException if some resources are not found.
@@ -442,6 +457,8 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		// example JSON request handlers
 		this.frontendAPI.registerRequestHandler("rooms", new RoomsResponseHandler());
 		this.frontendAPI.registerRequestHandler("devices", new DevicesResponseHandler());
+		//new methode !TODO
+		this.frontendAPI.registerRequestHandler("testClass", new testClass());
 
 		this.frontendAPI.registerRequestHandler("get_devices.json", new DeviceJSONRequestHandler());
 	}

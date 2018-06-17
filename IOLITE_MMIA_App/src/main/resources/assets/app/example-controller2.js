@@ -52,6 +52,16 @@
             //reload page
             $route.reload();
         };
+        $scope.sendTestMessage = function() {
+            //call the stoage API to save the APIKEY
+            $http.get('testClass').then(function onSuccess(response) {
+                console.debug("send test message");
+                console.debug(response);
+            }, function onFailure(response) {
+                console.error("can't get rooms");
+            });
+        };
+
 
         // ----------- #!TODO new Controller END --------------------------------------------
 
