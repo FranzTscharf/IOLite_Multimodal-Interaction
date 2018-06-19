@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.iolite.drivers</groupId>
-	<artifactId>example-driver</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<artifactId>lamp-driver</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Example Driver</name>
-	<description>Example IOLITE Driver for testing purposes</description>
-	<inceptionYear>2016</inceptionYear>
+	<name>Lamp Example Driver</name>
+	<description>Example lamp driver for IOLITE</description>
+	<inceptionYear>2018</inceptionYear>
 	<organization>
 		<name>IOLITE GmbH</name>
 		<url>http://www.iolite.de</url>
@@ -65,7 +65,7 @@
 			<id>profile-1</id>
 			<activation>
 				<property>
-					<name>deploy</name>
+					<name>eploy</name>
 				</property>
 			</activation>
 			<build>
@@ -119,6 +119,12 @@
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
 			<version>${jettyVersion}</version>
+		</dependency>
+				<dependency>
+			<groupId>de.iolite.app.api</groupId>
+			<artifactId>app-apis</artifactId>
+			<version>0.1-SNAPSHOT</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
