@@ -120,7 +120,7 @@ public class LampDriver implements Driver, DeviceConfigurationObserver {
 
 		try {
 		
-			Server server = new Server(8080);
+			Server server = new Server(8000);
 
 			ResourceHandler resource_handler = new ResourceHandler();
 
