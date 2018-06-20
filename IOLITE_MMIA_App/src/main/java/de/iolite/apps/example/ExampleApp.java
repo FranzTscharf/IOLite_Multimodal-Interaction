@@ -64,6 +64,7 @@ import de.iolite.utilities.time.series.DataEntries.AggregatedEntry;
 import de.iolite.utilities.time.series.DataEntries.BooleanEntry;
 import de.iolite.utilities.time.series.Function;
 import de.iolite.utilities.time.series.TimeInterval;
+import org.springframework.boot.SpringApplication;
 
 /**
  * <code>ExampleApp</code> is an example IOLITE App.
@@ -309,7 +310,8 @@ public final class ExampleApp extends AbstractIOLITEApp {
 
 		// initialize the SlackBot
 		try {
-			JBotApplication jba = new JBotApplication();
+			SpringApplication sa = new SpringApplication(JBotApplication.class);
+			sa.run("");
 			LOGGER.debug("SlackBot started");
 
 		} catch(Exception e){

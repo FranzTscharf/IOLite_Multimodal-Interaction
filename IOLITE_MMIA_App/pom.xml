@@ -12,6 +12,11 @@
 	<packaging>jar</packaging>
 	<inceptionYear>2016</inceptionYear>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.10.RELEASE</version>
+	</parent>
 	<properties>
 		<frontend.plugin.version>0.0.26</frontend.plugin.version>
 	</properties>
@@ -180,6 +185,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
 
@@ -188,7 +194,7 @@
 		<profile>
 			<activation>
 				<property>
-					<name>eploy</name>
+					<name>deploy</name>
 				</property>
 			</activation>
 			<build>
@@ -239,12 +245,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.5</version>
-		</dependency>
-
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
@@ -254,25 +254,13 @@
 			<groupId>me.ramswaroop.jbot</groupId>
 			<artifactId>jbot</artifactId>
 			<version>4.0.1</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-parent</artifactId>
+			<version>2.0.2.RELEASE</version>
+			<type>pom</type>
 		</dependency>
-
-
 	</dependencies>
 </project>

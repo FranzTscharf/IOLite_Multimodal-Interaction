@@ -3,15 +3,17 @@ package de.iolite.apps.example;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
+//@PropertySource("classpath:META-INF/spring.factories")
 @SpringBootApplication(scanBasePackages = {"me.ramswaroop.jbot", "de.iolite.apps.example"})
 public class JBotApplication {
-    
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    } 
+    }
 
     /**
      * Entry point of the application. Run this method to start the sample bots,
