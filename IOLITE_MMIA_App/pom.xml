@@ -3,21 +3,21 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.iolite.app</groupId>
-	<artifactId>example-app</artifactId>
+	<artifactId>IOLite-SlackBot</artifactId>
 	<version>0.1-SNAPSHOT</version>
 
-	<name>IOLITE Example App</name>
+	<name>IOLite SlackBot App</name>
 	<description>IOLITE Example App for testing purpose.</description>
 
 	<packaging>jar</packaging>
-	<inceptionYear>2016</inceptionYear>
-
+	<inceptionYear>2018</inceptionYear>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.10.RELEASE</version>
+		<groupId>me.ramswaroop.jbot</groupId>
+		<artifactId>jbot-parent</artifactId>
+		<version>4.1.1-SNAPSHOT</version>
 	</parent>
 	<properties>
+		<start-class>de.iolite.apps.example.JBotApplication</start-class>
 		<frontend.plugin.version>0.0.26</frontend.plugin.version>
 	</properties>
 
@@ -27,6 +27,30 @@
 				<directory>src/main/java</directory>
 				<includes>
 					<include>**/*.java</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources/META-INF</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>META-INF/</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>BOOT-INF/</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources/BOOT-INF</directory>
+				<includes>
+					<include>**/*</include>
 				</includes>
 			</resource>
 			<resource>
@@ -167,14 +191,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<finalName>${project.artifactId}</finalName>
-					<appendAssemblyId>false</appendAssemblyId>
-				</configuration>
 				<executions>
 					<execution>
 						<id>make-assembly</id>
@@ -182,6 +198,32 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>de.iolite.apps.example.JBotApplication</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+						<configuration>
+							<classifier>spring-boot</classifier>
+							<mainClass>de.iolite.apps.example.slack.JBotApplication</mainClass>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -253,14 +295,14 @@
 		<dependency>
 			<groupId>me.ramswaroop.jbot</groupId>
 			<artifactId>jbot</artifactId>
-			<version>4.0.1</version>
+			<version>4.1.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-parent</artifactId>
-			<version>2.0.2.RELEASE</version>
-			<type>pom</type>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 </project>

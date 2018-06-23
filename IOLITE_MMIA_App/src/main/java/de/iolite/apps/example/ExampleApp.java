@@ -65,6 +65,9 @@ import de.iolite.utilities.time.series.DataEntries.BooleanEntry;
 import de.iolite.utilities.time.series.Function;
 import de.iolite.utilities.time.series.TimeInterval;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * <code>ExampleApp</code> is an example IOLITE App.
@@ -307,18 +310,17 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		catch (final StorageAPIException | FrontendAPIException e) {
 			throw new StartFailedException(MessageFormat.format("Start failed due to an error in the App API examples: {0}", e.getMessage()), e);
 		}
-
 		// initialize the SlackBot
 		try {
+			ExampleApp.class.getClassLoader().getResource("META-INF/spring.factories");
 			SpringApplication sa = new SpringApplication(JBotApplication.class);
 			sa.run("");
-			LOGGER.debug("SlackBot started");
-
+			LOGGER.error("SlackBot started");
 		} catch(Exception e){
-			LOGGER.debug("SlackBot error" + e.getMessage());
+			LOGGER.error("SlackBot error" + e.getMessage()+e.getLocalizedMessage()+e.toString());
 		}
 
-		LOGGER.debug("Started");
+		LOGGER.error("Started");
 	}
 
 	/**
@@ -484,5 +486,24 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		catch (final IOException e) {
 			throw new InitializeFailedException("Loading templates for the dummy app failed", e);
 		}
+	}
+}
+
+@SpringBootApplication(scanBasePackages = {"me.ramswaroop.jbot", "de.iolite.apps.example"})
+class JBotApplication {
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+	/**
+	 * Entry point of the application. Run this method to start the sample bots,
+	 * but don't forget to add the correct tokens in application.properties file.
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		SpringApplication.run(JBotApplication.class, args);
 	}
 }

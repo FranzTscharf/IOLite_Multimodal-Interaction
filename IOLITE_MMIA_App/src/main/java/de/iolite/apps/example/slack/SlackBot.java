@@ -25,6 +25,8 @@ import java.util.regex.Matcher;
 @Profile("slack")
 public class SlackBot extends Bot {
 
+    private static final Logger logger = LoggerFactory.getLogger(SlackBot.class);
+
     /**
      * Slack token from application.properties file. You can get your slack token
      * next <a href="https://my.slack.com/services/new/bot">creating a new bot</a>.
@@ -84,6 +86,22 @@ public class SlackBot extends Bot {
     }
 
     /**
+     * Invoked when bot receives an event of type file shared.
+     * NOTE: You can't reply to this event as slack doesn't send
+     * a channel id for this event type. You can learn more about
+     * <a href="https://api.slack.com/events/file_shared">file_shared</a>
+     * event from Slack's Api documentation.
+     *
+     * @param session
+     * @param event
+     */
+    @Controller(events = EventType.FILE_SHARED)
+    public void onFileShared(WebSocketSession session, Event event) {
+        logger.info("File shared: {}", event);
+    }
+
+
+    /**
      * Conversation feature of JBot. This method is the starting point of the conversation (as it
      * calls {@link Bot#startConversation(Event, String)} within it. You can chain methods which will be invoked
      * one after the other leading to a conversation. You can chain methods with {@link Controller#next()} by
@@ -108,7 +126,7 @@ public class SlackBot extends Bot {
     public void confirmTiming(WebSocketSession session, Event event) {
         reply(session, event, "Your meeting is set at " + event.getText() +
                 ". Would you like to repeat it tomorrow?");
-        nextConversation(event);    //jump to next question in conversation
+        nextConversation(event);    // jump to next question in conversation
     }
 
     /**

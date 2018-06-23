@@ -28,6 +28,9 @@
                         success : function(value, storageAPI, request) {
                             console.log("ApiKeyChanged");
                             console.log($scope.ApiKeyChanged);
+                            var element = document.getElementById("saveAPIKEYButton");
+                            element.className = "btn btn-success";
+                            element.innerHTML = "Save Changes <i class='fas fa-check'></i>";
                         },
                         error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
                             console.error("Action " + responseRequestID + " '" + objectQuery + "' failed due to " + responseErrorCode + ": " + responseError);
