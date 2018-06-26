@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
+import de.iolite.apps.example.slack.SlackBotServer;
 import org.apache.commons.lang3.Validate;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,10 +65,7 @@ import de.iolite.utilities.time.series.DataEntries.AggregatedEntry;
 import de.iolite.utilities.time.series.DataEntries.BooleanEntry;
 import de.iolite.utilities.time.series.Function;
 import de.iolite.utilities.time.series.TimeInterval;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
+
 
 /**
  * <code>ExampleApp</code> is an example IOLITE App.
@@ -312,9 +310,10 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		}
 		// initialize the SlackBot
 		try {
-			ExampleApp.class.getClassLoader().getResource("META-INF/spring.factories");
-			SpringApplication sa = new SpringApplication(JBotApplication.class);
-			sa.run("");
+			//ExampleApp.class.getClassLoader().getResource("META-INF/spring.factories");
+			//SpringApplication sa = new SpringApplication(JBotApplication.class);
+			//List<JBotApplication> foos = SpringFactoriesLoader.loadFactories(JBotApplication.class, ExampleApp.class.getClassLoader());
+			SlackBotServer sbs = new SlackBotServer();
 			LOGGER.error("SlackBot started");
 		} catch(Exception e){
 			LOGGER.error("SlackBot error" + e.getMessage()+e.getLocalizedMessage()+e.toString());
@@ -486,24 +485,5 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		catch (final IOException e) {
 			throw new InitializeFailedException("Loading templates for the dummy app failed", e);
 		}
-	}
-}
-
-@SpringBootApplication(scanBasePackages = {"me.ramswaroop.jbot", "de.iolite.apps.example"})
-class JBotApplication {
-
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
-
-	/**
-	 * Entry point of the application. Run this method to start the sample bots,
-	 * but don't forget to add the correct tokens in application.properties file.
-	 *
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(JBotApplication.class, args);
 	}
 }

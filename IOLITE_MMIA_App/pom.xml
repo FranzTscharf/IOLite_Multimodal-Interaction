@@ -211,23 +211,27 @@
 					</execution>
 				</executions>
 			</plugin>
-
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<finalName>${project.artifactId}</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
 				<executions>
 					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
 						<goals>
-							<goal>repackage</goal>
+							<goal>single</goal>
 						</goals>
-						<configuration>
-							<classifier>spring-boot</classifier>
-							<mainClass>de.iolite.apps.example.slack.JBotApplication</mainClass>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 
@@ -279,6 +283,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 		<!-- JSON -->
 		<dependency>
 			<groupId>org.json</groupId>
@@ -293,15 +303,41 @@
 		</dependency>
 
 		<dependency>
-			<groupId>me.ramswaroop.jbot</groupId>
-			<artifactId>jbot</artifactId>
-			<version>4.1.1-SNAPSHOT</version>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.6.2</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.threeten</groupId>
+			<artifactId>threetenbp</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.tyrus.bundles</groupId>
+			<artifactId>tyrus-standalone-client</artifactId>
+			<version>1.13</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.riversun</groupId>
+			<artifactId>slacklet</artifactId>
+			<version>1.0.4</version>
 		</dependency>
 
 	</dependencies>
