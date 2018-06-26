@@ -22,6 +22,7 @@ import org.apache.commons.lang3.Validate;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.riversun.xternal.simpleslackapi.SlackUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -218,13 +219,15 @@ public final class ExampleApp extends AbstractIOLITEApp {
 	@Nonnull
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExampleApp.class);
 
+	//Register Slackbot
+	SlackBotServer sbs;
+
 	/* App APIs */
 	private FrontendAPI frontendAPI;
 	private StorageAPI storageAPI;
 	private DeviceAPI deviceAPI;
 	private EnvironmentAPI environmentAPI;
 	private UserAPI userAPI;
-
 	private HeatingAPI heatingAPI;
 
 	/** front end assets */
@@ -313,7 +316,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 			//ExampleApp.class.getClassLoader().getResource("META-INF/spring.factories");
 			//SpringApplication sa = new SpringApplication(JBotApplication.class);
 			//List<JBotApplication> foos = SpringFactoriesLoader.loadFactories(JBotApplication.class, ExampleApp.class.getClassLoader());
-			SlackBotServer sbs = new SlackBotServer();
+			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"));
 			LOGGER.error("SlackBot started");
 		} catch(Exception e){
 			LOGGER.error("SlackBot error" + e.getMessage()+e.getLocalizedMessage()+e.toString());
@@ -431,18 +434,68 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		LOGGER.debug("loading 'test' from storage: {}", Integer.valueOf(this.storageAPI.loadInt("test")));
 	}
 
-	/**
-	 * A response handler returning all rooms as JSON array.
-	 */
-	class TestClass extends FrontendAPIRequestHandler {
 
+	class StartSlackBot extends FrontendAPIRequestHandler {
 		@Override
 		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
 			JSONObject object = new JSONObject();
-			object.append("testKey", "valueString");
+			try {
+				LOGGER.warn("BackEnd SlackAPIKey:"+storageAPI.loadString("apikey"));
+				sbs = new SlackBotServer(storageAPI.loadString("apikey"));
+				object.append("serverTest", "true");
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.OK,IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+			}catch(Exception e){
+				sbs.stop();
+				sbs = null;
+				LOGGER.error(e.getMessage()+e.getLocalizedMessage());
+				object.append("serverTest", "false");
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+			}
+		}
+	}
+	/**
+	 * A response handler returning all rooms as JSON array.
+	 */
+	class CredentialCheck extends FrontendAPIRequestHandler {
+		@Override
+		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
+			LOGGER.warn(request.toString());
+			JSONObject object = new JSONObject();
+			String slackUserEMail;
+			try {
+				slackUserEMail = new JSONObject(readPassedData(request)).getString("username");
+				LOGGER.warn(slackUserEMail);
+				LOGGER.warn("BackEnd SlackAPIKey:"+storageAPI.loadString("apikey"));
+				sbs = new SlackBotServer(storageAPI.loadString("apikey"));
+				SlackUser su = sbs.getSlackService().getSlackSession().findUserByEmail(slackUserEMail.toLowerCase());
+				sbs.getSlackService().sendDirectMessageTo(su,"Hello, the credentials are correct. You did everything perfectly.");
+				sbs.stop();
+				object.append("serverTest", "true");
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.OK,IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+			}catch(Exception e){
+				sbs.stop();
+				sbs = null;
+				LOGGER.error(e.getMessage()+e.getLocalizedMessage());
+				object.append("serverTest", "false");
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+			}
 			//test message \ server start kommt in die init methode etc.
-
-			return new IOLITEHTTPStaticResponse(object.toString(), IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+		}
+		private String readPassedData(final IOLITEHTTPRequest request)
+				throws IOException {
+			final String charset = getCharset(request);
+			try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getContent(), charset))) {
+				final StringBuilder stringBuilder = new StringBuilder();
+				String line;
+				while ((line = bufferedReader.readLine()) != null) {
+					stringBuilder.append(line);
+				}
+				return stringBuilder.toString();
+			}
+		}
+		private String getCharset(final IOLITEHTTPRequest request) {
+			final String charset = request.getCharset();
+			return charset == null || charset.length() == 0 ? IOLITEHTTPStaticResponse.ENCODING_UTF8 : charset;
 		}
 	}
 
@@ -469,8 +522,9 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		// example JSON request handlers
 		this.frontendAPI.registerRequestHandler("rooms", new RoomsResponseHandler());
 		this.frontendAPI.registerRequestHandler("devices", new DevicesResponseHandler());
-		//new methode !TODO
-		this.frontendAPI.registerRequestHandler("TestClass", new TestClass());
+		//Request handlers for the slackbot
+		this.frontendAPI.registerRequestHandler("startSlackBot", new StartSlackBot());
+		this.frontendAPI.registerRequestHandler("credentialCheck", new CredentialCheck());
 
 		this.frontendAPI.registerRequestHandler("get_devices.json", new DeviceJSONRequestHandler());
 	}

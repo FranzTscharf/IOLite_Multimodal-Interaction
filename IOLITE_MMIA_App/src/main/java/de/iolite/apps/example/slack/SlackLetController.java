@@ -4,7 +4,7 @@ import org.riversun.slacklet.Slacklet;
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
 
-public class CustomSlackLet extends Slacklet {
+public class SlackLetController extends Slacklet {
 
     @Override
     public void onDirectMessagePosted(SlackletRequest req, SlackletResponse resp) {
@@ -14,6 +14,7 @@ public class CustomSlackLet extends Slacklet {
         // reply to the user
         resp.reply("You say '" + content + "'.");
     }
+
 
     @Override
     public void onMentionedMessagePosted(SlackletRequest req, SlackletResponse resp) {

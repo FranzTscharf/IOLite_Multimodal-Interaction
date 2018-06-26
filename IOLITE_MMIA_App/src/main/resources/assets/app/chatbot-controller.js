@@ -41,13 +41,36 @@
         };
         $scope.sendTestMessage = function() {
             //call the stoage API to save the APIKEY
-            $http.get('TestClass').then(function onSuccess(response) {
+            $http.post('credentialCheck', { 'username' : $scope.slackUsername }).then(function onSuccess(response) {
+                var element = document.getElementById("sendTestMessageButton");
+                element.className = "btn btn-success";
+                element.innerHTML = "Check-Credentials <i class='fas fa-check'></i>";
                 console.log("send test message");
                 console.log(response);
             }, function onFailure(response) {
+                $('#configWrong').modal('show');
                 console.log(response);
-                console.log("can't get rooms");
+                console.log("can't connect to slack");
             });
+        };
+        $scope.startSlackBot = function() {
+            if(document.getElementById("startBotButton").className == "btn btn-success") {
+                $('#serverStartedAlready').modal('show');
+            }else{
+                $scope.ApiKeyValueSaveToStorageAPI();
+                //call the stoage API to save the APIKEY
+                $http.get('startSlackBot').then(function onSuccess(response) {
+                    var element = document.getElementById("startBotButton");
+                    element.className = "btn btn-success";
+                    element.innerHTML = "Start SlackBot <i class='fas fa-check'></i>";
+                    console.log("start SlackBot");
+                    console.log(response);
+                }, function onFailure(response) {
+                $('#configWrong').modal('show');
+                console.log(response);
+                console.log("can't connect to slack");
+            });
+            }
         };
 
     } ]);
