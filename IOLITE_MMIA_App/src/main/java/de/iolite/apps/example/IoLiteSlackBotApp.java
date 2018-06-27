@@ -69,14 +69,23 @@ import de.iolite.utilities.time.series.TimeInterval;
 
 
 /**
- * <code>ExampleApp</code> is an example IOLITE App.
+ * <code>IoLiteSlackBotApp</code>
  *
- * @author Grzegorz Lehmann
- * @author Erdene-Ochir Tuguldur
- * @author Felix Rodemund
+ * @author Franz Tscharf
  * @since 1.0
  */
-public final class ExampleApp extends AbstractIOLITEApp {
+public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
+	public DeviceAPI getDeviceAPI() {
+		return deviceAPI;
+	}
+
+	public StorageAPI getStorageAPI() {
+		return storageAPI;
+	}
+
+	public EnvironmentAPI getEnvironmentAPI() {
+		return environmentAPI;
+	}
 
 	private static final class DeviceJSONRequestHandler extends FrontendAPIRequestHandler {
 
@@ -154,7 +163,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 			}
 
 			final JSONArray jsonDeviceArray = new JSONArray();
-			for (final Device device : ExampleApp.this.deviceAPI.getDevices()) {
+			for (final Device device : IoLiteSlackBotApp.this.deviceAPI.getDevices()) {
 				if (device.getProperty(propertyType) != null) {
 					// device has the correct property type
 					final JSONObject jsonDeviceObject = new JSONObject();
@@ -207,7 +216,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		@Override
 		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
 			final JSONArray locationNames = new JSONArray();
-			for (final Location location : ExampleApp.this.environmentAPI.getLocations()) {
+			for (final Location location : IoLiteSlackBotApp.this.environmentAPI.getLocations()) {
 				locationNames.put(location.getName());
 			}
 			final JSONObject response = new JSONObject();
@@ -217,7 +226,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 	}
 
 	@Nonnull
-	private static final Logger LOGGER = LoggerFactory.getLogger(ExampleApp.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(IoLiteSlackBotApp.class);
 
 	//Register Slackbot
 	SlackBotServer sbs;
@@ -234,9 +243,9 @@ public final class ExampleApp extends AbstractIOLITEApp {
 	private Disposeable disposeableAssets;
 
 	/**
-	 * <code>ExampleApp</code> constructor. An IOLITE App must have a public, parameter-less constructor.
+	 * <code>IoLiteSlackBotApp</code> constructor. An IOLITE App must have a public, parameter-less constructor.
 	 */
-	public ExampleApp() {
+	public IoLiteSlackBotApp() {
 		// empty
 	}
 
@@ -313,10 +322,10 @@ public final class ExampleApp extends AbstractIOLITEApp {
 		}
 		// initialize the SlackBot
 		try {
-			//ExampleApp.class.getClassLoader().getResource("META-INF/spring.factories");
+			//IoLiteSlackBotApp.class.getClassLoader().getResource("META-INF/spring.factories");
 			//SpringApplication sa = new SpringApplication(JBotApplication.class);
-			//List<JBotApplication> foos = SpringFactoriesLoader.loadFactories(JBotApplication.class, ExampleApp.class.getClassLoader());
-			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"));
+			//List<JBotApplication> foos = SpringFactoriesLoader.loadFactories(JBotApplication.class, IoLiteSlackBotApp.class.getClassLoader());
+			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"),this);
 			LOGGER.error("SlackBot started");
 		} catch(Exception e){
 			LOGGER.error("SlackBot error" + e.getMessage()+e.getLocalizedMessage()+e.toString());
@@ -441,7 +450,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 			JSONObject object = new JSONObject();
 			try {
 				LOGGER.warn("BackEnd SlackAPIKey:"+storageAPI.loadString("apikey"));
-				sbs = new SlackBotServer(storageAPI.loadString("apikey"));
+				sbs = new SlackBotServer(storageAPI.loadString("apikey"),IoLiteSlackBotApp.this);
 				object.append("serverTest", "true");
 				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.OK,IOLITEHTTPResponse.JSON_CONTENT_TYPE);
 			}catch(Exception e){
@@ -466,7 +475,7 @@ public final class ExampleApp extends AbstractIOLITEApp {
 				slackUserEMail = new JSONObject(readPassedData(request)).getString("username");
 				LOGGER.warn(slackUserEMail);
 				LOGGER.warn("BackEnd SlackAPIKey:"+storageAPI.loadString("apikey"));
-				sbs = new SlackBotServer(storageAPI.loadString("apikey"));
+				sbs = new SlackBotServer(storageAPI.loadString("apikey"),IoLiteSlackBotApp.this);
 				SlackUser su = sbs.getSlackService().getSlackSession().findUserByEmail(slackUserEMail.toLowerCase());
 				sbs.getSlackService().sendDirectMessageTo(su,"Hello, the credentials are correct. You did everything perfectly.");
 				sbs.stop();

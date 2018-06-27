@@ -1,12 +1,15 @@
 package de.iolite.apps.example.slack;
 
+import de.iolite.apps.example.IoLiteSlackBotApp;
+import org.riversun.slacklet.Slacklet;
 import org.riversun.slacklet.SlackletService;
 
 import java.io.IOException;
 
 public class SlackBotServer {
-        private static SlackletService slackService = null;
-        private static String APIKEY;
+        private IoLiteSlackBotApp app;
+        private SlackletService slackService = null;
+        private String APIKEY;
         public String getApiKey(){
             return APIKEY;
         }
@@ -28,15 +31,17 @@ public class SlackBotServer {
             return slackService;
         }
 
-        public SlackBotServer() throws IOException {
-            slackService = new SlackletService(APIKEY);
-            slackService.addSlacklet(new SlackLetController());
-            slackService.start();
+        public IoLiteSlackBotApp getApp() {
+            return app;
         }
-        public SlackBotServer(String apiKey) throws IOException {
+
+        public SlackBotServer(String apiKey, IoLiteSlackBotApp setApp) throws IOException {
             APIKEY = apiKey;
+            app = setApp;
             slackService = new SlackletService(apiKey);
-            slackService.addSlacklet(new SlackLetController());
+            SlackLetController slc = new SlackLetController();
+            slc.setApp(app);
+            slackService.addSlacklet(slc);
             slackService.start();
         }
 

@@ -2,7 +2,7 @@
 <ns2:iolite-app-configuration
 	xmlns:ns2="www.iolite.de/iolite-app-configuration"
 	name="Slack ChatBot"
-	className="de.iolite.apps.example.ExampleApp">
+	className="de.iolite.apps.example.IoLiteSlackBotApp">
 
 	<api-permission name="de.iolite.app.api.frontend.FrontendAPI" type="READ_WRITE"/>
 	<api-permission name="de.iolite.app.api.storage.StorageAPI" type="READ_WRITE"/>
@@ -14,7 +14,7 @@
 
 	<icon-url>appicon.png</icon-url>
 
-	<preferred-width>0</preferred-width>
-	<preferred-height>0</preferred-height>
+	<preferred-width>50%</preferred-width>
+	<preferred-height>50%</preferred-height>
 
 </ns2:iolite-app-configuration>

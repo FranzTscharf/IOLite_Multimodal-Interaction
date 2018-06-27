@@ -5,6 +5,7 @@ import org.riversun.slacklet.SlackletService;
 import org.riversun.xternal.simpleslackapi.SlackUser;
 
 public class SlackBotTests {
+    /*
     @Test
     public void serverStartConfig(){
         try {
@@ -29,5 +30,6 @@ public class SlackBotTests {
             e.printStackTrace();
         }
     }
+    */
 
 }
