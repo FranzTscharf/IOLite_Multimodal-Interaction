@@ -35,21 +35,21 @@ public class SlackDirectMessageController {
             case "switch all lights off":
                 break;
             default:
-                //here ask dialogFlow of a response;
+                //!TODO here ask DialogFlow of a response;
                 System.out.print("nothing of this onces");
         }
     }
 
     public static void lightAll(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app){
-        LOGGER.warn("test");
-        // go through all devices, and toggle ON/OFF properties
+        resp.reply("Sure think! I switched on the following devices:");
+        // iterate devices
         for (final Device device : app.getDeviceAPI().getDevices()) {
-            // let's get the 'on/off' status property
+            // togle the on trigger!
             final DeviceBooleanProperty onProperty = device.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
             final Boolean onValue;
             if (onProperty != null && (onValue = onProperty.getValue()) != null) {
+                // return the name of the device
                 resp.reply(device.getIdentifier());
-                resp.reply(device.toString());
                 LOGGER.warn("toggling device '{}'", device.getIdentifier());
                     try {
                         onProperty.requestValueUpdate(!onValue);
