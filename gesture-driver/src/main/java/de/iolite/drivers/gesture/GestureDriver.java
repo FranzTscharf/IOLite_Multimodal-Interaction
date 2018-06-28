@@ -2,10 +2,9 @@
  * Copyright (C) 2018 IOLITE GmbH, All rights reserved. Created: 13.06.2018 Created by: lehmann
  */
 
-package de.iolite.drivers.lamp;
+package de.iolite.drivers.gesture;
 
 import static de.iolite.drivers.basic.DriverConstants.PROFILE_DimmableLamp_ID;
-
 import static de.iolite.drivers.basic.DriverConstants.PROFILE_PROPERTY_DimmableLamp_dimmingLevel_ID;
 import static de.iolite.drivers.basic.DriverConstants.PROFILE_PROPERTY_DimmableLamp_on_ID;
 import static de.iolite.drivers.basic.DriverConstants.PROFILE_PROPERTY_DimmableLamp_powerUsage_ID;
@@ -25,11 +24,11 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.iolite.drivers.basic.DriverConstants;
 import de.iolite.drivers.framework.Driver;
 import de.iolite.drivers.framework.DriverAPI;
 import de.iolite.drivers.framework.device.Device;
 import de.iolite.drivers.framework.device.DeviceConfigurationObserver;
+import de.iolite.drivers.framework.device.plain.PlainDevice;
 import de.iolite.drivers.framework.device.plain.PlainDeviceConfigurationBuilder;
 import de.iolite.drivers.framework.device.plain.PlainDeviceFactory;
 import de.iolite.drivers.framework.exception.DeviceConfigurationException;
@@ -41,10 +40,12 @@ import de.iolite.drivers.framework.exception.DriverStartFailedException;
  * @author Grzegorz Lehmann
  * @since 18.06
  */
-public class LampDriver implements Driver, DeviceConfigurationObserver {
+public class GestureDriver implements Driver, DeviceConfigurationObserver {
+	
+	private PlainDevice dev;
 
 	@Nonnull
-	private static final Logger LOGGER = LoggerFactory.getLogger(LampDriver.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GestureDriver.class);
 
 	@Override
 	public final void onConfigured(@Nonnull final Device device) {
@@ -58,7 +59,8 @@ public class LampDriver implements Driver, DeviceConfigurationObserver {
 		}
 
 		// create simulated lamp
-		new SimulatedLampDevice(PlainDeviceFactory.create(device));
+		dev = PlainDeviceFactory.create(device);
+		new SimulatedGestureDevice(dev);
 	}
 
 	@Override
@@ -69,44 +71,33 @@ public class LampDriver implements Driver, DeviceConfigurationObserver {
 
 	@Override
 	@Nonnull
-	public final DeviceConfigurationObserver start(@Nonnull final DriverAPI driverAPI,
-			@Nonnull final Set<Device> existingDevices) throws DriverStartFailedException {
+	public final DeviceConfigurationObserver start(@Nonnull final DriverAPI driverAPI, @Nonnull final Set<Device> existingDevices)
+			throws DriverStartFailedException {
 		Validate.notNull(driverAPI, "'driverAPI' must not be null");
 		Validate.notNull(existingDevices, "'existingDevices' must not be null");
 
-		
-		// report 2 example lamps
+		// Report Gesture Ring
 		try {
-			startJetty(existingDevices);
-			PlainDeviceConfigurationBuilder deviceBuilder = new PlainDeviceConfigurationBuilder(
-					driverAPI.configure("simulated-lamp1", PROFILE_DimmableLamp_ID));
+			PlainDeviceConfigurationBuilder deviceBuilder =
+					new PlainDeviceConfigurationBuilder(driverAPI.configure("Gesture-Ring", PROFILE_DimmableLamp_ID));
 			deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_on_ID);
 			deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_dimmingLevel_ID);
 			deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_powerUsage_ID);
-			deviceBuilder.withProperty(DriverConstants.PROFILE_PROPERTY_DimmableLamp_apiUrl_ID);
-			deviceBuilder.withProperty(DriverConstants.PROFILE_PROPERTY_DimmableLamp_apiUrl_NAME);
-			// deviceBuilder.withProperty(DriverConstants.ATTRIBUTE_BarometricSensor_longitude_ID);
 			deviceBuilder.fromManufacturer("funny company");
-			deviceBuilder.withModelName("Simulated Lamp 1");
+			deviceBuilder.withModelName("Simulated Gesture Ring");
 			deviceBuilder.addIfAbsent();
-
-			// deviceBuilder = new
-			// PlainDeviceConfigurationBuilder(driverAPI.configure("simulated-lamp2",
-			// PROFILE_DimmableLamp_ID));
-			// deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_on_ID);
-			// deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_dimmingLevel_ID);
-			// deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_powerUsage_ID);
-			// deviceBuilder.fromManufacturer("funny company");
-			// deviceBuilder.withModelName("Simulated Lamp 2");
-			// deviceBuilder.addIfAbsent();
-
-			
-
-		} catch (final DeviceConfigurationException e) {
+		}
+		catch (final DeviceConfigurationException e) {
 			LOGGER.error("Failed to report simulated devices", e);
 		}
 
 		existingDevices.forEach(this::onConfigured);
+		
+		//Run Jetty Server
+		//StartJetty jetty = new StartJetty(dev);
+		
+		driverAPI.getScheduler().execute(new StartJetty(dev));
+		
 
 		return this;
 	}
@@ -115,32 +106,6 @@ public class LampDriver implements Driver, DeviceConfigurationObserver {
 	public final void stop() {
 		LOGGER.debug("Stopped '{}'", this.getClass().getSimpleName());
 	}
+	
 
-	private void startJetty(Set<Device> existingDevices) throws DeviceConfigurationException {
-
-		try {
-		
-			Server server = new Server(8000);
-
-			ResourceHandler resource_handler = new ResourceHandler();
-
-			resource_handler.setDirectoriesListed(true);
-			resource_handler.setResourceBase(".");
-
-			HandlerList handlers = new HandlerList();
-			handlers.setHandlers(new Handler[] { new HelloHandler(existingDevices) });
-			server.setHandler(handlers);
-
-			// Start things up! By using the server.join() the server thread will join with
-			// the current thread.
-			// See
-			// "http://docs.oracle.com/javase/1.5.0/docs/api/java/lang/Thread.html#join()"
-			// for more details.
-			server.start();
-			server.join();
-		} catch (Exception ex) {
-			System.err.println(ex);
-		}
-
-	}
 }

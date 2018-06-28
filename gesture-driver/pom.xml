@@ -1,22 +1,21 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.iolite.drivers</groupId>
-	<artifactId>lamp-driver</artifactId>
+	<artifactId>gesture-driver</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Lamp Example Driver</name>
-	<description>Example lamp driver for IOLITE</description>
+	<name>Gesture Driver</name>
+	<description>Gesture driver for IOLITE</description>
 	<inceptionYear>2018</inceptionYear>
 	<organization>
 		<name>IOLITE GmbH</name>
 		<url>http://www.iolite.de</url>
 	</organization>
-
-	<properties>
+	
+		<properties>
 		<jettyVersion>7.2.0.v20101020</jettyVersion>
 	</properties>
 
@@ -58,11 +57,10 @@
 		</plugins>
 	</build>
 
-	<!-- Build the app and copy to the USER_HOME/.iolite/apps/ when running 
-		'mvn -Deploy' -->
+	<!-- Build the app and copy to the USER_HOME/.iolite/apps/ when running 'mvn -Deploy' -->
 	<profiles>
 		<profile>
-			<id>profile-1</id>
+		<id>profile-1</id>
 			<activation>
 				<property>
 					<name>eploy</name>
@@ -70,8 +68,7 @@
 			</activation>
 			<build>
 				<plugins>
-					<!-- utility for easy testing changes on example-app: copies the jar 
-						directly into .iolite/drivers folder -->
+					<!-- utility for easy testing changes on example-app: copies the jar directly into .iolite/drivers folder -->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<executions>
@@ -82,9 +79,7 @@
 								</goals>
 								<configuration>
 									<tasks>
-										<copy verbose="true"
-											file="target/${project.artifactId}.jar"
-											tofile="${user.home}/.iolite/drivers/${project.artifactId}.jar" />
+										<copy verbose="true" file="target/${project.artifactId}.jar" tofile="${user.home}/.iolite/drivers/${project.artifactId}.jar" />
 									</tasks>
 								</configuration>
 							</execution>
@@ -103,28 +98,22 @@
 			<version>1.0-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+				<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-server</artifactId>
 			<version>${jettyVersion}</version>
-		</dependency>
-				<dependency>
-			<groupId>de.iolite.app.api</groupId>
-			<artifactId>app-apis</artifactId>
-			<version>0.1-SNAPSHOT</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

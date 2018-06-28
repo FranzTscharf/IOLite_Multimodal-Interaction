@@ -1,10 +1,9 @@
 /* Copyright (C) 2018 IOLITE GmbH, All rights reserved.
-
  * Created:    13.06.2018
  * Created by: smarqoo
  */
 
-package de.iolite.drivers.lamp;
+package de.iolite.drivers.gesture;
 
 import static de.iolite.drivers.basic.DriverConstants.PROPERTY_dimmingLevel_ID;
 import static de.iolite.drivers.basic.DriverConstants.PROPERTY_on_ID;
@@ -28,15 +27,15 @@ import de.iolite.drivers.framework.device.property.PropertyValueWriter;
  * @author Grzegorz Lehmann
  * @since 18.06
  */
-class SimulatedLampDevice implements PropertyValueWriter {
+class SimulatedGestureDevice implements PropertyValueWriter {
 
 	@Nonnull
-	private static final Logger LOGGER = LoggerFactory.getLogger(SimulatedLampDevice.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SimulatedGestureDevice.class);
 
 	@Nonnull
 	private final PlainDevice device;
 
-	SimulatedLampDevice(@Nonnull final PlainDevice plainDevice) {
+	SimulatedGestureDevice(@Nonnull final PlainDevice plainDevice) {
 		this.device = Objects.requireNonNull(plainDevice, "'plainDevice' must not be null");
 		this.device.start(this);
 		turnOff();
