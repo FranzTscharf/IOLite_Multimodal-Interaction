@@ -215,7 +215,7 @@
 			</activation>
 			<build>
 				<plugins>
-					<!-- utility for easy testing changes on example-app: copies the jar directly into .iolite/apps and clears FileStorageService folder -->
+					<!-- utility for easy testing changes on ioliteslackbot-app: copies the jar directly into .iolite/apps and clears FileStorageService folder -->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<executions>
@@ -312,6 +312,12 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.7</version>
+		</dependency>
+		<!-- DialogFlow dependencies-->
+		<dependency>
+			<groupId>ai.api</groupId>
+			<artifactId>libai</artifactId>
+			<version>1.6.12</version>
 		</dependency>
 
 	</dependencies>

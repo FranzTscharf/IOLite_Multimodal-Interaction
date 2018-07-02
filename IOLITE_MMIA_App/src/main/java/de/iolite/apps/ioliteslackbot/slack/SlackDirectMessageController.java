@@ -1,12 +1,9 @@
-package de.iolite.apps.example.slack;
+package de.iolite.apps.ioliteslackbot.slack;
 
 import de.iolite.app.api.device.DeviceAPIException;
 import de.iolite.app.api.device.access.Device;
 import de.iolite.app.api.device.access.DeviceBooleanProperty;
-import de.iolite.app.api.frontend.util.FrontendAPIRequestHandler;
-import de.iolite.apps.example.IoLiteSlackBotApp;
-import de.iolite.common.requesthandler.IOLITEHTTPRequest;
-import de.iolite.common.requesthandler.IOLITEHTTPResponse;
+import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
 import de.iolite.drivers.basic.DriverConstants;
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
@@ -14,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
+
+import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.dialogFlow;
 
 public class SlackDirectMessageController {
 
@@ -35,8 +34,9 @@ public class SlackDirectMessageController {
             case "switch all lights off":
                 break;
             default:
-                //!TODO here ask DialogFlow of a response;
-                System.out.print("nothing of this onces");
+                //!TODO here ask DialogFlow of a response if the other case don't fit;
+                LOGGER.warn("DialogFlow Request");
+                dialogFlow(req,resp,app);
         }
     }
 
@@ -48,15 +48,20 @@ public class SlackDirectMessageController {
             final DeviceBooleanProperty onProperty = device.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
             final Boolean onValue;
             if (onProperty != null && (onValue = onProperty.getValue()) != null) {
-                // return the name of the device
-                resp.reply(device.getIdentifier());
-                LOGGER.warn("toggling device '{}'", device.getIdentifier());
+                //get only lamps
+                if (device.getModelName().contains("Lamp") || device.getModelName().contains("lamp")){
                     try {
+                        //toge on propertie
                         onProperty.requestValueUpdate(!onValue);
+                        //give terminal output
+                        LOGGER.warn("toggling device '{}'", device.getIdentifier());
+                        //return the name of the device
+                        resp.reply("I switched"+device.getIdentifier() + "on");
                     }
                     catch (final DeviceAPIException e) {
                         LOGGER.error("Failed to control device", e);
                     }
+                }
             }
         }
     }

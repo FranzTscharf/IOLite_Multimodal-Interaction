@@ -7556,7 +7556,7 @@ var
 	rurl = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/,
 
 	/* Prefilters
-	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
+	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an ioliteslackbot)
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
 	 *    - AFTER param serialization (s.data is a string if s.processData is true)
@@ -9222,11 +9222,11 @@ return jQuery;
  * This object provides a utility for producing rich Error messages within
  * Angular. It can be called as follows:
  *
- * var exampleMinErr = minErr('example');
+ * var exampleMinErr = minErr('ioliteslackbot');
  * throw exampleMinErr('one', 'This {0} is {1}', foo, bar);
  *
- * The above creates an instance of minErr in the example namespace. The
- * resulting error will have a namespaced error code of example.one.  The
+ * The above creates an instance of minErr in the ioliteslackbot namespace. The
+ * resulting error will have a namespaced error code of ioliteslackbot.one.  The
  * resulting error will replace {0} with the value of foo, and {1} with the
  * value of bar. The object is not restricted in the number of arguments it can
  * take.
@@ -10381,8 +10381,8 @@ var csp = function() {
  * which loads angular. Also, only the first instance of `ng-jq` will be used and all
  * others ignored.
  *
- * @example
- * This example shows how to force jqLite using the `ngJq` directive to the `html` tag.
+ * @ioliteslackbot
+ * This ioliteslackbot shows how to force jqLite using the `ngJq` directive to the `html` tag.
  ```html
  <!doctype html>
  <html ng-app ng-jq>
@@ -10390,8 +10390,8 @@ var csp = function() {
  ...
  </html>
  ```
- * @example
- * This example shows how to use a jQuery based library of a different name.
+ * @ioliteslackbot
+ * This ioliteslackbot shows how to use a jQuery based library of a different name.
  * The library name must be available at the top most 'window'.
  ```html
  <!doctype html>
@@ -13069,7 +13069,7 @@ var $$HashMapProvider = [function() {
  *     disallows argument name annotation inference.
  * @returns {injector} Injector object. See {@link auto.$injector $injector}.
  *
- * @example
+ * @ioliteslackbot
  * Typical usage
  * ```js
  *   // create an injector
@@ -13091,7 +13091,7 @@ var $$HashMapProvider = [function() {
  * *This is fairly rare but could be the case if a third party library is injecting the
  * markup.*
  *
- * In the following example a new block of HTML containing a `ng-controller`
+ * In the following ioliteslackbot a new block of HTML containing a `ng-controller`
  * directive is added to the end of the document body by JQuery. We then compile and link
  * it into the current AngularJS scope.
  *
@@ -13428,12 +13428,12 @@ function annotate(fn, strictDi, name) {
  * service.
  *
  * Service provider names start with the name of the service they provide followed by `Provider`.
- * For example, the {@link ng.$log $log} service has a provider called
+ * For ioliteslackbot, the {@link ng.$log $log} service has a provider called
  * {@link ng.$logProvider $logProvider}.
  *
  * Service provider objects can have additional methods which allow configuration of the provider
  * and its service. Importantly, you can configure what kind of service is created by the `$get`
- * method, or how that service will act. For example, the {@link ng.$logProvider $logProvider} has a
+ * method, or how that service will act. For ioliteslackbot, the {@link ng.$logProvider $logProvider} has a
  * method {@link ng.$logProvider#debugEnabled debugEnabled}
  * which lets you specify whether the {@link ng.$log $log} service will log debug messages to the
  * console or not.
@@ -13449,9 +13449,9 @@ function annotate(fn, strictDi, name) {
  *
  * @returns {Object} registered provider instance
 
- * @example
+ * @ioliteslackbot
  *
- * The following example shows how to create a simple event tracking service and register it using
+ * The following ioliteslackbot shows how to create a simple event tracking service and register it using
  * {@link auto.$provide#provider $provide.provider()}.
  *
  * ```js
@@ -13530,8 +13530,8 @@ function annotate(fn, strictDi, name) {
  *                      Internally this is a short hand for `$provide.provider(name, {$get: $getFn})`.
  * @returns {Object} registered provider instance
  *
- * @example
- * Here is an example of registering a service
+ * @ioliteslackbot
+ * Here is an ioliteslackbot of registering a service
  * ```js
  *   $provide.factory('ping', ['$http', function($http) {
  *     return function ping() {
@@ -13578,8 +13578,8 @@ function annotate(fn, strictDi, name) {
  *     that will be instantiated.
  * @returns {Object} registered provider instance
  *
- * @example
- * Here is an example of registering a service using
+ * @ioliteslackbot
+ * Here is an ioliteslackbot of registering a service using
  * {@link auto.$provide#service $provide.service(class)}.
  * ```js
  *   var Ping = function($http) {
@@ -13620,7 +13620,7 @@ function annotate(fn, strictDi, name) {
  * @param {*} value The value.
  * @returns {Object} registered provider instance
  *
- * @example
+ * @ioliteslackbot
  * Here are some examples of creating value services.
  * ```js
  *   $provide.value('ADMIN_USER', 'admin');
@@ -13651,7 +13651,7 @@ function annotate(fn, strictDi, name) {
  * @param {*} value The constant value.
  * @returns {Object} registered instance
  *
- * @example
+ * @ioliteslackbot
  * Here a some examples of creating constants:
  * ```js
  *   $provide.constant('SHARD_HEIGHT', 306);
@@ -13686,7 +13686,7 @@ function annotate(fn, strictDi, name) {
  *    * `$delegate` - The original service instance, which can be replaced, monkey patched, configured,
  *      decorated or delegated to.
  *
- * @example
+ * @ioliteslackbot
  * Here we decorate the {@link ng.$log $log} service to convert warnings to errors by intercepting
  * calls to {@link ng.$log#error $log.warn()}.
  * ```js
@@ -14581,7 +14581,7 @@ var $AnimateProvider = ['$provide', function($provide) {
        * @kind function
        * @description Associates the provided element with a host parent element to allow the element to be animated even if it exists
        *    outside of the DOM structure of the Angular application. By doing so, any animation triggered via `$animate` can be issued on the
-       *    element despite being outside the realm of the application or within another application. Say for example if the application
+       *    element despite being outside the realm of the application or within another application. Say for ioliteslackbot if the application
        *    was bootstrapped on an element that is somewhere inside of the `<body>` tag, but we wanted to allow for an element to be situated
        *    as a direct child of `document.body`, then this can be achieved by pinning the element via `$animate.pin(element)`. Keep in mind
        *    that calling `$animate.pin(element, parentElement)` will not actually insert into the DOM anywhere; it will just create the association.
@@ -14824,7 +14824,7 @@ var $AnimateProvider = ['$provide', function($provide) {
        *
        * @description Performs an inline animation on the element which applies the provided to and from CSS styles to the element.
        * If any detected CSS transition, keyframe or JavaScript matches the provided className value, then the animation will take
-       * on the provided styles. For example, if a transition animation is set for the given classNamem, then the provided `from` and
+       * on the provided styles. For ioliteslackbot, if a transition animation is set for the given classNamem, then the provided `from` and
        * `to` styles will be applied alongside the given transition. If the CSS style provided in `from` does not have a corresponding
        * style in `to`, the style in `from` is applied immediately, and no animation is run.
        * If a JavaScript animation is detected then the provided styles will be given in as function parameters into the `animate`
@@ -19644,7 +19644,7 @@ function $DocumentProvider() {
  *
  * ## Example:
  *
- * The example below will overwrite the default `$exceptionHandler` in order to (a) log uncaught
+ * The ioliteslackbot below will overwrite the default `$exceptionHandler` in order to (a) log uncaught
  * errors to the backend for later inspection by the developers and (b) to use `$log.warn()` instead
  * of `$log.error()`.
  *
@@ -19787,7 +19787,7 @@ function $HttpParamSerializerJQLikeProvider() {
    * It is also possible to set it as the default `paramSerializer` in the
    * {@link $httpProvider#defaults `$httpProvider`}.
    *
-   * Additionally, you can inject the serializer and use it explicitly, for example to serialize
+   * Additionally, you can inject the serializer and use it explicitly, for ioliteslackbot to serialize
    * form data for submission:
    *
    * ```js
@@ -22415,13 +22415,13 @@ var locationPrototype = {
    * ```js
    * // given url http://example.com/#/some/path?foo=bar&baz=xoxo
    * var host = $location.host();
-   * // => "example.com"
+   * // => "ioliteslackbot.com"
    *
    * // given url http://user:password@example.com:8080/#/some/path?foo=bar&baz=xoxo
    * host = $location.host();
-   * // => "example.com"
+   * // => "ioliteslackbot.com"
    * host = location.host;
-   * // => "example.com:8080"
+   * // => "ioliteslackbot.com:8080"
    * ```
    *
    * @return {string} host of current url.
@@ -23160,7 +23160,7 @@ var $parseMinErr = minErr('$parse');
 // access to `$scope` and locals. However, one can obtain the ability to execute arbitrary JS code by
 // obtaining a reference to native JS functions such as the Function constructor.
 //
-// As an example, consider the following Angular expression:
+// As an ioliteslackbot, consider the following Angular expression:
 //
 //   {}.toString.constructor('alert("evil JS code")')
 //
@@ -25305,7 +25305,7 @@ function $ParseProvider() {
  * It can be used like so:
  *
  * ```js
- *   // for the purpose of this example let's assume that variables `$q` and `okToGreet`
+ *   // for the purpose of this ioliteslackbot let's assume that variables `$q` and `okToGreet`
  *   // are available in the current lexical scope (they could have been injected or passed in).
  *
  *   function asyncGreet(name) {
@@ -25343,7 +25343,7 @@ function $ParseProvider() {
  * asynchronous programming what `try`, `catch` and `throw` keywords are to synchronous programming.
  *
  * ```js
- *   // for the purpose of this example let's assume that variables `$q` and `okToGreet`
+ *   // for the purpose of this ioliteslackbot let's assume that variables `$q` and `okToGreet`
  *   // are available in the current lexical scope (they could have been injected or passed in).
  *
  *   function asyncGreet(name) {
@@ -26065,7 +26065,7 @@ function $RootScopeProvider() {
      *
      *
      * # Inheritance
-     * A scope can inherit from a parent scope, as in this example:
+     * A scope can inherit from a parent scope, as in this ioliteslackbot:
      * ```js
          var parent = $rootScope;
          var child = parent.$new();
@@ -26948,7 +26948,7 @@ function $RootScopeProvider() {
        *
        * @description
        * `$apply()` is used to execute an expression in angular from outside of the angular
-       * framework. (For example from browser DOM events, setTimeout, XHR or third party libraries).
+       * framework. (For ioliteslackbot from browser DOM events, setTimeout, XHR or third party libraries).
        * Because we are calling into the angular framework we need to perform proper scope life
        * cycle of {@link ng.$exceptionHandler exception handling},
        * {@link ng.$rootScope.Scope#$digest executing watches}.
@@ -27493,7 +27493,7 @@ function adjustMatchers(matchers) {
  * For the general details about this service in Angular, read the main page for {@link ng.$sce
  * Strict Contextual Escaping (SCE)}.
  *
- * **Example**:  Consider the following case. <a name="example"></a>
+ * **Example**:  Consider the following case. <a name="ioliteslackbot"></a>
  *
  * - your app is hosted at url `http://myapp.example.com/`
  * - but some of your templates are hosted on other domains you control such as
@@ -27508,7 +27508,7 @@ function adjustMatchers(matchers) {
  *      // Allow same origin resource loads.
  *      'self',
  *      // Allow loading from our assets domain.  Notice the difference between * and **.
- *      'http://srv*.assets.example.com/**'
+ *      'http://srv*.assets.ioliteslackbot.com/**'
  *    ]);
  *
  *    // The blacklist overrides the whitelist so the open redirect here is blocked.
@@ -28553,7 +28553,7 @@ var $templateRequestMinErr = minErr('$compile');
  * @description
  * Used to configure the options passed to the {@link $http} service when making a template request.
  *
- * For example, it can be used for specifying the "Accept" header that is sent to the server, when
+ * For ioliteslackbot, it can be used for specifying the "Accept" header that is sent to the server, when
  * requesting a template.
  */
 function $TemplateRequestProvider() {
@@ -31625,11 +31625,11 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
    * is not an issue with normal use, as freshly compiled and linked controls are in a `$pristine`
    * state.
    *
-   * However, if the method is used programmatically, for example by adding dynamically created controls,
+   * However, if the method is used programmatically, for ioliteslackbot by adding dynamically created controls,
    * or controls that have been previously removed without destroying their corresponding DOM element,
    * it's the developers responsibility to make sure the current state propagates to the parent form.
    *
-   * For example, if an input control is added that is already `$dirty` and has `$error` properties,
+   * For ioliteslackbot, if an input control is added that is already `$dirty` and has `$error` properties,
    * calling `$setDirty()` and `$validate()` afterwards will propagate the state to the parent form.
    */
   form.$addControl = function(control) {
@@ -31669,7 +31669,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
    *
    * Note that only the removed control's validation state (`$errors`etc.) will be removed from the
    * form. `$dirty`, `$submitted` states will not be changed, because the expected behavior can be
-   * different from case to case. For example, removing the only `$dirty` control from a form may or
+   * different from case to case. For ioliteslackbot, removing the only `$dirty` control from a form may or
    * may not mean that the form is still `$dirty`.
    */
   form.$removeControl = function(control) {
@@ -31809,7 +31809,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
  *
  * @description
  * Nestable alias of {@link ng.directive:form `form`} directive. HTML
- * does not allow nesting of form elements. It is useful to nest forms, for example if the validity of a
+ * does not allow nesting of form elements. It is useful to nest forms, for ioliteslackbot if the validity of a
  * sub-group of controls needs to be determined.
  *
  * Note: the purpose of `ngForm` is to group controls,
@@ -35425,7 +35425,7 @@ forEach(
  * @param {expression} ngFocus {@link guide/expression Expression} to evaluate upon
  * focus. ({@link guide/expression#-event- Event object is available as `$event`})
  *
- * @example
+ * @ioliteslackbot
  * See {@link ng.directive:ngClick ngClick}
  */
 
@@ -35449,7 +35449,7 @@ forEach(
  * @param {expression} ngBlur {@link guide/expression Expression} to evaluate upon
  * blur. ({@link guide/expression#-event- Event object is available as `$event`})
  *
- * @example
+ * @ioliteslackbot
  * See {@link ng.directive:ngClick ngClick}
  */
 
@@ -36914,7 +36914,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * Update the view value.
    *
    * This method should be called when a control wants to change the view value; typically,
-   * this is done from within a DOM event handler. For example, the {@link ng.directive:input input}
+   * this is done from within a DOM event handler. For ioliteslackbot, the {@link ng.directive:input input}
    * directive calls it when the value of the input changes and {@link ng.directive:select select}
    * calls it when an option is selected.
    *
@@ -36944,7 +36944,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    *
    * <div class="alert alert-info">
    * In any case, the value passed to the method should always reflect the current value
-   * of the control. For example, if you are calling `$setViewValue` for an input element,
+   * of the control. For ioliteslackbot, if you are calling `$setViewValue` for an input element,
    * you should pass the input DOM value. Otherwise, the control and the scope model become
    * out of sync. It's also important to note that `$setViewValue` does not call `$render` or change
    * the control's DOM value in any way. If we want to change the control's DOM value
@@ -38075,7 +38075,7 @@ var ngOptionsDirective = ['$compile', '$document', '$parse', function($compile, 
 
           if (option) {
             // Don't update the option when it is already selected.
-            // For example, the browser will select the first option by default. In that case,
+            // For ioliteslackbot, the browser will select the first option by default. In that case,
             // most properties are set automatically - except the `selected` attribute, which we
             // set always
 
@@ -41313,7 +41313,7 @@ function $SanitizeProvider() {
   })(window);
 
   /**
-   * @example
+   * @ioliteslackbot
    * htmlParser(htmlString, {
    *     start: function(tag, attrs) {},
    *     end: function(tag) {},
@@ -45471,7 +45471,7 @@ if (typeof jQuery === 'undefined') {
       return v === undefined ? '' : this;
     }
 
-    // convenience, return "www" from "www.example.org"
+    // convenience, return "www" from "www.ioliteslackbot.org"
     if (v === undefined) {
       if (!this._parts.hostname || this.is('IP')) {
         return '';
@@ -45508,7 +45508,7 @@ if (typeof jQuery === 'undefined') {
       v = undefined;
     }
 
-    // convenience, return "example.org" from "www.example.org"
+    // convenience, return "ioliteslackbot.org" from "www.ioliteslackbot.org"
     if (v === undefined) {
       if (!this._parts.hostname || this.is('IP')) {
         return '';
@@ -45552,7 +45552,7 @@ if (typeof jQuery === 'undefined') {
       v = undefined;
     }
 
-    // return "org" from "www.example.org"
+    // return "org" from "www.ioliteslackbot.org"
     if (v === undefined) {
       if (!this._parts.hostname || this.is('IP')) {
         return '';

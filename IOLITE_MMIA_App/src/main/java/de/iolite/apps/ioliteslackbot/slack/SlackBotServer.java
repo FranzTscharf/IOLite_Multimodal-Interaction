@@ -1,7 +1,6 @@
-package de.iolite.apps.example.slack;
+package de.iolite.apps.ioliteslackbot.slack;
 
-import de.iolite.apps.example.IoLiteSlackBotApp;
-import org.riversun.slacklet.Slacklet;
+import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
 import org.riversun.slacklet.SlackletService;
 
 import java.io.IOException;

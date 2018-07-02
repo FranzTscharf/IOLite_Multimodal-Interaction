@@ -2,7 +2,7 @@
  * Copyright (C) 2016 IOLITE GmbH, All rights reserved.
  */
 
-package de.iolite.apps.example;
+package de.iolite.apps.ioliteslackbot;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
-import de.iolite.apps.example.slack.SlackBotServer;
+import de.iolite.apps.ioliteslackbot.slack.SlackBotServer;
 import org.apache.commons.lang3.Validate;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +48,7 @@ import de.iolite.app.api.frontend.util.FrontendAPIUtility;
 import de.iolite.app.api.storage.StorageAPI;
 import de.iolite.app.api.storage.StorageAPIException;
 import de.iolite.app.api.user.access.UserAPI;
-import de.iolite.apps.example.internals.PageWithEmbeddedSessionTokenRequestHandler;
+import de.iolite.apps.ioliteslackbot.internals.PageWithEmbeddedSessionTokenRequestHandler;
 import de.iolite.common.lifecycle.exception.CleanUpFailedException;
 import de.iolite.common.lifecycle.exception.InitializeFailedException;
 import de.iolite.common.lifecycle.exception.StartFailedException;
@@ -340,13 +340,14 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 	@Override
 	protected void stopHook()
 			throws StopFailedException {
+		//destroy Slack Server
+		sbs.stop();
+		sbs = null;
 		LOGGER.debug("Stopping");
-
 		// deregister the static assets
 		if (this.disposeableAssets != null) {
 			this.disposeableAssets.dispose();
 		}
-
 		LOGGER.debug("Stopped");
 	}
 
@@ -438,7 +439,10 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		// save an integer under the key 'test'
 		this.storageAPI.saveInt("test", 10);
 		// now let's store a string
-		this.storageAPI.saveString("apikey", "");
+		//this.storageAPI.saveString("apikey", "");
+		// see which apikey got saved:
+		LOGGER.debug("loading slack 'apikey' from storage: {}", this.storageAPI.loadString("apikey"));
+
 		// log the value of an entry, just to demonstrate
 		LOGGER.debug("loading 'test' from storage: {}", Integer.valueOf(this.storageAPI.loadInt("test")));
 	}
@@ -528,7 +532,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		// default handler returning a not found status
 		this.frontendAPI.registerDefaultRequestHandler(new NotFoundResponseHandler());
 
-		// example JSON request handlers
+		// ioliteslackbot JSON request handlers
 		this.frontendAPI.registerRequestHandler("rooms", new RoomsResponseHandler());
 		this.frontendAPI.registerRequestHandler("devices", new DevicesResponseHandler());
 		//Request handlers for the slackbot

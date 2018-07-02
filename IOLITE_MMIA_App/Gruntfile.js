@@ -114,8 +114,8 @@ module.exports = function(grunt) {
 				// do nothing
 				}
 			},
-			src : ASSETS_DIRECTORY + 'less/example-bootstrap.less',
-			dest : GENERATED_ASSETS_DIRECTORY + 'css/example-bootstrap.css',
+			src : ASSETS_DIRECTORY + 'less/ioliteslackbot-bootstrap.less',
+			dest : GENERATED_ASSETS_DIRECTORY + 'css/ioliteslackbot-bootstrap.css',
 		}
 	};
 

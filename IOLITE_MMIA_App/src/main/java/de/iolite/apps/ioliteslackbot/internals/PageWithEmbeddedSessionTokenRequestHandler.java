@@ -2,7 +2,7 @@
  * Copyright (C) 2016 IOLITE GmbH, All rights reserved.
  */
 
-package de.iolite.apps.example.internals;
+package de.iolite.apps.ioliteslackbot.internals;
 
 import de.iolite.app.api.frontend.util.FrontendAPIRequestHandler;
 import de.iolite.common.requesthandler.IOLITEHTTPRequest;

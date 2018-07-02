@@ -11,7 +11,7 @@ module.exports = function(config) {
 		'node_modules/angular-mocks/angular-mocks.js',
 
 		// JS files
-		'src/main/resources/assets/app/example-app.js',
+		'src/main/resources/assets/app/ioliteslackbot-app.js',
 		'src/main/resources/assets/app/*.js',
 
 		// include *.spec.js files

@@ -1,9 +1,3 @@
-import de.iolite.apps.example.slack.SlackBotServer;
-import de.iolite.apps.example.slack.SlackLetController;
-import org.junit.Test;
-import org.riversun.slacklet.SlackletService;
-import org.riversun.xternal.simpleslackapi.SlackUser;
-
 public class SlackBotTests {
     /*
     @Test

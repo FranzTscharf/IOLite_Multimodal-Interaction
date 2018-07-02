@@ -19,7 +19,7 @@
     		console.error("can't get rooms");
     	});
 		
-		// example request with POST with a parameter
+		// ioliteslackbot request with POST with a parameter
 		$http.post('devices', { 'propertyType' : "http://iolite.de#on" }).then(function onSuccess(response) {
 			console.debug("fetchig devices was successfull");
 	    	console.debug(response.data);

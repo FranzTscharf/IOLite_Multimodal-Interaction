@@ -70,7 +70,7 @@
 					
 					// Define a success callback to retrieve the values of the QueryRequest:
 					// * values: the retrieved values
-					// * environmentAPI: the ModelAPI object used for querying, in this example the parameter is just named conveniently to what it would be,
+					// * environmentAPI: the ModelAPI object used for querying, in this ioliteslackbot the parameter is just named conveniently to what it would be,
 					// but you can rename it to anything you want to have
 					// * request: the final QueryRequest send to the remote AppAPI
 					success : function(values, environmentAPI, request) {
@@ -78,7 +78,7 @@
 					},
 					
 					// Define an error callback to handle failed request, same for any request type:
-					// * environmentAPI: the ModelAPI object that sent the request, in this example the parameter is just named conveniently to what it would
+					// * environmentAPI: the ModelAPI object that sent the request, in this ioliteslackbot the parameter is just named conveniently to what it would
 					// be, but you can rename it to anything you want to have
 					// * responseRequestID: identifier of the failed request
 					// * responseErrorCode: error code determined by the IOLITE bus-service

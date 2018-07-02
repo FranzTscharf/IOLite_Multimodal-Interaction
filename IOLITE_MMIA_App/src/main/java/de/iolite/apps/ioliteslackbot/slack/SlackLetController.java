@@ -1,10 +1,10 @@
-package de.iolite.apps.example.slack;
+package de.iolite.apps.ioliteslackbot.slack;
 
-import de.iolite.apps.example.IoLiteSlackBotApp;
+import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
 import org.riversun.slacklet.Slacklet;
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
-import static de.iolite.apps.example.slack.SlackDirectMessageController.getDecisionOfTree;
+import static de.iolite.apps.ioliteslackbot.slack.SlackDirectMessageController.getDecisionOfTree;
 
 public class SlackLetController extends Slacklet {
     private IoLiteSlackBotApp app;
