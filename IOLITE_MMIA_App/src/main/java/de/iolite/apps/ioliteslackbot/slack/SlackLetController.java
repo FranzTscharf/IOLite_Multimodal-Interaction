@@ -4,7 +4,7 @@ import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
 import org.riversun.slacklet.Slacklet;
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
-import static de.iolite.apps.ioliteslackbot.slack.SlackDirectMessageController.getDecisionOfTree;
+import static de.iolite.apps.ioliteslackbot.slack.SlackDirectMessageController.getDecisionTree;
 
 public class SlackLetController extends Slacklet {
     private IoLiteSlackBotApp app;
@@ -20,7 +20,7 @@ public class SlackLetController extends Slacklet {
         //String content = req.getContent();
         // reply to the user
         //resp.reply("You say '" + content + "'.");
-        getDecisionOfTree(req,resp, app);
+        getDecisionTree(req,resp, app);
     }
 
     @Override
