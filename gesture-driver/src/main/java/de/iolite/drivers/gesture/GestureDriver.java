@@ -4,12 +4,8 @@
 
 package de.iolite.drivers.gesture;
 
-import static de.iolite.drivers.basic.DriverConstants.PROFILE_DimmableLamp_ID;
-import static de.iolite.drivers.basic.DriverConstants.PROFILE_PROPERTY_DimmableLamp_dimmingLevel_ID;
-import static de.iolite.drivers.basic.DriverConstants.PROFILE_PROPERTY_DimmableLamp_on_ID;
-import static de.iolite.drivers.basic.DriverConstants.PROFILE_PROPERTY_DimmableLamp_powerUsage_ID;
-import static de.iolite.drivers.basic.DriverConstants.DeviceStatus.Configuration_Error;
-import static de.iolite.drivers.basic.HasProfileIdentifier.DimmableLamp;
+
+
 
 import java.util.Objects;
 import java.util.Set;
@@ -17,10 +13,6 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.Validate;
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.handler.HandlerList;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,21 +20,20 @@ import de.iolite.drivers.framework.Driver;
 import de.iolite.drivers.framework.DriverAPI;
 import de.iolite.drivers.framework.device.Device;
 import de.iolite.drivers.framework.device.DeviceConfigurationObserver;
-import de.iolite.drivers.framework.device.plain.PlainDevice;
 import de.iolite.drivers.framework.device.plain.PlainDeviceConfigurationBuilder;
 import de.iolite.drivers.framework.device.plain.PlainDeviceFactory;
 import de.iolite.drivers.framework.exception.DeviceConfigurationException;
 import de.iolite.drivers.framework.exception.DriverStartFailedException;
 
 /**
- * Demonstrates the implementation of a lamp driver.
+ * Implementation of Gesture Driver.
  *
- * @author Grzegorz Lehmann
- * @since 18.06
+ * @author Johannes Hassler
+ * @since 03.07.2018
  */
 public class GestureDriver implements Driver, DeviceConfigurationObserver {
 	
-	private PlainDevice dev;
+	private SimulatedGestureDevice dev;
 
 	@Nonnull
 	private static final Logger LOGGER = LoggerFactory.getLogger(GestureDriver.class);
@@ -50,17 +41,10 @@ public class GestureDriver implements Driver, DeviceConfigurationObserver {
 	@Override
 	public final void onConfigured(@Nonnull final Device device) {
 		Objects.requireNonNull(device, "'device' must not be null");
+		
 
-		if (!DimmableLamp.test(device)) {
-			// not a lamp, reject the device
-			LOGGER.error("Unsupported device type '{}'", device);
-			device.error(Configuration_Error);
-			return;
-		}
-
-		// create simulated lamp
-		dev = PlainDeviceFactory.create(device);
-		new SimulatedGestureDevice(dev);
+		// create Simulated gesture Driver
+		dev = new SimulatedGestureDevice(PlainDeviceFactory.create(device));
 	}
 
 	@Override
@@ -79,10 +63,8 @@ public class GestureDriver implements Driver, DeviceConfigurationObserver {
 		// Report Gesture Ring
 		try {
 			PlainDeviceConfigurationBuilder deviceBuilder =
-					new PlainDeviceConfigurationBuilder(driverAPI.configure("Gesture-Ring", PROFILE_DimmableLamp_ID));
-			deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_on_ID);
-			deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_dimmingLevel_ID);
-			deviceBuilder.withProperty(PROFILE_PROPERTY_DimmableLamp_powerUsage_ID);
+					new PlainDeviceConfigurationBuilder(driverAPI.configure("Gesture-Ring",DriverConstants.PROFILE_GestureSensor_ID));
+			deviceBuilder.withProperty(DriverConstants.PROFILE_PROPERTY_GestureSensor_recognizedGesture_ID);
 			deviceBuilder.fromManufacturer("funny company");
 			deviceBuilder.withModelName("Simulated Gesture Ring");
 			deviceBuilder.addIfAbsent();
@@ -94,8 +76,6 @@ public class GestureDriver implements Driver, DeviceConfigurationObserver {
 		existingDevices.forEach(this::onConfigured);
 		
 		//Run Jetty Server
-		//StartJetty jetty = new StartJetty(dev);
-		
 		driverAPI.getScheduler().execute(new StartJetty(dev));
 		
 

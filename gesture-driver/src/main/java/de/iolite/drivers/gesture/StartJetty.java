@@ -9,18 +9,22 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.iolite.drivers.framework.device.plain.PlainDevice;
-
+/**
+ * Starts the Jetty Server
+ *
+ * @author Johannes Hassler
+ * @since 18.06
+ */
 public class StartJetty implements Runnable {
 	
-	PlainDevice dev;
+	SimulatedGestureDevice dev;
 	
 
 
 	@Nonnull
 	private static final Logger LOGGER = LoggerFactory.getLogger(StartJetty.class);
 	
-	public StartJetty(PlainDevice dev) {
+	public StartJetty(SimulatedGestureDevice dev) {
 		this.dev = dev;
 	}
 
