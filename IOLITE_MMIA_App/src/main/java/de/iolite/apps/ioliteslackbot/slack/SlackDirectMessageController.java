@@ -9,10 +9,10 @@ import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.annotation.Nonnull;
 
-import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.dialogFlow;
+import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.getDialogFlow;
+
 
 public class SlackDirectMessageController {
 
@@ -20,7 +20,7 @@ public class SlackDirectMessageController {
     private static final Logger LOGGER = LoggerFactory.getLogger(IoLiteSlackBotApp.class);
 
 
-    public static void getDecisionOfTree(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app){
+    public static void getDecisionTree(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app){
         switch (req.getContent()){
             case "turn all lights on":
                 LOGGER.warn(req.getContent());
@@ -34,9 +34,9 @@ public class SlackDirectMessageController {
             case "switch all lights off":
                 break;
             default:
-                //!TODO here ask DialogFlow of a response if the other case don't fit;
+                //ask DialogFlow of a response if the other case don't fit;
                 LOGGER.warn("DialogFlow Request");
-                dialogFlow(req,resp,app);
+                getDialogFlow(req,resp,app);
         }
     }
 

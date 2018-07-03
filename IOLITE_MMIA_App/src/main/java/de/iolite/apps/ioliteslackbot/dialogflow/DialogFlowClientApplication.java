@@ -18,27 +18,36 @@ import javax.annotation.Nonnull;
 public class DialogFlowClientApplication {
   @Nonnull
   private static final Logger LOGGER = LoggerFactory.getLogger(IoLiteSlackBotApp.class);
-  private static final String INPUT_PROMPT = "> ";
-  private static final int ERROR_EXIT_CODE = 1;
 
-  /**
-   * Able to
-   * @param req
-   * @param resp
-   * @param app
-   */
-  public static void dialogFlow(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app){
+  public static void getDialogFlow(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app){
     try {
       //make a request
       //#!TODO read saved apikey from iolite
       String inputNLPRequest = req.getContent();
       Result rslt = readNLPResponse("cce3c7714ef94160a045c9767cb719df", inputNLPRequest);
-      resp.reply(rslt.getFulfillment().getSpeech());
-      //#!TODO make a interpretation of action -> iolite
-      String action = rslt.getAction();
+      getDialogFlowTree(req,resp,app,rslt);
     } catch(Exception ex){
       LOGGER.error(ex.getMessage());
     }
+  }
+
+  public static void getDialogFlowTree(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app, Result rslt){
+    String action = rslt.getAction();
+    // case descision of intents
+    switch (action) {
+      case "smarthome.lights.switch.on":
+        LOGGER.warn(rslt.getParameters().get("room").getAsString());
+        LOGGER.warn("smarthome.lights.switch.on");
+        resp.reply(rslt.getFulfillment().getSpeech());
+      case "smarthome.lights.switch.check.on":
+        LOGGER.warn(rslt.getParameters().get("room").getAsString());
+        LOGGER.warn("smarthome.lights.switch.check.on");
+        resp.reply(rslt.getFulfillment().getSpeech());
+      default:
+        LOGGER.warn("if nothing works");
+        resp.reply(rslt.getFulfillment().getSpeech());
+    }
+
   }
 
   /**
@@ -46,10 +55,16 @@ public class DialogFlowClientApplication {
    * @param args
    */
   public static void main(String[] args) {
-    //interaction("cce3c7714ef94160a045c9767cb719df");
-    System.out.println(
-      readNLPResponse("cce3c7714ef94160a045c9767cb719df","How are you?").getFulfillment().getSpeech()
-    );
+    try {
+      //make a request
+      //#!TODO read saved apikey from iolite
+      Result rslt = readNLPResponse("cce3c7714ef94160a045c9767cb719df", "switch on the light in the kitchen");
+      System.out.println(rslt.getAction());
+      System.out.println(rslt.getParameters().get("room"));
+      System.out.println(rslt.getFulfillment().getSpeech());
+    } catch(Exception ex){
+      System.out.println(ex.getMessage());
+    }
   }
 
   /**
@@ -74,5 +89,6 @@ public class DialogFlowClientApplication {
       return null;
     }
   }
+
 
 }
