@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<properties:PropertyProfileModel
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:properties="http://www.iolite.de/models/Properties-2.0.ecore">
+  <profiles
+      name="GestureSensor"
+      friendlyName="Gesture Sensor"
+      vendor="IOLITE GmbH"
+      description="Gesture recognition sensor"
+      mandatoryPropertyTypes="//@propertyTypes.0"/>
+  <propertyTypes
+      xsi:type="properties:TextPropertyType"
+      name="recognizedGesture"
+      friendlyName="Recognized Gesture"
+      vendor="IOLITE GmbH"
+      description="Currently recognized gesture"
+      mandatoryIn="//@profiles.0"/>
+</properties:PropertyProfileModel>
