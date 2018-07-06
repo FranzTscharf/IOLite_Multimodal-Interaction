@@ -49,7 +49,7 @@ public class SlackDirectMessageController {
             final Boolean onValue;
             if (onProperty != null && (onValue = onProperty.getValue()) != null) {
                 //get only lamps
-                if (device.getModelName().contains("Lamp") || device.getModelName().contains("lamp")){
+                //if (device.getModelName().contains("Lamp") || device.getModelName().contains("lamp")){
                     try {
                         //toge on propertie
                         onProperty.requestValueUpdate(!onValue);
@@ -61,7 +61,7 @@ public class SlackDirectMessageController {
                     catch (final DeviceAPIException e) {
                         LOGGER.error("Failed to control device", e);
                     }
-                }
+                //}
             }
         }
     }
