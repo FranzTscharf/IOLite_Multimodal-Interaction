@@ -33,6 +33,14 @@ public class SlackDirectMessageController {
                 break;
             case "switch all lights off":
                 break;
+            case "pull up all the blinds":
+                LOGGER.warn(req.getContent());
+                SlackBotBlinds.allBlinds(req,resp,app);
+                break;
+            case "pull up the blinds":
+            	LOGGER.warn(req.getContent());
+                SlackBotBlinds.allBlinds(req,resp,app);
+                break;
             default:
                 //ask DialogFlow of a response if the other case don't fit;
                 LOGGER.warn("DialogFlow Request");
