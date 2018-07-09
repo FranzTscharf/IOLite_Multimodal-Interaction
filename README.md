@@ -1,4 +1,4 @@
-# IOLITE_Multimodal-Interaction
+# IOLITE Multimodal Interaction Project
 
 This Project is about developing an application and driver for the IOLITE Plattform. The project is based on a multi modal interation aproach. The app with be a SlackBot and the driver will make it possible to communicato over a bluetooth ring with the iolite box.
 
