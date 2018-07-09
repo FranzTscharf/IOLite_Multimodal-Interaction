@@ -31,6 +31,10 @@ public class SlackDirectMessageController {
             case "turn all lights off":
                 System.out.print("");
                 break;
+            case "turn on the lights in the kitchen":
+                break;
+            case "turn off the lights in the kitchen":
+                break;
             case "switch all lights off":
                 break;
             case "pull up all the blinds":
