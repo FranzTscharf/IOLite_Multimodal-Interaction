@@ -614,3 +614,5 @@ src/main/generated-resources/assets/css/*.css
 \.recommenders/index/http___download_eclipse_org_recommenders_models_oxygen_/write\.lock
 
 RemoteSystemsTempFiles/\.project
+/.metadata/
+/.recommenders/

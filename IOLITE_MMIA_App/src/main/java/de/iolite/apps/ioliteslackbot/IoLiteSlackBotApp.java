@@ -441,7 +441,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		// now let's store a string
 		//this.storageAPI.saveString("apikey", "");
 		// see which apikey got saved:
-		LOGGER.debug("loading slack 'apikey' from storage: {}", this.storageAPI.loadString("apikey"));
+		//LOGGER.debug("loading slack 'apikey' from storage: {}", this.storageAPI.loadString("apikey"));
 
 		// log the value of an entry, just to demonstrate
 		LOGGER.debug("loading 'test' from storage: {}", Integer.valueOf(this.storageAPI.loadInt("test")));

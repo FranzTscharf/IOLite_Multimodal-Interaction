@@ -208,6 +208,7 @@
 	<!-- Build the app and copy to the USER_HOME/.iolite/apps/ when running 'mvn -Deploy' -->
 	<profiles>
 		<profile>
+		<id>profile-1</id>
 			<activation>
 				<property>
 					<name>deploy</name>

@@ -1,6 +1,8 @@
 package de.iolite.apps.ioliteslackbot.slack;
 
 import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
+import de.iolite.apps.ioliteslackbot.messagecontroller.MessageController;
+
 import org.riversun.slacklet.Slacklet;
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
@@ -8,9 +10,12 @@ import static de.iolite.apps.ioliteslackbot.slack.SlackDirectMessageController.g
 
 public class SlackLetController extends Slacklet {
     private IoLiteSlackBotApp app;
+    
+    private MessageController messageController;
 
     public void setApp(IoLiteSlackBotApp setApp){
         this.app = setApp;
+        messageController = new MessageController(app);
     }
 
     @Override
@@ -20,7 +25,8 @@ public class SlackLetController extends Slacklet {
         //String content = req.getContent();
         // reply to the user
         //resp.reply("You say '" + content + "'.");
-        getDecisionTree(req,resp, app);
+        //getDecisionTree(req,resp, app);
+        messageController.analyze(req,resp);
     }
 
     @Override
