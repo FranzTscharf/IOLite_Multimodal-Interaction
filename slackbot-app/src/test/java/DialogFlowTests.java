@@ -15,14 +15,14 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.readNLPResponse;
+import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.getNLPResponse;
 
 public class DialogFlowTests {
 
     @Test
     public void basicCommand(){
         String inputNLPRequest = "turn all light on";
-        Result rslt = readNLPResponse("f8a3214ac92843b1b31f887d857db8da", inputNLPRequest);
+        Result rslt = getNLPResponse("f8a3214ac92843b1b31f887d857db8da", inputNLPRequest);
         rslt.getFulfillment();
     }
     @Test

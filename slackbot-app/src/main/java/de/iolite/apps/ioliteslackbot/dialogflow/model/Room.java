@@ -3,23 +3,29 @@ package de.iolite.apps.ioliteslackbot.dialogflow.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room extends Entity{
+/**
+ * Model room to cast to DialogFlow
+ */
+public class Room extends Entity {
     private String value;
     private List<String> synonyms;
 
-    public Room(String value, List<String> synonyms){
+    public Room(String value, List<String> synonyms) {
         this.value = value;
         this.synonyms = synonyms;
     }
-    public Room(String value){
+
+    public Room(String value) {
         this.value = value;
         List<String> synonyms = new ArrayList();
         this.synonyms = synonyms;
     }
-    public void addSynonym(String synonym){
+
+    public void addSynonym(String synonym) {
         synonyms.add(synonym);
     }
-    public List<String> getSynonym(String synonym){
+
+    public List<String> getSynonym(String synonym) {
         return synonyms;
     }
 

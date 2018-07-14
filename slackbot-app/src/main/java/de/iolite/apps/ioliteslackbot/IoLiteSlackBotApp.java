@@ -67,6 +67,8 @@ import de.iolite.utilities.time.series.DataEntries.BooleanEntry;
 import de.iolite.utilities.time.series.Function;
 import de.iolite.utilities.time.series.TimeInterval;
 
+import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.setEntities;
+
 
 /**
  * <code>IoLiteSlackBotApp</code>
@@ -310,6 +312,12 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 			for (final PlaceSchedule placeSchedule : this.heatingAPI.getHeatingSchedulesOfPlaces()) {
 				LOGGER.debug("Heating schedule found for place '{}'", placeSchedule.getPlaceIdentifier());
 			}
+
+			// Initialize the SlackBot
+			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"),this);
+			LOGGER.warn("SlackBot initialised");
+			setEntities(this);
+
 		}
 		catch (final IOLITEAPINotResolvableException e) {
 			throw new StartFailedException(MessageFormat.format("Start failed due to required but not resolvable AppAPI: {0}", e.getMessage()), e);
@@ -319,19 +327,11 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		}
 		catch (final StorageAPIException | FrontendAPIException e) {
 			throw new StartFailedException(MessageFormat.format("Start failed due to an error in the App API examples: {0}", e.getMessage()), e);
-		}
-		// initialize the SlackBot
-		try {
-			//IoLiteSlackBotApp.class.getClassLoader().getResource("META-INF/spring.factories");
-			//SpringApplication sa = new SpringApplication(JBotApplication.class);
-			//List<JBotApplication> foos = SpringFactoriesLoader.loadFactories(JBotApplication.class, IoLiteSlackBotApp.class.getClassLoader());
-			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"),this);
-			LOGGER.error("SlackBot started");
 		} catch(Exception e){
 			LOGGER.error("SlackBot error" + e.getMessage()+e.getLocalizedMessage()+e.toString());
 		}
 
-		LOGGER.error("Started");
+		LOGGER.warn("Started");
 	}
 
 	/**
@@ -435,15 +435,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 	 */
 	private void initializeStorage()
 			throws StorageAPIException {
-		// basically the Storage API provides a key/value storage for different data types
-		// save an integer under the key 'test'
 		this.storageAPI.saveInt("test", 10);
-		// now let's store a string
-		//this.storageAPI.saveString("apikey", "");
-		// see which apikey got saved:
-		//LOGGER.debug("loading slack 'apikey' from storage: {}", this.storageAPI.loadString("apikey"));
-
-		// log the value of an entry, just to demonstrate
 		LOGGER.debug("loading 'test' from storage: {}", Integer.valueOf(this.storageAPI.loadInt("test")));
 	}
 

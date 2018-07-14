@@ -8,19 +8,21 @@ public class Entities {
     private String name;
     private List<Entity> entries;
 
-    public Entities(String name){
+    public Entities(String name) {
         this.name = name;
         this.entries = new ArrayList<Entity>();
     }
-    public Entities(String name, List<Entity> entriesList){
+
+    public Entities(String name, List<Entity> entriesList) {
         this.name = name;
         this.entries = entriesList;
     }
-    public void setEntries(List<Entity> entriesList){
+
+    public void setEntries(List<Entity> entriesList) {
         this.entries = entriesList;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
