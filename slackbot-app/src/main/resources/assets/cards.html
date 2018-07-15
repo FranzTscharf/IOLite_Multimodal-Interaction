@@ -35,7 +35,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-control-label">API-Key:</label>
-                            <input class="form-control" ng-model="ApiKeyChanged" ng-value="ApiKeyValueLoadedFromStorageAPI">
+                            <input class="form-control" id="inputAPIKEY" ng-model="ApiKeyChanged" ng-change="ApiKeyValueLoadedFromStorageAPI"/>
                             <button style="margin-top: 0.5em;" id="saveAPIKEYButton" class="btn btn-primary" type="button" ng-click='ApiKeyValueSaveToStorageAPI()'>Save Changes</button>
                         </div>
                     </div>

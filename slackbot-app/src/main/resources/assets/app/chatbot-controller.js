@@ -12,6 +12,7 @@
                     request : new ActionRequest(/* requestIdentifier */null, /* modelIdentifier */null, /* objectQuery */ ".", /* actionName */ "loadString", /* parameters */ [ new ValueParameter("apikey") ]),
                     success : function(value, storageAPI, request) {
                         $scope.ApiKeyValueLoadedFromStorageAPI = value;
+                        document.getElementById("inputAPIKEY").value = value;
                     },
                     error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
                         console.error("Action " + responseRequestID + " '" + objectQuery + "' failed due to " + responseErrorCode + ": " + responseError);
