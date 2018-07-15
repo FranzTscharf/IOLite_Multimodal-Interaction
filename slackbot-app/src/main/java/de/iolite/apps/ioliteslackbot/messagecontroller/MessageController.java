@@ -55,7 +55,6 @@ public class MessageController {
 			//make a dialogflow request
 			//!TODO load dialogflow apiKey
 			DialogFlowClientApplication dfca = new DialogFlowClientApplication("f8a3214ac92843b1b31f887d857db8da");
-			
 		}
 
 	}
