@@ -32,20 +32,44 @@ import java.util.ArrayList;
 public class DialogFlowClientApplication {
     @Nonnull
     private static final Logger LOGGER = LoggerFactory.getLogger(IoLiteSlackBotApp.class);
+    private String dialogFlowApiKey = "";
+    private SlackletRequest req;
+    private SlackletResponse resp;
+    private IoLiteSlackBotApp app;
+
+    /**
+     * Getter and Setter
+     * @param apikey
+     */
+    public DialogFlowClientApplication(String apikey) {
+        this.dialogFlowApiKey = apikey;
+    }
+    /**
+     * Getter and Setter
+     * @return
+     */
+    public String getDialogFlowApiKey() {
+        return dialogFlowApiKey;
+    }
+    /**
+     * Getter and Setter
+     * @param dialogFlowApiKey
+     */
+    public void setDialogFlowApiKey(String dialogFlowApiKey) {
+        this.dialogFlowApiKey = dialogFlowApiKey;
+    }
+
     /**
      * This method is called if our algorithm did't found any suitable command
      * that means we ask dialogflow if he knows what the user whats
-     * @param req
-     * @param resp
-     * @param app
      */
-    public static void getDialogFlow(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app) {
+    public void getDialogFlow() {
         try {
             //make a request
             //#!TODO read saved apikey from iolite
             String inputNLPRequest = req.getContent();
-            Result rslt = getNLPResponse("cce3c7714ef94160a045c9767cb719df", inputNLPRequest);
-            getDialogFlowTree(req, resp, app, rslt);
+            Result rslt = getNLPResponse(inputNLPRequest);
+            getDialogFlowTree(rslt);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
         }
@@ -53,12 +77,9 @@ public class DialogFlowClientApplication {
 
     /**
      * Cast the actions response got from the AI API
-     * @param req  SlackletRequest
-     * @param resp SlackletResponse
-     * @param app  the complete IoLiteSlackBotApp
      * @param rslt The Result of the success query
      */
-    public static void getDialogFlowTree(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app, Result rslt) {
+    public void getDialogFlowTree(Result rslt) {
         String action = rslt.getAction();
         // case descision of intents
         switch (action) {
@@ -82,11 +103,12 @@ public class DialogFlowClientApplication {
      * the test the interation with the DialogFlow API
      * @param args of the console execution
      */
-    public static void main(String[] args) {
+    public void main(String[] args) {
         try {
             //make a request
             //#!TODO read saved apikey from iolite
-            Result rslt = getNLPResponse("cce3c7714ef94160a045c9767cb719df", "switch on the light in the kitchen");
+            setDialogFlowApiKey("f8a3214ac92843b1b31f887d857db8da");
+            Result rslt = getNLPResponse("switch on the light in the kitchen");
             System.out.println(rslt.getAction());
             System.out.println(rslt.getParameters().get("room"));
             System.out.println(rslt.getFulfillment().getSpeech());
@@ -97,13 +119,11 @@ public class DialogFlowClientApplication {
 
     /**
      * This function is used to get the response from the
-     *
-     * @param apikey
      * @param inputRequest
      */
-    public static Result getNLPResponse(String apikey, String inputRequest) {
+    public Result getNLPResponse(String inputRequest) {
         try {
-            AIConfiguration configuration = new AIConfiguration(apikey);
+            AIConfiguration configuration = new AIConfiguration(dialogFlowApiKey);
             AIDataService dataService = new AIDataService(configuration);
             AIRequest request = new AIRequest(inputRequest);
             AIResponse response = dataService.request(request);
@@ -119,43 +139,65 @@ public class DialogFlowClientApplication {
         }
     }
 
-    public static void setEntities(IoLiteSlackBotApp app) {
+    /**
+     * Read Content(devices and rooms from iolite) and pass it to dialogflow
+     */
+    public void setEntities() {
         try {
-            String ApiKey = "f8a3214ac92843b1b31f887d857db8da";
-            setEntityRooms(app, ApiKey);
-            setEntityDevices(app, ApiKey);
+            setEntityRooms();
+            setEntityDevices();
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-    public static void setEntityDevices(IoLiteSlackBotApp app,String apikey) throws Exception{
-        Entities rooms = getEntitiesAsDevices(app);
+
+    /**
+     * Read Devices from iolite and pass it to dialogflow
+     * @throws Exception
+     */
+    public void setEntityDevices() throws Exception{
+        Entities rooms = getEntitiesAsDevices();
         String roomAsJson = getEntitiesAsJson(rooms);
-        HttpResponse resp = setEntitiesAPI(roomAsJson, apikey);
+        HttpResponse resp = setEntitiesAPI(roomAsJson);
         // !TODO in prod. delete warning
         LOGGER.warn("Devices to AI API Status Code:"+resp.getStatusLine().getStatusCode());
     }
-    public static void setEntityRooms(IoLiteSlackBotApp app,String apikey) throws Exception{
-        Entities rooms = getEntitiesAsRooms(app);
+    /**
+     * Read Rooms from iolite and pass it to dialogflow
+     * @throws Exception
+     */
+    public void setEntityRooms() throws Exception{
+        Entities rooms = getEntitiesAsRooms();
         String roomAsJson = getEntitiesAsJson(rooms);
-        HttpResponse resp = setEntitiesAPI(roomAsJson, apikey);
+        HttpResponse resp = setEntitiesAPI(roomAsJson);
         // !TODO in prod. delete warning
         LOGGER.warn("Rooms to AI API Status Code:"+resp.getStatusLine().getStatusCode());
     }
 
-    public static HttpResponse setEntitiesAPI(String jsonEnterties, String developerAPIKey) throws Exception {
+    /**
+     * Set the Json of devices or roooms to the dialogflow
+     * @param jsonEnterties
+     * @return
+     * @throws Exception
+     */
+    public HttpResponse setEntitiesAPI(String jsonEnterties) throws Exception {
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPut request = new HttpPut("https://api.api.ai/v1/entities?v=20150910");
         StringEntity params = new StringEntity(jsonEnterties);
         request.addHeader("content-type", "application/json; charset=utf-8");
-        request.addHeader("Authorization", "Bearer "+developerAPIKey);
+        request.addHeader("Authorization", "Bearer "+dialogFlowApiKey);
         request.addHeader("Accept", "application/json");
         request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
         return response;
     }
 
-    public static Entities getEntitiesAsRooms(IoLiteSlackBotApp app) throws Exception{
+    /**
+     * Get the Rooms of iolite and cast it to models for the AI Request
+     * @return
+     * @throws Exception
+     */
+    public Entities getEntitiesAsRooms() throws Exception{
         Entities entities = new Entities("room", new ArrayList());
         for (Location location :app.getEnvironmentAPI().getLocations()){
             Room room = new Room(location.getIdentifier());
@@ -164,8 +206,12 @@ public class DialogFlowClientApplication {
         }
         return entities;
     }
-
-    public static Entities getEntitiesAsDevices(IoLiteSlackBotApp app) throws Exception{
+    /**
+     * Get the Devices of iolite and cast it to models for the AI Request
+     * @return
+     * @throws Exception
+     */
+    public Entities getEntitiesAsDevices() throws Exception{
         Entities entities = new Entities("device", new ArrayList());
         for (Device device :app.getDeviceAPI().getDevices()){
             de.iolite.apps.ioliteslackbot.dialogflow.model.Device deviceModel
@@ -177,8 +223,12 @@ public class DialogFlowClientApplication {
         return entities;
     }
 
-
-    public static String getEntitiesAsJson(Entities entities) {
+    /**
+     * Convert the Models to Json objectcs and return the String
+     * @param entities
+     * @return
+     */
+    public String getEntitiesAsJson(Entities entities) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);

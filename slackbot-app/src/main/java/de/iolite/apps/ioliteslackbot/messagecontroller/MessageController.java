@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
+import de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication;
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
 import org.slf4j.Logger;
@@ -46,13 +47,15 @@ public class MessageController {
 
 		if (request.contains("help")) {
 			help();
-		}
-		if (request.contains("turn")) {
+		}else if (request.contains("turn")) {
 			turnOnController.turn();
-		}
-
-		if (request.contains("get")) {
+		}else if (request.contains("get")) {
 			getInformationController.getAll();
+		}else{
+			//make a dialogflow request
+			//!TODO load dialogflow apiKey
+			DialogFlowClientApplication dfca = new DialogFlowClientApplication("f8a3214ac92843b1b31f887d857db8da");
+			
 		}
 
 	}

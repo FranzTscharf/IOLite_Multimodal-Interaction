@@ -1,9 +1,6 @@
 package de.iolite.apps.ioliteslackbot.slack;
 
-import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.getDialogFlow;
-
 import java.util.ArrayList;
-
 import javax.annotation.Nonnull;
 
 import org.riversun.slacklet.SlackletRequest;
@@ -48,7 +45,7 @@ public class SlackDirectMessageController {
             default:
                 // ask DialogFlow of a response if the other case don't fit;
                 LOGGER.warn("DialogFlow Request");
-                getDialogFlow(req, resp, app);
+                //getDialogFlow(req, resp, app);
         }
     }
 
