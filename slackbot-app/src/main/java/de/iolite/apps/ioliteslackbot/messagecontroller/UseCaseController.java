@@ -35,12 +35,16 @@ public class UseCaseController extends Slacklet {
     @Nonnull
     private static final Logger LOGGER = LoggerFactory.getLogger(IoLiteSlackBotApp.class);
 
-    public void UseCase1_SwitchTheLightsInLocation(Location currentLoc){
+    public void useCase1_SwitchTheLightsInLocation(Location currentLoc){
         List<Device> currentLocationDevices = new ArrayList<>();
         currentLocationDevices = getCurrentLocationDevices(currentLoc);
         for (final Device device : currentLocationDevices) {
             turnSpecificDevice(device);
         }
+    }
+    
+    public void useCase2_LowerBlindsTurnOffLights() {
+    	
     }
 
     public List<Device> getCurrentLocationDevices(Location currentLoc) {
