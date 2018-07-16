@@ -1,9 +1,12 @@
 package de.iolite.apps.ioliteslackbot.messagecontroller;
 
 import java.util.ArrayList;
+import java.util.List;
+
 
 import javax.annotation.Nonnull;
 
+import ai.api.model.Location;
 import ai.api.model.Result;
 import de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication;
 import org.riversun.slacklet.SlackletRequest;
@@ -32,11 +35,13 @@ public class MessageController {
 	// Controller
 	private TurnOnController turnOnController;
 	private InformationController informationController;
+	private UseCaseController useCaseController;
 
 	public MessageController(IoLiteSlackBotApp app) {
 		this.app = app;
 		this.turnOnController = new TurnOnController(this);
 		this.informationController = new InformationController(this);
+		this.useCaseController = new UseCaseController(this);
 	}
 
 	public void analyze(SlackletRequest req, SlackletResponse resp) {
@@ -45,7 +50,13 @@ public class MessageController {
 
 		if (request.contains("help")) {
 			help();
-		}else if (request.contains("turn")) {
+		}else if(request.equals("turn on the lights")){
+			response.reply("In which room do you want to switch on the lights?");
+			List<de.iolite.app.api.environment.Location> currentLocations = getAllLocations();
+			useCaseController.UseCase1_SwitchTheLightsInLocation(currentLocations.get(0));
+		}
+
+		else if (request.contains("turn")) {
 			turnOnController.turn();
 		}else if (request.contains("get")) {
 			informationController.getAll();
@@ -84,6 +95,12 @@ public class MessageController {
 		}
 
 		return devices;
+	}
+
+	public List<de.iolite.app.api.environment.Location> getAllLocations(){
+		List<de.iolite.app.api.environment.Location> rooms = new ArrayList<>();
+		rooms = app.getEnvironmentAPI().getLocations();
+		return rooms;
 	}
 	
 	public void help()
