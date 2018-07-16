@@ -4,17 +4,15 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
+import ai.api.model.Result;
 import de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication;
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.iolite.app.api.device.DeviceAPIException;
 import de.iolite.app.api.device.access.Device;
-import de.iolite.app.api.device.access.DeviceBooleanProperty;
 import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
-import de.iolite.drivers.basic.DriverConstants;
 
 /**
  * Main Controller. This controller serves requests first
@@ -33,28 +31,32 @@ public class MessageController {
 
 	// Controller
 	private TurnOnController turnOnController;
-	private GetInformationController getInformationController;
+	private InformationController informationController;
 
 	public MessageController(IoLiteSlackBotApp app) {
 		this.app = app;
-		turnOnController = new TurnOnController(this);
-		getInformationController = new GetInformationController(this);
+		this.turnOnController = new TurnOnController(this);
+		this.informationController = new InformationController(this);
 	}
 
 	public void analyze(SlackletRequest req, SlackletResponse resp) {
-		request = req.getContent().toLowerCase();
-		response = resp;
+		this.request = req.getContent().toLowerCase();
+		this.response = resp;
 
 		if (request.contains("help")) {
 			help();
 		}else if (request.contains("turn")) {
 			turnOnController.turn();
 		}else if (request.contains("get")) {
-			getInformationController.getAll();
+			informationController.getAll();
 		}else{
 			//make a dialogflow request
 			//!TODO load dialogflow apiKey
-			DialogFlowClientApplication dfca = new DialogFlowClientApplication("f8a3214ac92843b1b31f887d857db8da");
+			DialogFlowClientApplication dfca =
+					new DialogFlowClientApplication(
+							"f8a3214ac92843b1b31f887d857db8da",app,req,resp);
+			Result result = dfca.getNLPResponse(request);
+			response.reply(result.getFulfillment().getSpeech());
 		}
 
 	}
@@ -87,9 +89,7 @@ public class MessageController {
 	public void help()
 	{
 		StringBuilder sb = new StringBuilder();
-		
 		sb.append("You can run the following commands:\n");
-		
 		sb.append("turnOn %device name%\n");
 		sb.append("turnOff %device name%\n");
 		sb.append("turnOnAll %device profile%\n");
@@ -98,10 +98,7 @@ public class MessageController {
 		sb.append("getAllDeviceNames\n");
 		sb.append("getAllLocationNames\n");
 		sb.append("getAllDeviceProfiles\n");
-		
 		response.reply(sb.toString());
-		
-		
 	}
 
 	public IoLiteSlackBotApp getApp() {

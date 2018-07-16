@@ -310,12 +310,8 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 				LOGGER.debug("Heating schedule found for place '{}'", placeSchedule.getPlaceIdentifier());
 			}
 
-			// Initialize the SlackBot
-			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"),this);
-			LOGGER.warn("SlackBot initialised");
 
-		}
-		catch (final IOLITEAPINotResolvableException e) {
+		} catch (final IOLITEAPINotResolvableException e) {
 			throw new StartFailedException(MessageFormat.format("Start failed due to required but not resolvable AppAPI: {0}", e.getMessage()), e);
 		}
 		catch (final IOLITEPermissionDeniedException e) {
@@ -323,10 +319,14 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		}
 		catch (final StorageAPIException | FrontendAPIException e) {
 			throw new StartFailedException(MessageFormat.format("Start failed due to an error in the App API examples: {0}", e.getMessage()), e);
+		}
+		try{
+			// Initialize the SlackBot
+			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"),this);
+			LOGGER.warn("SlackBot initialised");
 		} catch(Exception e){
 			LOGGER.error("SlackBot error" + e.getMessage()+e.getLocalizedMessage()+e.toString());
 		}
-
 		LOGGER.warn("Started");
 	}
 

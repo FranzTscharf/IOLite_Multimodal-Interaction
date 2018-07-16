@@ -2,12 +2,10 @@ package de.iolite.apps.ioliteslackbot.slack;
 
 import java.util.ArrayList;
 import javax.annotation.Nonnull;
-
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import de.iolite.app.api.device.DeviceAPIException;
 import de.iolite.app.api.device.access.Device;
 import de.iolite.app.api.device.access.DeviceBooleanProperty;

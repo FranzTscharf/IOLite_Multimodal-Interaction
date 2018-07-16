@@ -89,10 +89,7 @@ public class DialogFlowClientApplication {
         this.dialogFlowApiKey = apikey;
     }
 
-    public DialogFlowClientApplication(String apikey,
-                                       SlackletRequest req,
-                                       SlackletResponse resp,
-                                       IoLiteSlackBotApp app) {
+    public DialogFlowClientApplication(String apikey, IoLiteSlackBotApp app, SlackletRequest req, SlackletResponse resp) {
         this.dialogFlowApiKey = apikey;
         this.req = req;
         this.resp = resp;

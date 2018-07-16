@@ -20,6 +20,7 @@ public class DialogFlowTests {
         Result rslt = dfca.getNLPResponse(inputNLPRequest);
         rslt.getFulfillment();
     }
+
     @Test
     public void jsonEntitiesRoomTest(){
         ObjectMapper mapper = new ObjectMapper();
