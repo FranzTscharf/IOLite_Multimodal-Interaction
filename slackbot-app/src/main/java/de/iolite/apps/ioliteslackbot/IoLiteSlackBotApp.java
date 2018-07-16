@@ -67,9 +67,6 @@ import de.iolite.utilities.time.series.DataEntries.BooleanEntry;
 import de.iolite.utilities.time.series.Function;
 import de.iolite.utilities.time.series.TimeInterval;
 
-import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.setEntities;
-
-
 /**
  * <code>IoLiteSlackBotApp</code>
  *
@@ -231,7 +228,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IoLiteSlackBotApp.class);
 
 	//Register Slackbot
-	SlackBotServer sbs;
+	public static SlackBotServer sbs;
 
 	/* App APIs */
 	private FrontendAPI frontendAPI;
@@ -313,13 +310,8 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 				LOGGER.debug("Heating schedule found for place '{}'", placeSchedule.getPlaceIdentifier());
 			}
 
-			// Initialize the SlackBot
-			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"),this);
-			LOGGER.warn("SlackBot initialised");
-			setEntities(this);
 
-		}
-		catch (final IOLITEAPINotResolvableException e) {
+		} catch (final IOLITEAPINotResolvableException e) {
 			throw new StartFailedException(MessageFormat.format("Start failed due to required but not resolvable AppAPI: {0}", e.getMessage()), e);
 		}
 		catch (final IOLITEPermissionDeniedException e) {
@@ -327,10 +319,14 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		}
 		catch (final StorageAPIException | FrontendAPIException e) {
 			throw new StartFailedException(MessageFormat.format("Start failed due to an error in the App API examples: {0}", e.getMessage()), e);
+		}
+		try{
+			// Initialize the SlackBot
+			this.sbs = new SlackBotServer(this.storageAPI.loadString("apikey"),this);
+			LOGGER.warn("SlackBot initialised");
 		} catch(Exception e){
 			LOGGER.error("SlackBot error" + e.getMessage()+e.getLocalizedMessage()+e.toString());
 		}
-
 		LOGGER.warn("Started");
 	}
 
@@ -444,6 +440,12 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		@Override
 		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
 			JSONObject object = new JSONObject();
+			try {
+				sbs.stop();
+				sbs = null;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			try {
 				LOGGER.warn("BackEnd SlackAPIKey:"+storageAPI.loadString("apikey"));
 				sbs = new SlackBotServer(storageAPI.loadString("apikey"),IoLiteSlackBotApp.this);

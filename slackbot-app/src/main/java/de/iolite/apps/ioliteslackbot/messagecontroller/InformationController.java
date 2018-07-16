@@ -15,14 +15,14 @@ import de.iolite.app.api.environment.Location;
  * @since 06.07.2018
  */
 
-public class GetInformationController {
+public class InformationController {
 	
 	@Nonnull
-	private static final Logger LOGGER = LoggerFactory.getLogger(GetInformationController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(InformationController.class);
 	
 	private MessageController mc;
 	
-	public GetInformationController(MessageController messageController)
+	public InformationController(MessageController messageController)
 	{
 		this.mc = messageController;
 	}

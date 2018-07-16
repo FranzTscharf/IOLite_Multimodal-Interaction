@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="exampleApp" style="    height: 100%;
-    width: 100%;">
+    width: 100%;    background: white;">
 
 
 <head>
@@ -8,9 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-    <title>SlackBot Example App</title>
+    <title>SlackBot App</title>
 
-	<!-- our style sheet generated from the LESS files -->
+
+    <!-- our style sheet generated from the LESS files -->
     <!--<link rel="stylesheet" type="text/css" href="css/ioliteslackbot-bootstrap.css">-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
@@ -22,7 +23,6 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 	<!-- all third party dependencies created with Grunt -->
     <script type="text/javascript" src="lib/third-party.js"></script>
 
@@ -48,14 +48,188 @@
     <script type="text/javascript" src="/bus/ModelAPI.js"></script>
     <script type="text/javascript" src="/bus/ModelAPIWebsocketClientFactory.js"></script>
     <script type="text/javascript" src="/bus/bus-client-bootstrap.js"></script>
+
+    <link rel="stylesheet" href="css/steps.css">
+    <script src="https://use.fontawesome.com/6a6312675e.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <style>
+        *:not(.classname) {
+            box-sizing: unset;
+        }
+    </style>
+
 </head>
 
-<body>
-	<!-- include the content template -->
+<body style="background: #fff;">
+
+    <div class="wrapper">
+        <div id="wizard" class="wizard">
+            <div class="wizard__content">
+                <header class="wizard__header">
+                    <div class="wizard__header-overlay"></div>
+
+                    <div class="wizard__header-content">
+                        <h1 class="wizard__title" >Get start with the IOLite SlackBot!</h1>
+                        <p class="wizard__subheading">Start with <span>5</span> simple steps.</p>
+                    </div>
+
+                    <div class="wizard__steps">
+                        <nav class="steps">
+                            <div class="step" id="addBotHeader">
+                                <div class="step__content">
+                                    <p class="step__number"><i class="fas fa-robot"></i></p>
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+
+                                    <div class="lines">
+                                        <div class="line -start">
+                                        </div>
+
+                                        <div class="line -background">
+                                        </div>
+
+                                        <div class="line -progress">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="step" id="addBotApiKeyHeader">
+                                <div class="step__content">
+                                    <p class="step__number"><i class="fas fa-key"></i></p>
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+
+                                    <div class="lines">
+                                        <div class="line -background">
+                                        </div>
+
+                                        <div class="line -progress">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step" id="addDialogFlowApiKeyHeader">
+                                <div class="step__content">
+                                    <p class="step__number"><i class="fas fa-comments"></i></p>
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+
+                                    <div class="lines">
+                                        <div class="line -background">
+                                        </div>
+
+                                        <div class="line -progress">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step" id="sendTestMessageHeader">
+                                <div class="step__content">
+                                    <p class="step__number"><i class="fas fa-wrench"></i></p>
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+
+                                    <div class="lines">
+                                        <div class="line -background">
+                                        </div>
+
+                                        <div class="line -progress">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step" id="startBotHeader">
+                                <div class="step__content">
+                                    <p class="step__number"><i class="fas fa-play"></i></p>
+                                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 52 52">
+                                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                                    </svg>
+
+                                    <div class="lines">
+                                        <div class="line -background">
+                                        </div>
+
+                                        <div class="line -progress">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+                <div class="panels">
+                    <div class="panel" id="addBot">
+                        <header class="panel__header">
+                            <h2 class="panel__title">Create a Github account</h2>
+                            <p class="panel__subheading">With github you can show your projects and find new things everyday!</p>
+                        </header>
+
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                    <div class="panel" id="addBotApiKey">
+                        <header class="panel__header">
+                            <h2 class="panel__title">Learn more about pure Javascript.</h2>
+                            <p class="panel__subheading">We have cool frameworks, but none is better then VanillaJS</p>
+                        </header>
+
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                    <div class="panel" id="addDialogFlowApiKey">
+                        <header class="panel__header">
+                            <h2 class="panel__title">Learn more about pure Javascript.</h2>
+                            <p class="panel__subheading">We have cool frameworks, but none is better then VanillaJS</p>
+                        </header>
+
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                    <div class="panel" id="sendTestMessage">
+                        <header class="panel__header">
+                            <h2 class="panel__title">Learn more about pure Javascript.</h2>
+                            <p class="panel__subheading">We have cool frameworks, but none is better then VanillaJS</p>
+                        </header>
+
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est laborum.</p>
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                    <div class="panel" id="startBot">
+                        <header class="panel__header">
+                            <h2 class="panel__title">Stay in touch with the community.</h2>
+                            <p class="panel__subheading">Community is everything, and here we do some crazy stuff.</p>
+                        </header>
+
+                        <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                </div>
+                <div class="wizard__footer">
+                    <button class="button previous">Previous</button>
+                    <button class="button next">Next</button>
+                </div>
+            </div>
+            <div class="wizard__congrats-message">
+                <!-- the content in here will be shown if the popup is gone -->
+            </div>
+        </div>
+    </div>
+
+    <hr><hr>
     <div ng-include="'navBar.html'"></div>
     <div ng-include="'modals.html'"></div>
-    <!-- <div ng-include="'devices.html'"></div>-->
     <div ng-include="'footer.html'"></div>
+
 
     <!-- load our angular modules/controllers/services/.. -->
 	<script type="text/javascript" src="app/ioliteslackbot-app.js"></script>
@@ -65,5 +239,8 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js'></script>
+    <script type="text/javascript" src="js/steps.js"></script>
 </body>
 </html>

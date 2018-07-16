@@ -1,16 +1,11 @@
 package de.iolite.apps.ioliteslackbot.slack;
 
-import static de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication.getDialogFlow;
-
 import java.util.ArrayList;
-
 import javax.annotation.Nonnull;
-
 import org.riversun.slacklet.SlackletRequest;
 import org.riversun.slacklet.SlackletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import de.iolite.app.api.device.DeviceAPIException;
 import de.iolite.app.api.device.access.Device;
 import de.iolite.app.api.device.access.DeviceBooleanProperty;
@@ -48,7 +43,7 @@ public class SlackDirectMessageController {
             default:
                 // ask DialogFlow of a response if the other case don't fit;
                 LOGGER.warn("DialogFlow Request");
-                getDialogFlow(req, resp, app);
+                //getDialogFlow(req, resp, app);
         }
     }
 
