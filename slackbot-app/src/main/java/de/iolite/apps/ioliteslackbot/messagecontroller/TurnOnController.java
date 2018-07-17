@@ -79,7 +79,7 @@ public class TurnOnController {
 			sOn_off = "on";
 		}
 
-		ArrayList<Device> devices = mc.getAllDevicesByProfile();
+		ArrayList<Device> devices = mc.getAllDevicesByProfile(mc.getRequest());
 
 		for (Device dev : devices) {
 			DeviceBooleanProperty onProperty = dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID);

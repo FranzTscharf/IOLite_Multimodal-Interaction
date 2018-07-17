@@ -28,27 +28,45 @@ public class MessageController {
 	private IoLiteSlackBotApp app;
 	private String request;
 	private SlackletResponse response;
+	
+	//Conversation
+	int iterationNr;
+	String prevCommand;
 
 	// Controller
 	private TurnOnController turnOnController;
 	private InformationController informationController;
+	private UC_BedController bedController;
+	private GetDeviceStateController getDeviceStateController; 
 
 	public MessageController(IoLiteSlackBotApp app) {
 		this.app = app;
 		this.turnOnController = new TurnOnController(this);
 		this.informationController = new InformationController(this);
+		this.bedController = new UC_BedController(this);
+		this.getDeviceStateController = new GetDeviceStateController(this);
+		iterationNr = 0;
+		prevCommand = "";
 	}
 
 	public void analyze(SlackletRequest req, SlackletResponse resp) {
 		this.request = req.getContent().toLowerCase();
 		this.response = resp;
+		
+		if(iterationNr==0)
+			prevCommand = request;
 
-		if (request.contains("help")) {
+		if (prevCommand.contains("help")) {
 			help();
-		}else if (request.contains("turn")) {
+		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
-		}else if (request.contains("get")) {
+		}
+		else if (prevCommand.contains("is")) {
+			getDeviceStateController.run();
+		}else if (prevCommand.contains("get")) {
 			informationController.getAll();
+		}else if (prevCommand.contains("bed")||prevCommand.contains("sleep")) {
+			bedController.sleep();
 		}else{
 			//make a dialogflow request
 			//!TODO load dialogflow apiKey
@@ -58,6 +76,7 @@ public class MessageController {
 			Result result = dfca.getNLPResponse(request);
 			response.reply(result.getFulfillment().getSpeech());
 		}
+		
 
 	}
 
@@ -72,13 +91,14 @@ public class MessageController {
 		return null;
 	}
 
-	public ArrayList<Device> getAllDevicesByProfile() {
+	
+	public ArrayList<Device> getAllDevicesByProfile(String pProfile) {
 		ArrayList<Device> devices = new ArrayList<>();
 		for (Device dev : app.getDeviceAPI().getDevices()) {
 			String profile = dev.getProfileIdentifier();
 			profile = profile.substring(profile.indexOf("#") + 1, profile.length()).toLowerCase();
 
-			if (request.contains(profile)) {
+			if (pProfile.contains(profile)) {
 				devices.add(dev);
 			}
 		}
@@ -98,6 +118,8 @@ public class MessageController {
 		sb.append("getAllDeviceNames\n");
 		sb.append("getAllLocationNames\n");
 		sb.append("getAllDeviceProfiles\n");
+		sb.append("\n");
+		sb.append("is %device name% still on?\n");
 		response.reply(sb.toString());
 	}
 
@@ -111,6 +133,23 @@ public class MessageController {
 
 	public SlackletResponse getResponse() {
 		return response;
+	}
+	
+	public int getIterationNr() {
+		return iterationNr;
+	}
+	
+	public String getPrevCommand()
+	{
+		return prevCommand;
+	}
+
+	public void setIterationNr(int iterationNr) {
+		this.iterationNr = iterationNr;
+	}
+
+	public void setPrevCommand(String prevCommand) {
+		this.prevCommand = prevCommand;
 	}
 
 }
