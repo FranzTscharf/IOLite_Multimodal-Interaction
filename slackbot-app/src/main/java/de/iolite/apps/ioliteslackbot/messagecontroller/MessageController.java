@@ -88,7 +88,7 @@ public class MessageController {
 					new DialogFlowClientApplication(
 							"f8a3214ac92843b1b31f887d857db8da",app,req,resp);
 			Result result = dfca.getNLPResponse(request);
-			response.reply(result.getFulfillment().getSpeech());
+			dfca.getDialogFlowTree(result);
 		}
 		
 

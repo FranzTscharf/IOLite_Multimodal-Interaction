@@ -1,5 +1,4 @@
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Steps = function () {
@@ -16,6 +15,7 @@ var Steps = function () {
         key: 'setCurrentStep',
         value: function setCurrentStep(currentStep) {
             this.currentStep = currentStep;
+            document.getElementById("currentSteps").value = currentStep;
         }
     }, {
         key: 'getSteps',
@@ -141,14 +141,18 @@ var Wizard = function () {
         key: 'handleNextStepButton',
         value: function handleNextStepButton() {
             if (this.currentStep === this.stepsQuantity - 1) {
-                this.nextControl.innerHTML = 'Conclude!';
-
+                angular.element(document.querySelector('[ng-controller="chatbot-controller"]'))
+                    .scope().actionNextStep(this.currentStep);
+                document.getElementById("currentSteps").value = this.currentStep;
+                this.nextControl.innerHTML = 'Start the server!';
                 this.nextControl.removeEventListener('click', this.nextControlMoveStepMethod);
                 this.nextControl.addEventListener('click', this.concludeControlMoveStepMethod);
                 this.nextControl.addEventListener('click', this.wizardConclusionMethod);
             } else {
                 this.nextControl.innerHTML = 'Next';
-
+                document.getElementById("currentSteps").value = this.currentStep;
+                angular.element(document.querySelector('[ng-controller="chatbot-controller"]'))
+                    .scope().actionNextStep(this.currentStep);
                 this.nextControl.addEventListener('click', this.nextControlMoveStepMethod);
                 this.nextControl.removeEventListener('click', this.concludeControlMoveStepMethod);
                 this.nextControl.removeEventListener('click', this.wizardConclusionMethod);
@@ -158,6 +162,8 @@ var Wizard = function () {
         key: 'handleWizardConclusion',
         value: function handleWizardConclusion() {
             this.wizard.classList.add('completed');
+            angular.element(document.querySelector('[ng-controller="chatbot-controller"]'))
+                .scope().actionNextStep(5);
         }
     }, {
         key: 'addControls',
@@ -178,6 +184,7 @@ var Wizard = function () {
             if (this.validateMovement(movement)) {
                 this.updtadeCurrentStep(movement);
                 this.steps.handleStepsClasses(movement);
+                document.getElementById("currentSteps").value = this.currentStep;
             } else {
                 throw 'This was an invalid movement';
             }
@@ -199,5 +206,4 @@ var wizardElement = document.getElementById('wizard');
 var wizard = new Wizard(wizardElement);
 var buttonNext = document.querySelector('.next');
 var buttonPrevious = document.querySelector('.previous');
-
 wizard.addControls(buttonPrevious, buttonNext);
