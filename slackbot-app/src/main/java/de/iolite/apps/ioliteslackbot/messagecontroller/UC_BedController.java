@@ -89,6 +89,9 @@ public class UC_BedController {
 	{
 		mc.getResponse().reply("I turned off the following lamps:");
 		ArrayList<Device> lamps = mc.getAllDevicesByProfile("lamp");
+		ArrayList<Device> dimLamps = mc.getAllDevicesByProfile("dimmablelamp");
+		lamps.addAll(dimLamps);
+		
 		for(Device dev : lamps)
 		{
 			try {

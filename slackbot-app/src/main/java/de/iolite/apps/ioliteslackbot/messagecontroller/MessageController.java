@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
-import ai.api.model.Location;
 import ai.api.model.Result;
 import de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication;
 import org.riversun.slacklet.SlackletRequest;
