@@ -5,6 +5,28 @@
      * This controller calls 'rooms' and 'devices' request handlers which are registered in the ExampleApp.java.
      */
     exampleApp.controller('chatbot-controller', [ '$scope', '$http', function($scope, $http) {
+        // check if steps(bootstrap) is done!
+        var checkIfStepsDone = ModelAPIProfiles.get(ModelAPIProfiles.storageId, {
+            success : function(storageAPI) {
+                storageAPI.action({
+                    request : new ActionRequest(/* requestIdentifier */null, /* modelIdentifier */null, /* objectQuery */ ".", /* actionName */ "loadInt", /* parameters */ [ new ValueParameter("isFontEndStepsDone") ]),
+                    success : function(value, storageAPI, request) {
+                        document.getElementById("bootstrapSteps").style.display = "display: none;";
+                        document.getElementById("settingsCardsAndNav").style.display = "display: block;";
+                        document.getElementById("settingsCardsAndNav").style.display = "display: block;";
+                        console.log("steps are done!");
+                    },
+                    error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
+                        document.getElementById("bootstrapSteps").style.display = "inherit";
+                        document.getElementById("settingsCardsAndNav").style.display = "none";
+                        document.getElementById("settingsCardsAndNav").style.display = "none";
+                        console.log("steps are not done yet");
+                    }
+                });
+            }
+        });
+        // execute function at load
+        checkIfStepsDone();
         $scope.ApiKeyValueLoadedFromStorageAPI = null;
         ModelAPIProfiles.get(ModelAPIProfiles.storageId, {
             success : function(storageAPI) {
@@ -73,6 +95,12 @@
             });
             }
         };
+        $scope.onClickNextStep = function() {
+            //call the stoage API to save the APIKEY
+            console.log("steptest");
+            console.log("step:" + currentSelectedStep);
+            //currentSelectedStep
+        };
 
-    } ]);
+    }]);
 })();

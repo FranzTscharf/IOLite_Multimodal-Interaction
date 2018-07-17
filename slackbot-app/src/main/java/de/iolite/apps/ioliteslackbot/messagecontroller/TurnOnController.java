@@ -38,7 +38,6 @@ public class TurnOnController {
 		}
 	}
 
-	// TODO
 	private void turnSpecific() {
 
 		boolean on_off = false;

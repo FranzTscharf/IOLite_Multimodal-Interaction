@@ -1,5 +1,4 @@
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Steps = function () {
@@ -16,6 +15,7 @@ var Steps = function () {
         key: 'setCurrentStep',
         value: function setCurrentStep(currentStep) {
             this.currentStep = currentStep;
+            currentSelectedStep = currentStep;
         }
     }, {
         key: 'getSteps',
@@ -148,7 +148,7 @@ var Wizard = function () {
                 this.nextControl.addEventListener('click', this.wizardConclusionMethod);
             } else {
                 this.nextControl.innerHTML = 'Next';
-
+                currentSelectedStep = this.currentStep;
                 this.nextControl.addEventListener('click', this.nextControlMoveStepMethod);
                 this.nextControl.removeEventListener('click', this.concludeControlMoveStepMethod);
                 this.nextControl.removeEventListener('click', this.wizardConclusionMethod);
@@ -199,5 +199,4 @@ var wizardElement = document.getElementById('wizard');
 var wizard = new Wizard(wizardElement);
 var buttonNext = document.querySelector('.next');
 var buttonPrevious = document.querySelector('.previous');
-
 wizard.addControls(buttonPrevious, buttonNext);
