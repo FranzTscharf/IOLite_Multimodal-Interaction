@@ -12,15 +12,15 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Pull the iolite repository in gitlab and start the server with the following command.
 
 ```
-Give examples
+java -jar iolite.jar -hccPort 8080
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+For the Installation just copy the jar file IOLite-SlackBot.jar from the target folder inside the 
 
 Say what the step will be
 
