@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.iolite.app.api.device.access.Device;
+import de.iolite.app.api.environment.Location;
 import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
 
 /**
@@ -75,7 +76,10 @@ public class MessageController {
 		}else if (prevCommand.contains("get")) {
 			informationController.getAll();
 		}else if (prevCommand.contains("bed")||prevCommand.contains("sleep")) {
-			bedController.sleep();
+			bedController.sleep_wakeup(false);
+		}
+		else if (prevCommand.contains("morning")||prevCommand.contains("wake up")) {
+			bedController.sleep_wakeup(true);
 		}else{
 			//make a dialogflow request
 			//!TODO load dialogflow apiKey
@@ -108,6 +112,33 @@ public class MessageController {
 			profile = profile.substring(profile.indexOf("#") + 1, profile.length()).toLowerCase();
 
 			if (pProfile.contains(profile)) {
+				devices.add(dev);
+			}
+		}
+
+		return devices;
+	}
+	
+	public ArrayList<Device> getAllDevicesByProfileAndRoom(String pProfile, String pRoom) {
+		ArrayList<String> identifiers = new ArrayList<>();
+		//Get all identifiers from one room
+		for(Location location : app.getEnvironmentAPI().getLocations())
+		{
+			
+			if(location.getName().toLowerCase().equals(pRoom.toLowerCase()))
+			{
+				for (de.iolite.app.api.environment.Device dev : location.getDevices()) {
+					identifiers.add(dev.getIdentifier());
+				}
+			}
+		}
+		
+		ArrayList<Device> devices = new ArrayList<>();
+		for (Device dev : app.getDeviceAPI().getDevices()) {
+			String profile = dev.getProfileIdentifier();
+			profile = profile.substring(profile.indexOf("#") + 1, profile.length()).toLowerCase();
+
+			if (pProfile.contains(profile)&&identifiers.contains(dev.getIdentifier())) {
 				devices.add(dev);
 			}
 		}
