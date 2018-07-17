@@ -63,7 +63,7 @@ public class InformationController {
 
 	}
 	
-	private void getAllLocationNames() {
+	public void getAllLocationNames() {
 		// iterate devices
 		StringBuilder sb = new StringBuilder();
 		sb.append("I found the following Locations:" + "\n");
