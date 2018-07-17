@@ -1,6 +1,7 @@
 package de.iolite.apps.ioliteslackbot.slack;
 
 import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
+import de.iolite.apps.ioliteslackbot.messagecontroller.ConversationStatusEnum;
 import de.iolite.apps.ioliteslackbot.messagecontroller.MessageController;
 
 import org.riversun.slacklet.Slacklet;
@@ -29,7 +30,12 @@ public class SlackLetController extends Slacklet {
      */
     @Override
     public void onDirectMessagePosted(SlackletRequest req, SlackletResponse resp) {
-        messageController.analyze(req,resp);
+        if (ConversationStatusEnum.locIsRequired()){
+            messageController.useCase1_getLocation(req,resp);
+        }else {
+            messageController.analyze(req,resp);
+        }
+
     }
 
     /**

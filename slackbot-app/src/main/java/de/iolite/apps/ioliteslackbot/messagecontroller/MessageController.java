@@ -65,9 +65,8 @@ public class MessageController {
 		if (prevCommand.contains("help")) {
 			help();
 		}else if(prevCommand.equals("turn on the lights")){
-			response.reply("In which room do you want to switch on the lights?");
-			List<de.iolite.app.api.environment.Location> currentLocations = getAllLocations();
-			useCaseController.useCase1_SwitchTheLightsInLocation(currentLocations.get(0));
+			ConversationStatusEnum.setStatus(ConversationStatusEnum.Status.RequireLocationInformation);
+			response.reply("In which room do you want me to switch on the lights?");
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
 		}
@@ -120,6 +119,10 @@ public class MessageController {
 		List<de.iolite.app.api.environment.Location> rooms = new ArrayList<>();
 		rooms = app.getEnvironmentAPI().getLocations();
 		return rooms;
+	}
+
+	public void useCase1_getLocation(SlackletRequest req, SlackletResponse resp){
+
 	}
 	
 	public void help()

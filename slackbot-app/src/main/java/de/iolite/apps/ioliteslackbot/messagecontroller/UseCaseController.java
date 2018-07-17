@@ -42,9 +42,9 @@ public class UseCaseController extends Slacklet {
             turnSpecificDevice(device);
         }
     }
-    
+
     public void useCase2_LowerBlindsTurnOffLights() {
-    	
+
     }
 
     public List<Device> getCurrentLocationDevices(Location currentLoc) {
@@ -103,4 +103,6 @@ public class UseCaseController extends Slacklet {
             messageController.getResponse().reply("Could not find the device");
         }
     }
+
+
 }
