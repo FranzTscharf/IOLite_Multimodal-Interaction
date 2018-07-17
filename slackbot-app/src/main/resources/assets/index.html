@@ -54,23 +54,17 @@
     <script src="https://use.fontawesome.com/6a6312675e.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
           integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <!--
-    <style>
-        *:not(.classname) {
-            box-sizing: unset;
-        }
-    </style>
-    -->
+
 
 </head>
 
 <body style="background: #fff;">
 
-<div ng-include="'navBar.html'" id="settingsCardsAndNav"></div>
+<div ng-include="'navBar.html'" id="settingsCardsAndNav" style="display: none;"></div>
 <div ng-include="'modals.html'" id="showModels"></div>
 
-<div class="wrapper" style="display: none;" id="bootstrapSteps" ng-controller="chatbot-controller">
-    <div id="wizard" class="wizard">
+<div class="wrapper" style="display: none;" id="bootstrapSteps">
+    <div id="wizard" class="wizard" ng-app="exampleApp" ng-controller="chatbot-controller">
         <div class="wizard__content">
             <header class="wizard__header" style="height: 200px;">
                 <div class="wizard__header-overlay"></div>
@@ -203,8 +197,7 @@
                             just created.</p>
                     </header>
                     <p class="panel__content">API-Key:</p>
-                    <input class="form-control" id="inputAPIKEY" ng-model="ApiKeyChanged"
-                           ng-change="ApiKeyValueLoadedFromStorageAPI"/>
+                    <input class="form-control" id="inputAPIKEYSteps"/>
                 </div>
                 <div class="panel" id="addDialogFlowApiKey">
                     <header class="panel__header">
@@ -217,19 +210,21 @@
                         Further Documentation of the process you can find in the user handbook.
                         In the following field please put the Key in.
                     </p>
+                    <p class="panel__content">API-Key:</p>
+                    <input class="form-control" id="inputAPIKEYDialogflowSteps"/>
                 </div>
                 <div class="panel" id="sendTestMessage">
                     <header class="panel__header">
-                        <h2 class="panel__title">Learn more about pure Javascript.</h2>
-                        <p class="panel__subheading">We have cool frameworks, but none is better then VanillaJS</p>
+                        <h2 class="panel__title">Check the Credentials</h2>
+                        <p class="panel__subheading">The following section is to check if the credentials are correct.</p>
                     </header>
 
-                    <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est
-                        laborum.</p>
-                    <p class="panel__content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna culpa qui officia deserunt mollit anim id est
-                        laborum.</p>
+                    <p class="panel__content">To test and check if the credentials are entered correctly we
+                    need you to put your E-Mail Address of your Slack Account into the following box.
+                        The bot will anwser you then directly on slack.
+                    </p>
+                    <p class="panel__content">Slack User E-Mail:</p>
+                    <input class="form-control" id="SlackUserEMail"/>
                 </div>
                 <div class="panel" id="startBot">
                     <header class="panel__header">
@@ -243,20 +238,18 @@
                 </div>
             </div>
             <div class="wizard__footer">
+                <input type="hidden" id="currentSteps" value=""/>
                 <button class="button previous">Previous</button>
-                <button class="button next" ng-click="onClickNextStep">Next</button>
+                <button class="button next" id="nextButton">Next</button>
             </div>
         </div>
         <div class="wizard__congrats-message">
-            <!-- the content in here will be shown if the popup is gone -->
         </div>
     </div>
 </div>
 
-<div ng-include="'footer.html'"></div>
+<div ng-include="'footer.html'" id="footerPage" style="display: none;"></div>
 
-
-<hr><hr><hr><hr>
 
 
 

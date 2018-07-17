@@ -15,7 +15,7 @@ var Steps = function () {
         key: 'setCurrentStep',
         value: function setCurrentStep(currentStep) {
             this.currentStep = currentStep;
-            currentSelectedStep = currentStep;
+            document.getElementById("currentSteps").value = currentStep;
         }
     }, {
         key: 'getSteps',
@@ -141,14 +141,18 @@ var Wizard = function () {
         key: 'handleNextStepButton',
         value: function handleNextStepButton() {
             if (this.currentStep === this.stepsQuantity - 1) {
-                this.nextControl.innerHTML = 'Conclude!';
-
+                angular.element(document.querySelector('[ng-controller="chatbot-controller"]'))
+                    .scope().actionNextStep(this.currentStep);
+                document.getElementById("currentSteps").value = this.currentStep;
+                this.nextControl.innerHTML = 'Start the server!';
                 this.nextControl.removeEventListener('click', this.nextControlMoveStepMethod);
                 this.nextControl.addEventListener('click', this.concludeControlMoveStepMethod);
                 this.nextControl.addEventListener('click', this.wizardConclusionMethod);
             } else {
                 this.nextControl.innerHTML = 'Next';
-                currentSelectedStep = this.currentStep;
+                document.getElementById("currentSteps").value = this.currentStep;
+                angular.element(document.querySelector('[ng-controller="chatbot-controller"]'))
+                    .scope().actionNextStep(this.currentStep);
                 this.nextControl.addEventListener('click', this.nextControlMoveStepMethod);
                 this.nextControl.removeEventListener('click', this.concludeControlMoveStepMethod);
                 this.nextControl.removeEventListener('click', this.wizardConclusionMethod);
@@ -158,6 +162,8 @@ var Wizard = function () {
         key: 'handleWizardConclusion',
         value: function handleWizardConclusion() {
             this.wizard.classList.add('completed');
+            angular.element(document.querySelector('[ng-controller="chatbot-controller"]'))
+                .scope().actionNextStep(5);
         }
     }, {
         key: 'addControls',
@@ -178,6 +184,7 @@ var Wizard = function () {
             if (this.validateMovement(movement)) {
                 this.updtadeCurrentStep(movement);
                 this.steps.handleStepsClasses(movement);
+                document.getElementById("currentSteps").value = this.currentStep;
             } else {
                 throw 'This was an invalid movement';
             }

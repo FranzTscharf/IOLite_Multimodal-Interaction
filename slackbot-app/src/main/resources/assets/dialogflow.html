@@ -1,0 +1,55 @@
+<div class="example-row" ng-controller="chatbot-controller">
+    <div class="card">
+    <div class="card-header">
+        <h1>IOLite <i class="far fa-heart"></i> DialogFlow</h1>
+        <p>Send awesome commands to your iolite enviroment through DialogFlow</p>
+    </div>
+    <div class="card-body">
+
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div>Create a Slack Bot User for IOLITE</div>
+                <div class="text-muted small">These information are visible to the public.</div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label">If you still forgot or can't find the Key anymore you can also create
+                                a new DialogFlow project/account and
+                                import our dialogflow_backup.zip file from our repository.
+                                Further Documentation of the process you can find in the user handbook.</label>
+                            <a href="http://dialogflow.com/">http://dialogflow.com/</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div>DialogFlow access credentials</div>
+                <div class="text-muted small">
+                    We provided you already with a API-Key in our documentation.
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label">
+                                In the following field please put the Developer API Key from the DialogFlow. We need the Development Key because we are pushing specific contents from iolite to the AI API. The Client API Key doen't allow this requirement.</label>
+                            <input class="form-control" id="inputAPIKEYDialogflow" ng-model="ApiKeyChangedDialogflow" ng-change="ApiKeyValueLoadedFromStorageAPI"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer bg-light text-right">
+        <button type="button" id="dialogSaveButton" class="btn btn-primary" ng-click=''>Save</button>
+    </div>
+</div>
+</div>
