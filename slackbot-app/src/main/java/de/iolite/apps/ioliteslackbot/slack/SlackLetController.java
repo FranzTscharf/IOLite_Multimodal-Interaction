@@ -30,11 +30,7 @@ public class SlackLetController extends Slacklet {
      */
     @Override
     public void onDirectMessagePosted(SlackletRequest req, SlackletResponse resp) {
-        if (ConversationStatusEnum.locIsRequired()){
-            messageController.useCase1_getLocation(req,resp);
-        }else {
-            messageController.analyze(req,resp);
-        }
+         messageController.analyze(req,resp);
 
     }
 

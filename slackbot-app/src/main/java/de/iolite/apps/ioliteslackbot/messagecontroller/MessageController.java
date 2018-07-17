@@ -31,10 +31,11 @@ public class MessageController {
 	private IoLiteSlackBotApp app;
 	private String request;
 	private SlackletResponse response;
-	
+
 	//Conversation
 	int iterationNr;
 	String prevCommand;
+	String status;
 
 	// Controller
 	private TurnOnController turnOnController;
@@ -52,21 +53,27 @@ public class MessageController {
 		this.useCaseController = new UseCaseController(this);
 		iterationNr = 0;
 		prevCommand = "";
-		
+		status = useCaseController.getStatus().toString();
+
 	}
 
 	public void analyze(SlackletRequest req, SlackletResponse resp) {
 		this.request = req.getContent().toLowerCase();
 		this.response = resp;
-		
+
 		if(iterationNr==0)
 			prevCommand = request;
 
-		if (prevCommand.contains("help")) {
+		resp.reply("about to check status " + status);
+		if(status.equals("RequireLocationInformation")){
+			resp.reply("require loc info " + status);
+			useCase1_getLocation(request);
+		}else if (prevCommand.contains("help")) {
 			help();
 		}else if(prevCommand.equals("turn on the lights")){
-			ConversationStatusEnum.setStatus(ConversationStatusEnum.Status.RequireLocationInformation);
-			response.reply("In which room do you want me to switch on the lights?");
+			status = "RequireLocationInformation";
+			useCaseController.setStatus(status);
+			response.reply("In which room do you want me to switch on the lights?" + UseCaseController.Status.RequireLocationInformation);
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
 		}
@@ -121,7 +128,28 @@ public class MessageController {
 		return rooms;
 	}
 
-	public void useCase1_getLocation(SlackletRequest req, SlackletResponse resp){
+	public void useCase1_getLocation(String request){
+		response.reply("init get location usecase 1");
+		if (request.toLowerCase().contains("end")){
+			useCaseController.setStatus("NewConversation");
+			response.reply("Alright! ready for a new request.");
+		}else{
+			List<de.iolite.app.api.environment.Location> allRooms = new ArrayList();
+			allRooms = app.getEnvironmentAPI().getLocations();
+			if (!allRooms.isEmpty()){
+				response.reply("rooms found getlocation usecase 1");
+				for (de.iolite.app.api.environment.Location reqLoc: allRooms) {
+					if (reqLoc.getName().toLowerCase().contains(request)){
+						response.reply("room in request found getlocation usecase 1");
+						useCaseController.useCase1_SwitchTheLightsInLocation(reqLoc);
+					}else {
+						response.reply("I couldn't find the room you have requested");
+					}
+				}
+			}else{
+				response.reply("I couldn't find any rooms");
+			}
+		}
 
 	}
 	

@@ -39,13 +39,14 @@ public class UseCaseController extends Slacklet {
         List<Device> currentLocationDevices = new ArrayList<>();
         currentLocationDevices = getCurrentLocationDevices(currentLoc);
         for (final Device device : currentLocationDevices) {
-            turnSpecificDevice(device);
+            if (device.getIdentifier().contains("lamp")){
+                messageController.getResponse().reply("about to switch on the device");
+                turnSpecificDevice(device);
+            }
         }
+        setStatus("NewConversation");
     }
 
-    public void useCase2_LowerBlindsTurnOffLights() {
-
-    }
 
     public List<Device> getCurrentLocationDevices(Location currentLoc) {
         List<Device> locationDeviceList = new ArrayList<>();
@@ -103,6 +104,27 @@ public class UseCaseController extends Slacklet {
             messageController.getResponse().reply("Could not find the device");
         }
     }
+    private Status curStatus;
 
+    public boolean locIsRequired() {
+        if(getStatus().equals(Status.RequireLocationInformation)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
+    public void setStatus (String status){
+        curStatus = Status.valueOf(status);
+    }
+
+    public Status getStatus(){
+        Status currentStatus = curStatus;
+        return  currentStatus;
+    }
+
+    public enum Status {
+        NewConversation, RequireLocationInformation,
+    }
 }
+

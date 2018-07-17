@@ -16,30 +16,15 @@ import java.util.List;
 
 public class ConversationStatusEnum {
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         ConversationStatusEnum statusEnum = new ConversationStatusEnum();
         statusEnum.setStatus(Status.NewConversation);
         System.out.println(statusEnum.getStatus());
         System.out.println(statusEnum.locIsRequired());
-    }*/
+    }
 
     private Status status;
     private static Status curStatus;
-
-
-    public void analyseStatus(Status status) {
-        switch (status) {
-            case RequireLocationInformation:
-                System.out.println("do something");
-                break;
-            case NewConversation:
-                System.out.println("do nothing");
-                break;
-            default:
-                System.out.println("New Conversation");
-                break;
-        }
-    }
 
     public static boolean locIsRequired() {
         if(getStatus().equals(Status.RequireLocationInformation)){
