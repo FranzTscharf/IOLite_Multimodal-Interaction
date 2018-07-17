@@ -66,18 +66,6 @@ public class MessageController {
 			help();
 		}else if(prevCommand.equals("turn on the lights")){
 			response.reply("In which room do you want to switch on the lights?");
-			//TODO: make sure that we have the correct room and not just the first one on the list. 
-			if(prevCommand.equals("bedroom")){
-				//TODO
-			} else if(prevCommand.equals("livingroom")){
-				//TODO
-			} else if(prevCommand.equals("kitchen")){
-				//TODO
-			} else if(prevCommand.equals("office")){
-				//TODO
-			} else if(prevCommand.equals("rooftop")){
-				//TODO
-			}
 			List<de.iolite.app.api.environment.Location> currentLocations = getAllLocations();
 			
 			useCaseController.useCase1_SwitchTheLightsInLocation(currentLocations.get(0));
