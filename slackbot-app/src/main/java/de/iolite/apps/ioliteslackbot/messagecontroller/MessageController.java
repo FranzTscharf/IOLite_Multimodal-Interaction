@@ -67,6 +67,7 @@ public class MessageController {
 		}else if(prevCommand.equals("turn on the lights")){
 			response.reply("In which room do you want to switch on the lights?");
 			List<de.iolite.app.api.environment.Location> currentLocations = getAllLocations();
+			
 			useCaseController.useCase1_SwitchTheLightsInLocation(currentLocations.get(0));
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
