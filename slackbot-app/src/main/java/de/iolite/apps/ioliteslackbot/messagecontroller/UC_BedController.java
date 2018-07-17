@@ -54,10 +54,11 @@ public class UC_BedController {
 			{
 				closeBlinds();
 				turnOffLamps();
+				mc.getResponse().reply("Sweet dreams!");
 			}
 			else if(mc.getRequest().contains("no"))
 			{
-				mc.getResponse().reply("okay, how ever you want!");
+				mc.getResponse().reply("okay, let me know if you need something");
 			}
 			else if(mc.getRequest().contains("lamp"))
 			{
