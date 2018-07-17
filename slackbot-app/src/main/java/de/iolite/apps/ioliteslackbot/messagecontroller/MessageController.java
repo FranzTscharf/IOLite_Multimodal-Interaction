@@ -49,9 +49,10 @@ public class MessageController {
 		this.informationController = new InformationController(this);
 		this.bedController = new UC_BedController(this);
 		this.getDeviceStateController = new GetDeviceStateController(this);
+		this.useCaseController = new UseCaseController(this);
 		iterationNr = 0;
 		prevCommand = "";
-		this.useCaseController = new UseCaseController(this);
+		
 	}
 
 	public void analyze(SlackletRequest req, SlackletResponse resp) {
@@ -63,7 +64,7 @@ public class MessageController {
 
 		if (prevCommand.contains("help")) {
 			help();
-		}else if(request.equals("turn on the lights")){
+		}else if(prevCommand.equals("turn on the lights")){
 			response.reply("In which room do you want to switch on the lights?");
 			List<de.iolite.app.api.environment.Location> currentLocations = getAllLocations();
 			useCaseController.useCase1_SwitchTheLightsInLocation(currentLocations.get(0));
