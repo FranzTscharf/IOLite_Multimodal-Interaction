@@ -1,6 +1,7 @@
 package de.iolite.apps.ioliteslackbot.messagecontroller;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 
@@ -31,10 +32,16 @@ public class MessageController {
 	private IoLiteSlackBotApp app;
 	private String request;
 	private SlackletResponse response;
-	
+
+	//enum status
+	public enum ConversationStatus{
+		NewConversation, RequireLocation;
+	}
 	//Conversation
 	int iterationNr;
 	String prevCommand;
+	String on_off;
+	Enum<ConversationStatus> conversationStatus;
 
 	// Controller
 	private TurnOnController turnOnController;
@@ -54,23 +61,29 @@ public class MessageController {
 		this.useCaseController = new UseCaseController(this);
 		iterationNr = 0;
 		prevCommand = "";
-		
+		on_off = "on";
+		conversationStatus = ConversationStatus.NewConversation;
 	}
 
 	public void analyze(SlackletRequest req, SlackletResponse resp) {
 		this.request = req.getContent().toLowerCase();
 		this.response = resp;
-		
 		if(iterationNr==0)
 			prevCommand = request;
 
-		if (prevCommand.contains("help")) {
+		if(conversationStatus == ConversationStatus.RequireLocation){
+			useCaseController.useCase1_SwitchTheLightsInLocation();
+			conversationStatus = ConversationStatus.NewConversation;
+		}else if (prevCommand.contains("help")) {
 			help();
-		}else if(prevCommand.equals("turn on the lights")){
-			response.reply("In which room do you want to switch on the lights?");
-			List<de.iolite.app.api.environment.Location> currentLocations = getAllLocations();
-			
-			useCaseController.useCase1_SwitchTheLightsInLocation(currentLocations.get(0));
+		}else if(prevCommand.equals("turn on the lights") || prevCommand.equals("turn off the lights")){
+			if (prevCommand.contains("on")){
+				on_off = "on";
+			}else {
+				on_off = "off";
+			}
+			response.reply("In which room would you like to switch " + on_off +" the lights?");
+			conversationStatus = ConversationStatus.RequireLocation;
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
 		}

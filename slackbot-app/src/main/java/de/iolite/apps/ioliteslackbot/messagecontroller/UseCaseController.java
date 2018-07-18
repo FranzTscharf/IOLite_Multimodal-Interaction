@@ -4,6 +4,8 @@ import de.iolite.app.api.device.DeviceAPIException;
 import de.iolite.app.api.device.access.Device;
 import de.iolite.app.api.device.access.DeviceBooleanProperty;
 import de.iolite.app.api.environment.Location;
+import de.iolite.app.api.environment.LocationType;
+import de.iolite.app.api.environment.User;
 import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
 import de.iolite.apps.ioliteslackbot.messagecontroller.MessageController;
 import de.iolite.drivers.basic.DriverConstants;
@@ -26,7 +28,6 @@ public class UseCaseController extends Slacklet {
     private IoLiteSlackBotApp app;
     private MessageController messageController;
 
-    private final ArrayList<String> wordArrayList = new ArrayList<String>();
 
     public UseCaseController(MessageController messageController) {
         this.messageController = messageController;
@@ -35,22 +36,36 @@ public class UseCaseController extends Slacklet {
     @Nonnull
     private static final Logger LOGGER = LoggerFactory.getLogger(IoLiteSlackBotApp.class);
 
-    public void useCase1_SwitchTheLightsInLocation(Location currentLoc){
-        List<Device> currentLocationDevices = new ArrayList<>();
-        currentLocationDevices = getCurrentLocationDevices(currentLoc);
-        for (final Device device : currentLocationDevices) {
-            turnSpecificDevice(device);
+    public void useCase1_SwitchTheLightsInLocation(){
+
+        Location currentLoc = getCurrentLocation();
+
+        if (currentLoc.getName() != null){
+            List<Device> currentLocationDevices = getCurrentLocationDevices(currentLoc);
+            for (Device device : currentLocationDevices) {
+                turnSpecificDevice(device);
+            }
+        }else {
+            messageController.getResponse().reply("Sorry, I could not find the requested room");
         }
     }
-    
-    public void useCase2_LowerBlindsTurnOffLights() {
-    	
+
+    private Location getCurrentLocation() {
+        List<Location> rooms = messageController.getApp().getEnvironmentAPI().getLocations();
+        for (Location r: rooms) {
+            if (messageController.getRequest().contains(r.getName())){
+                return r;
+            }
+        }
+        messageController.getResponse().reply("Sorry, I could not find the requested room");
+        messageController.conversationStatus = MessageController.ConversationStatus.NewConversation;
+        return null;
     }
+
 
     public List<Device> getCurrentLocationDevices(Location currentLoc) {
         List<Device> locationDeviceList = new ArrayList<>();
         if (!currentLoc.getDevices().isEmpty()) {
-            messageController.getResponse().reply("room found working on it now!");
             locationDeviceList = mapLocationDevices(currentLoc.getDevices());
         } else {
             messageController.getResponse().reply("Sorry, could not find any rooms");
@@ -76,24 +91,24 @@ public class UseCaseController extends Slacklet {
     }
 
     private void turnSpecificDevice(Device devLoc) {
+        DeviceBooleanProperty onProperty = devLoc.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
 
         boolean on_off = false;
         String sOn_off = "off";
 
-        if (messageController.getRequest().contains("on")) {
+        if (messageController.on_off == "on") {
             on_off = true;
             sOn_off = "on";
         }
 
         if (devLoc != null) {
-            DeviceBooleanProperty onProperty = devLoc.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
 
             if (onProperty == null) {
                 messageController.getResponse().reply("The device doesn't has an on property..");
             } else {
                 try {
                     onProperty.requestValueUpdate(on_off);
-                    messageController.getResponse().reply(devLoc.getName() + " was turned " + sOn_off + "in the");
+                    messageController.getResponse().reply(devLoc.getName() + " was turned " + sOn_off);
                 } catch (DeviceAPIException e) {
                     messageController.getResponse().reply("Error while switching on/off " + devLoc.getIdentifier());
                     LOGGER.debug(e.getMessage());
