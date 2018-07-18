@@ -40,6 +40,7 @@ public class MessageController {
 	private TurnOnController turnOnController;
 	private InformationController informationController;
 	private UC_BedController bedController;
+	private UC_IAmHomeController homeController;
 	private GetDeviceStateController getDeviceStateController; 
 	private UseCaseController useCaseController;
 
@@ -48,6 +49,7 @@ public class MessageController {
 		this.turnOnController = new TurnOnController(this);
 		this.informationController = new InformationController(this);
 		this.bedController = new UC_BedController(this);
+		this.homeController = new UC_IAmHomeController(this);
 		this.getDeviceStateController = new GetDeviceStateController(this);
 		this.useCaseController = new UseCaseController(this);
 		iterationNr = 0;
@@ -81,7 +83,12 @@ public class MessageController {
 		}
 		else if (prevCommand.contains("morning")||prevCommand.contains("wake up")) {
 			bedController.sleep_wakeup(true);
-		}else{
+		}else if (prevCommand.contains("leaving")||prevCommand.contains("going out")) {
+			homeController.Home_leaving(false); 
+		}else if (prevCommand.contains("I'm home")||prevCommand.contains("getting home")) {
+			homeController.Home_leaving(true);
+		}
+		else{
 			//make a dialogflow request
 			//!TODO load dialogflow apiKey
 			DialogFlowClientApplication dfca =
