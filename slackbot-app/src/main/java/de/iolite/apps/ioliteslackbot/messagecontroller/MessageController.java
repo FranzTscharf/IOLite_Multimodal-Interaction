@@ -74,6 +74,9 @@ public class MessageController {
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
 		}
+		else if (prevCommand.contains("status")) {
+			getDeviceStateController.run2();
+		}
 		else if (prevCommand.contains("is")) {
 			getDeviceStateController.run();
 		}else if (prevCommand.contains("show")) {

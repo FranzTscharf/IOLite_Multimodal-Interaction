@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import de.iolite.app.api.device.access.Device;
 import de.iolite.app.api.device.access.DeviceBooleanProperty;
+import de.iolite.app.api.device.access.DeviceProperty;
 import de.iolite.app.api.environment.Location;
 import de.iolite.drivers.basic.DriverConstants;
 
@@ -48,6 +49,26 @@ public class GetDeviceStateController {
 				state = "off";
 			mc.getResponse().reply("The device \""+dev.getName()+"\" has the state \""+state+"\"");
 		}
+		
+		
+	}
+	
+	
+	public void run2()
+	{
+		Device dev = mc.findDeviceByName();
+		
+		if(dev==null)
+		{
+			mc.getResponse().reply("Could not find this device!");
+		}
+		
+		else
+		{
+			DeviceProperty<?, ?> property = dev.getProperty(DriverConstants.PROPERTY_deviceStatus_ID);
+			mc.getResponse().reply("This device has the state "+property.getValue());
+		}
+		
 		
 		
 	}

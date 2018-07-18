@@ -45,9 +45,14 @@ public class InformationController {
 		{
 			getAllDeviceProfiles();
 		}
-		
-	
-		
+		else
+		{
+			mc.getResponse().reply("I didn't understand your request");
+		}	
+	}
+	else
+	{
+		mc.getResponse().reply("I didn't understand your request");
 	}
 	
 	
