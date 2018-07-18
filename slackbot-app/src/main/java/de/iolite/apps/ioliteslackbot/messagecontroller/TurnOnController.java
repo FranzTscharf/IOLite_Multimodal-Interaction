@@ -31,7 +31,7 @@ public class TurnOnController {
 
 	// TurnOn
 	public void turn() {
-		if (mc.getRequest().contains("all")) {
+		if (mc.getRequest().contains(" all ")) {
 			turnAll();
 		} else {
 			turnSpecific();
@@ -43,29 +43,37 @@ public class TurnOnController {
 		boolean on_off = false;
 		String sOn_off = "off";
 
-		if (mc.getRequest().contains("on")) {
+		if (mc.getRequest().contains(" on ")) {
 			on_off = true;
 			sOn_off = "on";
 		}
 
-		Device dev = mc.findDeviceByName();
+		ArrayList<Device> devs = mc.findDeviceByName();
+		if (devs.isEmpty()) {
 
-		if (dev != null) {
-			DeviceBooleanProperty onProperty = dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
+			mc.getResponse().reply("Could not find device");
 
-			if (onProperty == null) {
-				mc.getResponse().reply("The device dosn't has an on property..");
-			} else {
-				try {
-					onProperty.requestValueUpdate(on_off);
-					mc.getResponse().reply(dev.getName() + " was turnd " + sOn_off);
-				} catch (DeviceAPIException e) {
-					mc.getResponse().reply("Error while swiching on/off " + dev.getIdentifier());
-					LOGGER.debug(e.getMessage());
+		}
+
+		for (Device dev : devs) {
+
+
+			if (dev != null) {
+				DeviceBooleanProperty onProperty = dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
+
+				if (onProperty == null) {
+					//mc.getResponse().reply("The device dosn't has an on property..");
+					LOGGER.debug("Device could not be turned on");
+				} else {
+					try {
+						onProperty.requestValueUpdate(on_off);
+						mc.getResponse().reply(dev.getName() + " was turnd " + sOn_off);
+					} catch (DeviceAPIException e) {
+						mc.getResponse().reply("Error while swiching on/off " + dev.getIdentifier());
+						LOGGER.debug(e.getMessage());
+					}
 				}
 			}
-		} else {
-			mc.getResponse().reply("Could not find device");
 		}
 	}
 

@@ -75,10 +75,10 @@ public class MessageController {
 			turnOnController.turn();
 		}
 		else if (prevCommand.contains("status")) {
-			getDeviceStateController.run2();
+			getDeviceStateController.status();
 		}
 		else if (prevCommand.contains("is")) {
-			getDeviceStateController.run();
+			getDeviceStateController.is();
 		}else if (prevCommand.contains("show")) {
 			informationController.getAll();
 		}else if (prevCommand.contains("bed")||prevCommand.contains("sleep")) {
@@ -88,7 +88,7 @@ public class MessageController {
 			bedController.sleep_wakeup(true);
 		}else if (prevCommand.contains("leaving")||prevCommand.contains("going out")) {
 			homeController.turnOffLamps();
-		}else if (prevCommand.contains("i'm home")||prevCommand.contains("i am home")) {
+		}else if (prevCommand.contains("home")) {
 			homeController.imHome();
 		}
 		else{
@@ -104,15 +104,15 @@ public class MessageController {
 
 	}
 
-	public Device findDeviceByName() {
-
+	public ArrayList<Device> findDeviceByName() {
+ArrayList<Device> devs = new ArrayList<>();
 		for (Device dev : app.getDeviceAPI().getDevices()) {
 			if (request.contains(dev.getName().toLowerCase())) {
-				return dev;
+				devs.add(dev);
 			}
 		}
 
-		return null;
+		return devs;
 	}
 
 	

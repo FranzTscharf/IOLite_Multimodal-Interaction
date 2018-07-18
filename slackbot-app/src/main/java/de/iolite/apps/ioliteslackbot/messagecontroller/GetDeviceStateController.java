@@ -1,5 +1,7 @@
 package de.iolite.apps.ioliteslackbot.messagecontroller;
 
+import java.util.ArrayList;
+
 import javax.annotation.Nonnull;
 
 import org.slf4j.Logger;
@@ -30,9 +32,28 @@ public class GetDeviceStateController {
 		this.mc = messageController;
 	}
 	
-	public void run()
+	public void is()
 	{
-		Device dev = mc.findDeviceByName();
+		if(mc.getRequest().contains("heater"))
+		{
+			checkHeater();
+		}
+		else if(mc.getRequest().contains("on"))
+		{
+			checkOn();
+		}
+		else {
+			mc.getResponse().reply("I didn't understand your command!");
+		}
+	}
+	
+	public void checkOn()
+	{
+		
+ArrayList<Device> devs = mc.findDeviceByName();
+		
+		for(Device dev : devs)
+		{
 		
 		if(dev==null)
 		{
@@ -49,25 +70,61 @@ public class GetDeviceStateController {
 				state = "off";
 			mc.getResponse().reply("The device \""+dev.getName()+"\" has the state \""+state+"\"");
 		}
-		
+		}
 		
 	}
 	
-	
-	public void run2()
+	public void checkHeater()
 	{
-		Device dev = mc.findDeviceByName();
+ArrayList<Device> devs = mc.findDeviceByName();
+		
+		for(Device dev : devs)
+		{
 		
 		if(dev==null)
 		{
 			mc.getResponse().reply("Could not find this device!");
 		}
-		
-		else
+		else if(dev.getBooleanProperty(DriverConstants.PROFILE_PROPERTY_Heater_valveStatus_ID)==null)
 		{
-			DeviceProperty<?, ?> property = dev.getProperty(DriverConstants.PROPERTY_deviceStatus_ID);
-			mc.getResponse().reply("This device has the state "+property.getValue());
+			mc.getResponse().reply("This device dosn't have an open/closed state!");
 		}
+		else{
+			DeviceBooleanProperty bol = dev.getBooleanProperty(DriverConstants.PROFILE_PROPERTY_Heater_valveStatus_ID);
+			String state = "open";
+			if(!bol.getValue())
+				state = "closed";
+			mc.getResponse().reply("The device \""+dev.getName()+"\" has the state \""+state+"\"");
+		}
+		}
+		
+		
+	}
+	
+	
+	public void status()
+	{
+		ArrayList<Device> devs = mc.findDeviceByName();
+		
+		for(Device dev : devs)
+		{
+			if(dev==null)
+			{
+				mc.getResponse().reply("Could not find this device!");
+			}
+			else if(dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID)==null)
+			{
+				mc.getResponse().reply("This device dosn't have an on/off state!");
+			}
+			else{
+				DeviceBooleanProperty bol = dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
+				String state = "on";
+				if(!bol.getValue())
+					state = "off";
+				mc.getResponse().reply("The device \""+dev.getName()+"\" has the state \""+state+"\"");
+			}
+		}
+		
 		
 		
 		
