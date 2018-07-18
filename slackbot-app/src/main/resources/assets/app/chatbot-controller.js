@@ -38,12 +38,12 @@
                         success : function(value, storageAPI, request) {
                             document.getElementById("settingsCardsAndNav").style.display = "block";
                             document.getElementById("footerPage").style.display = "block";
-                            var element = document.getElementById("bootstrapSteps");
+                            wizard.classList.add('completed');
                             element.fadeOut("flow");
                             console.log("steps are done!");
                         },
                         error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
-                            document.getElementById("bootstrapSteps").style.display = "inherit";
+                            document.getElementById("bootstrapSteps").style.display = "block";
                             document.getElementById("settingsCardsAndNav").style.display = "none";
                             document.getElementById("settingsCardsAndNav").style.display = "none";
                             document.getElementById("footerPage").style.display = "none";
