@@ -27,4 +27,6 @@ Password:admin
 
 
 ## Debbuging
+```
 docker port <containerid>
+```
