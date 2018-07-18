@@ -76,7 +76,7 @@ public class MessageController {
 		}
 		else if (prevCommand.contains("is")) {
 			getDeviceStateController.run();
-		}else if (prevCommand.contains("get")) {
+		}else if (prevCommand.contains("show")) {
 			informationController.getAll();
 		}else if (prevCommand.contains("bed")||prevCommand.contains("sleep")) {
 			bedController.sleep_wakeup(false);
@@ -84,9 +84,9 @@ public class MessageController {
 		else if (prevCommand.contains("morning")||prevCommand.contains("wake up")) {
 			bedController.sleep_wakeup(true);
 		}else if (prevCommand.contains("leaving")||prevCommand.contains("going out")) {
-			homeController.Home_leaving(false); 
+			homeController.turnOffLamps();
 		}else if (prevCommand.contains("i'm home")||prevCommand.contains("i am home")) {
-			homeController.Home_leaving(true);
+			homeController.imHome();
 		}
 		else{
 			//make a dialogflow request
@@ -164,14 +164,14 @@ public class MessageController {
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("You can run the following commands:\n");
-		sb.append("turnOn %device name%\n");
-		sb.append("turnOff %device name%\n");
-		sb.append("turnOnAll %device profile%\n");
-		sb.append("turnOffAll %device profile%\n");
+		sb.append("turn On %device name%\n");
+		sb.append("turn Off %device name%\n");
+		sb.append("turn On All %device profile%\n");
+		sb.append("turn Off All %device profile%\n");
 		sb.append("\n");
-		sb.append("getAllDeviceNames\n");
-		sb.append("getAllLocationNames\n");
-		sb.append("getAllDeviceProfiles\n");
+		sb.append("show All Device Names\n");
+		sb.append("show All Location Names\n");
+		sb.append("show All Device Profiles\n");
 		sb.append("\n");
 		sb.append("is %device name% still on?\n");
 		response.reply(sb.toString());

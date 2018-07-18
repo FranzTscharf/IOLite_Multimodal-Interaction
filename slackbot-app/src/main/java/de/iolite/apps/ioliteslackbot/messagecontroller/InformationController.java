@@ -29,20 +29,35 @@ public class InformationController {
 	
 	public void getAll()
 	{
-	if(mc.getRequest().contains("getalldevicenames"))
+	if(mc.getRequest().contains("all"))
 	{
-		getAllDeviceNames();
+
+		if(mc.getRequest().contains("device")&&mc.getRequest().contains("name"))
+		{
+			getAllDeviceNames();
+		}
+		
+		else if(mc.getRequest().contains("location"))
+		{
+			getAllLocationNames();
+		}
+		else if(mc.getRequest().contains("profile"))
+		{
+			getAllDeviceProfiles();
+		}
+		
+	
+		
 	}
 	
-	if(mc.getRequest().contains("getalllocationnames"))
-	{
-		getAllLocationNames();
-	}
+	
 	
 	if(mc.getRequest().contains("getalldeviceprofiles"))
 	{
 		getAllDeviceProfiles();
 	}
+
+	
 	
 	}
 	

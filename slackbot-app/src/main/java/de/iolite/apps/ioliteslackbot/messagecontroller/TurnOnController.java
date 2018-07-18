@@ -85,7 +85,6 @@ public class TurnOnController {
 
 			if (onProperty == null) {
 				mc.getResponse().reply("The devices dosn't have an on property..");
-				break;
 			} else {
 				try {
 					onProperty.requestValueUpdate(on_off);

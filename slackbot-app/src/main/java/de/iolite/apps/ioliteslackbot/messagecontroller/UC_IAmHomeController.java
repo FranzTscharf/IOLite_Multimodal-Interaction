@@ -25,45 +25,39 @@ public class UC_IAmHomeController {
 		this.mc = messageController;
 	}
 
-	public void Home_leaving(boolean bol) {
-		String verb_02 = "on";
-		if (!bol) {
-			verb_02 = "off";
-		}
-		if (mc.getIterationNr() == 0) {
-			mc.getResponse().reply("Okay, Do you want me to switch " + verb_02+ " the lamps?");
-			mc.setIterationNr(1);
-		} else {
-			if (mc.getRequest().contains("yes")) {
-				turnOffLamps(bol);
-			} else if (mc.getRequest().contains("no")) {
-				mc.getResponse().reply("okay");
-			} else if (mc.getRequest().contains("lamp")) {
-				turnOffLamps(bol);
-			} else {
-				mc.getResponse().reply("sorry, I couldn't understand your request..");
-			}
 
-			mc.setIterationNr(0);
-		}
 
-	}
+	public void turnOffLamps() {
 
-	public void turnOffLamps(boolean bol) {
-		String on_off = "on";
-		if (!bol) {
-			on_off = "off";
-		}
-
-		mc.getResponse().reply("I turned " + on_off + " the following lamps:");
+		mc.getResponse().reply("Okay, I will turn off all lamps");
 		ArrayList<Device> lamps = mc.getAllDevicesByProfile("lamp");
 		ArrayList<Device> dimLamps = mc.getAllDevicesByProfile("dimmablelamp");
 		lamps.addAll(dimLamps);
 
 		for (Device dev : lamps) {
 			try {
-				dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID).requestValueUpdate(bol);
-				mc.getResponse().reply(dev.getName());
+				dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID).requestValueUpdate(false);
+				//mc.getResponse().reply(dev.getName());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	public void imHome()
+	{
+		mc.getResponse().reply("Welcome home. I will turn on the lights for you!");
+		ArrayList<Device> lamps = mc.getAllDevicesByProfileAndRoom("lamp", "living room");
+		ArrayList<Device> dimLamps = mc.getAllDevicesByProfileAndRoom("dimmablelamp", "living room");
+		lamps.addAll(dimLamps);
+		
+		for (Device dev : lamps) {
+			if(dev.getName().toLowerCase().contains("ceiling")||dev.getName().toLowerCase().contains("decken"))
+			try {
+				dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID).requestValueUpdate(true);
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

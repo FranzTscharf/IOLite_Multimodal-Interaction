@@ -38,6 +38,8 @@
                         success : function(value, storageAPI, request) {
                             document.getElementById("settingsCardsAndNav").style.display = "block";
                             document.getElementById("footerPage").style.display = "block";
+                            var element = document.getElementById("bootstrapSteps");
+                            element.fadeOut("flow");
                             console.log("steps are done!");
                         },
                         error : function(storageAPI, responseRequestID, responseErrorCode, responseError) {
