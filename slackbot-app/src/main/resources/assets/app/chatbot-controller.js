@@ -191,6 +191,15 @@
             });
             }
         };
+        $scope.dialogFlowInitialize = function() {
+                //call the stoage API to save the APIKEY
+                $http.get('dialogFlowInitialize').then(function onSuccess(response) {
+                    console.log("DialogFlow Initialized! That means be pushed the content of iolite to dialogflow");
+                }, function onFailure(response) {
+                    console.log(response);
+                    console.log("can't connect to dialogflow");
+                });
+        };
         $scope.actionNextStep = function(currentStep) {
             //call the stoage API to save the APIKEY
             //var currentStep = document.getElementById("currentSteps").value;
@@ -208,6 +217,7 @@
                 var akikeyDialogflow = document.getElementById("inputAPIKEYDialogflowSteps").value;
                 $scope.ApiKeyDialogFlowValueSaveToStorageAPI(akikeyDialogflow);
                 console.log("dialogflow api key");
+                $scope.dialogFlowInitialize();
             }else if(currentStep == "4"){
                 //test message
                 var slackUserEMail = document.getElementById("SlackUserEMail").value;

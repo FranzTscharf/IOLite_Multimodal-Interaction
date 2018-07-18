@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
+import de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication;
+import de.iolite.apps.ioliteslackbot.dialogflow.model.Entities;
 import de.iolite.apps.ioliteslackbot.slack.SlackBotServer;
 import org.apache.commons.lang3.Validate;
 import org.json.JSONArray;
@@ -419,6 +421,24 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		LOGGER.debug("loading 'test' from storage: {}", Integer.valueOf(this.storageAPI.loadInt("test")));
 	}
 
+	/**
+	 * This function pushes the content that means the device neams and room names to dialogflow
+	 */
+	class DialogFlowInitialize extends FrontendAPIRequestHandler {
+		@Override
+		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
+			JSONObject object = new JSONObject();
+			try {
+				String dialogflowApiKey = storageAPI.loadString("apikeyDialogFlow");
+				DialogFlowClientApplication dfca = new DialogFlowClientApplication(dialogflowApiKey);
+				dfca.setEntities();
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.OK,IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+			}catch(Exception e){
+
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+			}
+		}
+	}
 
 	class StartSlackBot extends FrontendAPIRequestHandler {
 		@Override
@@ -513,9 +533,10 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		// ioliteslackbot JSON request handlers
 		this.frontendAPI.registerRequestHandler("rooms", new RoomsResponseHandler());
 		this.frontendAPI.registerRequestHandler("devices", new DevicesResponseHandler());
-		//Request handlers for the slackbot
+		//Request handlers for the slackbot and dialogflow
 		this.frontendAPI.registerRequestHandler("startSlackBot", new StartSlackBot());
 		this.frontendAPI.registerRequestHandler("credentialCheck", new CredentialCheck());
+		this.frontendAPI.registerRequestHandler("dialogFlowInitialize", new DialogFlowInitialize());
 
 		this.frontendAPI.registerRequestHandler("get_devices.json", new DeviceJSONRequestHandler());
 	}
