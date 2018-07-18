@@ -366,22 +366,6 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 			}
 		}
 
-		// go through all devices, and toggle ON/OFF properties
-		for (final Device device : this.deviceAPI.getDevices()) {
-			// let's get the 'on/off' status property
-			final DeviceBooleanProperty onProperty = device.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
-			final Boolean onValue;
-			if (onProperty != null && (onValue = onProperty.getValue()) != null) {
-				LOGGER.debug("toggling device '{}'", device.getIdentifier());
-				try {
-					onProperty.requestValueUpdate(!onValue);
-				}
-				catch (final DeviceAPIException e) {
-					LOGGER.error("Failed to control device", e);
-				}
-			}
-		}
-
 		// go through all devices, and print ON/OFF and POWER USAGE property history datas
 		for (final Device device : this.deviceAPI.getDevices()) {
 			// ON/OFF history data

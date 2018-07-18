@@ -22,7 +22,6 @@ public class SlackDirectMessageController {
         switch (req.getContent()) {
             case "turn all lights on":
                 LOGGER.warn(req.getContent());
-                lightAll(req, resp, app);
                 break;
             case "switch all lights on":
                 break;
@@ -38,7 +37,6 @@ public class SlackDirectMessageController {
                 getAllDeviceNames(req, resp, app);
                 break;
             case "turn on the lights in the kitchen":
-                getAllDeviceNames(req, resp, app);
                 break;
             case "pull up all the blinds":
                 LOGGER.warn(req.getContent());
@@ -56,31 +54,6 @@ public class SlackDirectMessageController {
         }
     }
 
-
-    public static void lightAll(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app) {
-        resp.reply("Sure think! I switched on the following devices:");
-        // iterate devices
-        for (final Device device : app.getDeviceAPI().getDevices()) {
-            // togle the on trigger!
-            final DeviceBooleanProperty onProperty = device.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
-            final Boolean onValue;
-            if (onProperty != null && (onValue = onProperty.getValue()) != null) {
-                // get only lamps
-                if (device.getModelName().contains("Lamp") || device.getModelName().contains("lamp")) {
-                    try {
-                        // toge on propertie
-                        onProperty.requestValueUpdate(!onValue);
-                        // give terminal output
-                        LOGGER.warn("toggling device '{}'", device.getIdentifier());
-                        // return the name of the device
-                        resp.reply("I switched" + device.getIdentifier() + "on");
-                    } catch (final DeviceAPIException e) {
-                        LOGGER.error("Failed to control device", e);
-                    }
-                }
-            }
-        }
-    }
 
     public static void isTheHeatherOff(SlackletRequest req, SlackletResponse resp, IoLiteSlackBotApp app) {
         // iterate devices

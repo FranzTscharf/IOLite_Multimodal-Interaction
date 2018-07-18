@@ -1,7 +1,7 @@
 <div class="example-row" ng-controller="chatbot-controller">
     <div class="card">
-    <div class="card-header bg-light">
-        <h1>IOLITE <i class="far fa-heart"></i> Slack</h1>
+    <div class="card-header">
+        <h1>IOLite <i class="far fa-heart"></i> Slack</h1>
         <p>Send awesome commands to your iolite enviroment through Slack</p>
     </div>
     <div class="card-body">
@@ -55,7 +55,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-control-label">Check the credentials with a test message. Please enter your slack user email:</label>
-                            <input class="form-control" ng-model="slackUsername" placeholder="YourSlackEmail@gmail.com">
+                            <input class="form-control" id="slackbotuserinput" ng-model="slackUsername" placeholder="YourSlackEmail@gmail.com">
                             <button type="button" id="sendTestMessageButton" style="margin-top: 0.5em;" class="btn btn-primary" ng-click='sendTestMessage()'>Check-Credentials</button>
                         </div>
                     </div>

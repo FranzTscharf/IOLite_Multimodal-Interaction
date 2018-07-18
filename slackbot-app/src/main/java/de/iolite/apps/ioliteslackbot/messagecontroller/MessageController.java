@@ -47,6 +47,7 @@ public class MessageController {
 	private TurnOnController turnOnController;
 	private InformationController informationController;
 	private UC_BedController bedController;
+	private UC_IAmHomeController homeController;
 	private GetDeviceStateController getDeviceStateController; 
 	private UseCaseController useCaseController;
 
@@ -55,6 +56,7 @@ public class MessageController {
 		this.turnOnController = new TurnOnController(this);
 		this.informationController = new InformationController(this);
 		this.bedController = new UC_BedController(this);
+		this.homeController = new UC_IAmHomeController(this);
 		this.getDeviceStateController = new GetDeviceStateController(this);
 		this.useCaseController = new UseCaseController(this);
 		iterationNr = 0;
@@ -88,23 +90,32 @@ public class MessageController {
 			response.reply(conversationStatus.toString());
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
-		}else if (prevCommand.contains("is")) {
+		}
+		else if (prevCommand.contains("status")) {
+			getDeviceStateController.run2();
+		}
+		else if (prevCommand.contains("is")) {
 			getDeviceStateController.run();
-		}else if (prevCommand.contains("get")) {
+		}else if (prevCommand.contains("show")) {
 			informationController.getAll();
 		}else if (prevCommand.contains("bed")||prevCommand.contains("sleep")) {
 			bedController.sleep_wakeup(false);
 		}
 		else if (prevCommand.contains("morning")||prevCommand.contains("wake up")) {
 			bedController.sleep_wakeup(true);
-		}else{
+		}else if (prevCommand.contains("leaving")||prevCommand.contains("going out")) {
+			homeController.turnOffLamps();
+		}else if (prevCommand.contains("i'm home")||prevCommand.contains("i am home")) {
+			homeController.imHome();
+		}
+		else{
 			//make a dialogflow request
 			//!TODO load dialogflow apiKey
 			DialogFlowClientApplication dfca =
 					new DialogFlowClientApplication(
 							"f8a3214ac92843b1b31f887d857db8da",app,req,resp);
 			Result result = dfca.getNLPResponse(request);
-			response.reply(result.getFulfillment().getSpeech());
+			dfca.getDialogFlowTree(result);
 		}
 		
 
@@ -174,14 +185,14 @@ public class MessageController {
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("You can run the following commands:\n");
-		sb.append("turnOn %device name%\n");
-		sb.append("turnOff %device name%\n");
-		sb.append("turnOnAll %device profile%\n");
-		sb.append("turnOffAll %device profile%\n");
+		sb.append("turn On %device name%\n");
+		sb.append("turn Off %device name%\n");
+		sb.append("turn On All %device profile%\n");
+		sb.append("turn Off All %device profile%\n");
 		sb.append("\n");
-		sb.append("getAllDeviceNames\n");
-		sb.append("getAllLocationNames\n");
-		sb.append("getAllDeviceProfiles\n");
+		sb.append("show All Device Names\n");
+		sb.append("show All Location Names\n");
+		sb.append("show All Device Profiles\n");
 		sb.append("\n");
 		sb.append("is %device name% still on?\n");
 		response.reply(sb.toString());

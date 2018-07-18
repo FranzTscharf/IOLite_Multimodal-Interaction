@@ -132,7 +132,6 @@ public class DialogFlowClientApplication {
 
     /**
      * Cast the actions response got from the AI API
-     *
      * @param rslt The Result of the success query
      */
     public void getDialogFlowTree(Result rslt) {
@@ -140,18 +139,22 @@ public class DialogFlowClientApplication {
         // case descision of intents
         switch (action) {
             case "smarthome.lights.switch.on":
-                LOGGER.warn(rslt.getParameters().get("room").getAsString());
-                LOGGER.warn("smarthome.lights.switch.on");
-                resp.reply(rslt.getFulfillment().getSpeech());
+                resp.reply(action);
+                DialogFlowMessageController dfmc = new DialogFlowMessageController(rslt,req,resp,app);
+                dfmc.smartHomeLightsSwitchOn();
+                break;
+            case "smarthome.lights.switch.off":
+                break;
             case "smarthome.lights.switch.check.on":
                 LOGGER.warn(rslt.getParameters().get("room").getAsString());
                 LOGGER.warn("smarthome.lights.switch.check.on");
                 resp.reply(rslt.getFulfillment().getSpeech());
+                break;
             default:
                 LOGGER.warn("if nothing works");
                 resp.reply(rslt.getFulfillment().getSpeech());
+                break;
         }
-
     }
 
     /**
