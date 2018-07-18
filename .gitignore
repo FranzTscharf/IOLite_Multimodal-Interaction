@@ -616,3 +616,5 @@ src/main/generated-resources/assets/css/*.css
 RemoteSystemsTempFiles/\.project
 /.metadata/
 /.recommenders/
+
+slackbot-app/src/main/java/de/iolite/apps/ioliteslackbot/IoLiteSlackBotApp\.java
