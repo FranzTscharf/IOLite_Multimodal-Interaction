@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="ASCII"?>
+<notification:NotificationSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notification="http://iolite.de/models/notification-1.0.ecore" numberOfUnreadNotifications="1">
+  <notifications identifier="34bc0e89_d78b_497d_bb4d_bcfdaa8d58be1531903001127" title="IOLITE Update" content="Available IOLITE update : 18.07.16.170451" timestamp="1531903001127" timestampLocalized="2018-07-18 10:36" senderIdentifier="de.iolite.runtime.service.update.IOLITEUpdateService" senderFriendlyName="IOLITE Update Service"/>
+</notification:NotificationSet>
