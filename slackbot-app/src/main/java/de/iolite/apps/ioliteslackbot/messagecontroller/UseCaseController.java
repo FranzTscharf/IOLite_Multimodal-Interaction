@@ -43,7 +43,6 @@ public class UseCaseController extends Slacklet {
         if (currentLoc.getName() != null){
             List<Device> currentLocationDevices = getCurrentLocationDevices(currentLoc);
             for (Device device : currentLocationDevices) {
-                messageController.getResponse().reply("turning on " + device.getName());
                 turnSpecificDevice(device);
             }
         }else {
@@ -83,7 +82,6 @@ public class UseCaseController extends Slacklet {
             envDevId = envD.getIdentifier();
             //loop through deviceApi for devices found in the environmentApi
             for (Device nD: messageController.getApp().getDeviceAPI().getDevices()) {
-                messageController.getResponse().reply(nD.getName());
                 if(nD.getIdentifier().equals(envDevId)){
                     mappedDevices.add(nD);
                 }

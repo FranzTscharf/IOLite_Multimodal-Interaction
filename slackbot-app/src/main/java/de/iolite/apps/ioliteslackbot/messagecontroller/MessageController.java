@@ -68,9 +68,6 @@ public class MessageController {
 	public void analyze(SlackletRequest req, SlackletResponse resp) {
 		this.request = req.getContent().toLowerCase();
 		this.response = resp;
-
-		resp.reply(conversationStatus.toString());
-
 		if(iterationNr==0)
 			prevCommand = request;
 
@@ -87,7 +84,6 @@ public class MessageController {
 			}
 			response.reply("In which room would you like to switch " + on_off +" the lights?");
 			conversationStatus = ConversationStatus.RequireLocation;
-			response.reply(conversationStatus.toString());
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
 		}
