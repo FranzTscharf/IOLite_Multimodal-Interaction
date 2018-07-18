@@ -85,7 +85,7 @@ public class MessageController {
 			bedController.sleep_wakeup(true);
 		}else if (prevCommand.contains("leaving")||prevCommand.contains("going out")) {
 			homeController.Home_leaving(false); 
-		}else if (prevCommand.contains("I'm home")||prevCommand.contains("getting home")) {
+		}else if (prevCommand.contains("i'm home")||prevCommand.contains("i am home")) {
 			homeController.Home_leaving(true);
 		}
 		else{

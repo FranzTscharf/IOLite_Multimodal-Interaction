@@ -17,7 +17,7 @@ import de.iolite.drivers.basic.DriverConstants;
 public class UC_IAmHomeController {
 
 	@Nonnull
-	private static final Logger LOGGER = LoggerFactory.getLogger(UC_BedController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UC_IAmHomeController.class);
 
 	private MessageController mc;
 
