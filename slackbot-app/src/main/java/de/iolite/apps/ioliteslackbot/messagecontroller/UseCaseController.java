@@ -91,8 +91,6 @@ public class UseCaseController extends Slacklet {
     }
 
     private void turnSpecificDevice(Device devLoc) {
-        DeviceBooleanProperty onProperty = devLoc.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
-
         boolean on_off = false;
         String sOn_off = "off";
 
@@ -102,6 +100,7 @@ public class UseCaseController extends Slacklet {
         }
 
         if (devLoc != null) {
+            DeviceBooleanProperty onProperty = devLoc.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
 
             if (onProperty == null) {
                 messageController.getResponse().reply("The device doesn't has an on property..");

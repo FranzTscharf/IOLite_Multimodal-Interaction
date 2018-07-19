@@ -81,14 +81,29 @@ public class DialogFlowClientApplication {
     }
 
     /**
-     * Getter and Setter
-     *
+     * Constructor for JUnit methods
      * @param apikey
      */
     public DialogFlowClientApplication(String apikey) {
         this.dialogFlowApiKey = apikey;
     }
+    /**
+     * Constructor for init method
+     * @param apikey
+     * @param app
+     */
+    public DialogFlowClientApplication(String apikey,IoLiteSlackBotApp app) {
+        this.dialogFlowApiKey = apikey;
+        this.app = app;
+    }
 
+    /**
+     * Constructor
+     * @param apikey
+     * @param app
+     * @param req
+     * @param resp
+     */
     public DialogFlowClientApplication(String apikey, IoLiteSlackBotApp app, SlackletRequest req, SlackletResponse resp) {
         this.dialogFlowApiKey = apikey;
         this.req = req;
