@@ -4,10 +4,7 @@ import de.iolite.app.api.device.DeviceAPIException;
 import de.iolite.app.api.device.access.Device;
 import de.iolite.app.api.device.access.DeviceBooleanProperty;
 import de.iolite.app.api.environment.Location;
-import de.iolite.app.api.environment.LocationType;
-import de.iolite.app.api.environment.User;
 import de.iolite.apps.ioliteslackbot.IoLiteSlackBotApp;
-import de.iolite.apps.ioliteslackbot.messagecontroller.MessageController;
 import de.iolite.drivers.basic.DriverConstants;
 import org.riversun.slacklet.Slacklet;
 import org.slf4j.Logger;
@@ -38,28 +35,33 @@ public class UseCaseController extends Slacklet {
 
     public void useCase1_SwitchTheLightsInLocation(){
 
-        Location currentLoc = getCurrentLocation();
+        List<Location> currentLocs = getCurrentLocations();
 
-        if (currentLoc.getName() != null){
-            List<Device> currentLocationDevices = getCurrentLocationDevices(currentLoc);
-            for (Device device : currentLocationDevices) {
-                turnSpecificDevice(device);
+        if (!currentLocs.isEmpty()){
+            for (Location l: currentLocs) {
+                List<Device> currentLocationDevices = getCurrentLocationDevices(l);
+                for (Device device : currentLocationDevices) {
+                    turnSpecificDevice(device, l.getName());
+                }
             }
+
         }else {
             messageController.getResponse().reply("Sorry, I could not find the requested room");
         }
     }
 
-    private Location getCurrentLocation() {
+    private List<Location> getCurrentLocations() {
+        List<Location> finalRooms = new ArrayList<>();
+        String request = messageController.getRequest().toLowerCase();
         List<Location> rooms = messageController.getApp().getEnvironmentAPI().getLocations();
         for (Location r: rooms) {
-            if (messageController.getRequest().contains(r.getName())){
-                return r;
+            if (request.contains(r.getName().toLowerCase())){
+                finalRooms.add(r);
+            } else if (request.equals("everywhere") || request.equals("every") || request.equals("all")){
+                finalRooms.add(r);
             }
         }
-        messageController.getResponse().reply("Sorry, I could not find the requested room");
-        messageController.conversationStatus = MessageController.ConversationStatus.NewConversation;
-        return null;
+        return finalRooms;
     }
 
 
@@ -68,7 +70,7 @@ public class UseCaseController extends Slacklet {
         if (!currentLoc.getDevices().isEmpty()) {
             locationDeviceList = mapLocationDevices(currentLoc.getDevices());
         } else {
-            messageController.getResponse().reply("Sorry, could not find any rooms");
+            messageController.getResponse().reply("Sorry, could not find any lamps in the `" + currentLoc.getName() + "`");
         }
         return locationDeviceList;
     }
@@ -90,7 +92,7 @@ public class UseCaseController extends Slacklet {
         return mappedDevices;
     }
 
-    private void turnSpecificDevice(Device devLoc) {
+    private void turnSpecificDevice(Device devLoc, String loc) {
         DeviceBooleanProperty onProperty = devLoc.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
 
         boolean on_off = false;
@@ -108,7 +110,7 @@ public class UseCaseController extends Slacklet {
             } else {
                 try {
                     onProperty.requestValueUpdate(on_off);
-                    messageController.getResponse().reply(devLoc.getName() + " was turned " + sOn_off);
+                    messageController.getResponse().reply("`" + devLoc.getName() + "` was turned " + sOn_off + " in the `" + loc + "`");
                 } catch (DeviceAPIException e) {
                     messageController.getResponse().reply("Error while switching on/off " + devLoc.getIdentifier());
                     LOGGER.debug(e.getMessage());

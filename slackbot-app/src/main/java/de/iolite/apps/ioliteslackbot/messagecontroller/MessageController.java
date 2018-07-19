@@ -1,7 +1,6 @@
 package de.iolite.apps.ioliteslackbot.messagecontroller;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 
@@ -76,14 +75,20 @@ public class MessageController {
 			conversationStatus = ConversationStatus.NewConversation;
 		}else if (prevCommand.contains("help")) {
 			help();
-		}else if(prevCommand.equals("turn on the lights") || prevCommand.equals("turn off the lights")){
+		}else if(prevCommand.contains("turn on the lights") || prevCommand.contains("turn off the lights")){
 			if (prevCommand.contains("on")){
 				on_off = "on";
 			}else {
 				on_off = "off";
 			}
-			response.reply("In which room would you like to switch " + on_off +" the lights?");
-			conversationStatus = ConversationStatus.RequireLocation;
+			if(prevCommand.contains("in the")){
+				useCaseController.useCase1_SwitchTheLightsInLocation();
+			}else {
+				response.reply("In which room would you like to switch " + on_off +" the lights?");
+				response.reply("the following rooms are available:\n" + getFormattedRooms().toString());
+				conversationStatus = ConversationStatus.RequireLocation;
+			}
+
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
 		}
@@ -115,6 +120,18 @@ public class MessageController {
 		}
 		
 
+	}
+
+	private StringBuilder getFormattedRooms() {
+		List<Location> availableRooms = getApp().getEnvironmentAPI().getLocations();
+		StringBuilder rsb = new StringBuilder();
+		for (Location l: availableRooms) {
+			rsb.append("`"+l.getName() +"` ");
+		}
+		if (rsb.length() == 0){
+			rsb.append("No rooms found");
+		}
+		return rsb;
 	}
 
 	public ArrayList<Device> findDeviceByName() {
@@ -180,16 +197,16 @@ ArrayList<Device> devs = new ArrayList<>();
 	{
 		StringBuilder sb = new StringBuilder();
 		sb.append("You can run the following commands:\n");
-		sb.append("turn On %device name%\n");
-		sb.append("turn Off %device name%\n");
-		sb.append("turn On All %device profile%\n");
-		sb.append("turn Off All %device profile%\n");
+		sb.append("`turn On %device name%`\n");
+		sb.append("`turn Off %device name%`\n");
+		sb.append("`turn On All %device profile%`\n");
+		sb.append("`turn Off All %device profile%`\n");
 		sb.append("\n");
-		sb.append("show All Device Names\n");
-		sb.append("show All Location Names\n");
-		sb.append("show All Device Profiles\n");
+		sb.append("`show All Device Names`\n");
+		sb.append("`show All Location Names`\n");
+		sb.append("`show All Device Profiles`\n");
 		sb.append("\n");
-		sb.append("is %device name% still on?\n");
+		sb.append("`is %device name% still on?`\n");
 		response.reply(sb.toString());
 	}
 
