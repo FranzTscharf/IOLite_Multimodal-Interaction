@@ -104,6 +104,7 @@ public class UseCaseController extends Slacklet {
         }
 
         if (devLoc != null) {
+            DeviceBooleanProperty onProperty = devLoc.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
 
             if (onProperty == null) {
                 messageController.getResponse().reply("The device doesn't has an on property..");

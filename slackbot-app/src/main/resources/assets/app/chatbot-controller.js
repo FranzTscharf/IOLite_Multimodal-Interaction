@@ -192,6 +192,15 @@
             });
             }
         };
+        $scope.initDialogFlow = function() {
+                $http.get('inizializeDialogFlow').then(function onSuccess(response) {
+                    console.log("init of DialogFlow success");
+                }, function onFailure(response) {
+                    $('#configWrong').modal('show');
+                    console.log(response);
+                    console.log("can't connect to dialogflow");
+                });
+        };
         $scope.actionNextStep = function(currentStep) {
             //call the stoage API to save the APIKEY
             //var currentStep = document.getElementById("currentSteps").value;
@@ -209,6 +218,7 @@
                 var akikeyDialogflow = document.getElementById("inputAPIKEYDialogflowSteps").value;
                 $scope.ApiKeyDialogFlowValueSaveToStorageAPI(akikeyDialogflow);
                 console.log("dialogflow api key");
+                $scope.initDialogFlow();
             }else if(currentStep == "4"){
                 //test message
                 var slackUserEMail = document.getElementById("SlackUserEMail").value;
