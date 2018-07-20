@@ -66,7 +66,7 @@ public class UC_BedController {
 			blindstate = DriverConstants.PROPERTY_blindDriveStatus_LITERAL_moving_out;
 		}
 
-		mc.getResponse().reply("I " + open_close + " the following blinds:");
+		mc.getResponse().reply("I " + open_close + " the blinds:");
 
 		ArrayList<Device> blinds = mc.getAllDevicesByProfileAndRoom("blind", "bedroom");
 		for (Device dev : blinds) {
@@ -75,7 +75,7 @@ public class UC_BedController {
 				DeviceProperty<?, ?> prop = dev.getProperty(DriverConstants.PROPERTY_blindDriveStatus_ID);
 				// LOGGER.error(prop.getValue().toString());
 				prop.requestValueUpdateFromString(blindstate);
-				mc.getResponse().reply(dev.getName());
+				//mc.getResponse().reply(dev.getName());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -89,7 +89,7 @@ public class UC_BedController {
 			on_off = "off";
 		}
 
-		mc.getResponse().reply("I turned " + on_off + " the following lamps:");
+		mc.getResponse().reply("I turned " + on_off + " the lamps:");
 		ArrayList<Device> lamps = mc.getAllDevicesByProfileAndRoom("lamp", "bedroom");
 		ArrayList<Device> dimLamps = mc.getAllDevicesByProfileAndRoom("dimmablelamp", "bedroom");
 		lamps.addAll(dimLamps);
@@ -97,7 +97,7 @@ public class UC_BedController {
 		for (Device dev : lamps) {
 			try {
 				dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID).requestValueUpdate(bol);
-				mc.getResponse().reply(dev.getName());
+				//mc.getResponse().reply(dev.getName());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
