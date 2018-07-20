@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
-import de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication;
 import de.iolite.apps.ioliteslackbot.slack.SlackBotServer;
 import org.apache.commons.lang3.Validate;
 import org.json.JSONArray;
@@ -445,25 +444,6 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 			}
 		}
 	}
-
-	/**
-	 *
-	 */
-	class InitilizeDialogFlow extends FrontendAPIRequestHandler {
-		@Override
-		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
-			JSONObject object = new JSONObject();
-			try {
-				LOGGER.warn("BackEnd init with DialofFlowAPIKey:"+storageAPI.loadString("apikeyDialogFlow"));
-				DialogFlowClientApplication dfca = new DialogFlowClientApplication(storageAPI.loadString("apikeyDialogFlow"),IoLiteSlackBotApp.this);
-				dfca.setEntities();
-				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.OK,IOLITEHTTPResponse.JSON_CONTENT_TYPE);
-			}catch(Exception e){
-				LOGGER.error("error inizialize DialogFlow");
-				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
-			}
-		}
-	}
 	/**
 	 * A response handler returning all rooms as JSON array.
 	 */
@@ -536,7 +516,6 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		//Request handlers for the slackbot
 		this.frontendAPI.registerRequestHandler("startSlackBot", new StartSlackBot());
 		this.frontendAPI.registerRequestHandler("credentialCheck", new CredentialCheck());
-		this.frontendAPI.registerRequestHandler("inizializeDialogFlow", new InitilizeDialogFlow());
 
 		this.frontendAPI.registerRequestHandler("get_devices.json", new DeviceJSONRequestHandler());
 	}
