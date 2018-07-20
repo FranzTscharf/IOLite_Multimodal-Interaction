@@ -51,7 +51,7 @@ public class TurnOnController {
 		ArrayList<Device> devs = mc.findDeviceByName();
 		if (devs.isEmpty()) {
 
-			mc.getResponse().reply("Could not find device");
+			mc.getResponse().reply("Could not find the device");
 
 		}
 
@@ -67,7 +67,7 @@ public class TurnOnController {
 				} else {
 					try {
 						onProperty.requestValueUpdate(on_off);
-						mc.getResponse().reply(dev.getName() + " was turnd " + sOn_off);
+						mc.getResponse().reply(dev.getName() + " was turned " + sOn_off);
 					} catch (DeviceAPIException e) {
 						mc.getResponse().reply("Error while swiching on/off " + dev.getIdentifier());
 						LOGGER.debug(e.getMessage());
