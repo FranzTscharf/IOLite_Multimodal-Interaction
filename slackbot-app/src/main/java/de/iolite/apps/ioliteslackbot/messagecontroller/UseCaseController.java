@@ -40,8 +40,10 @@ public class UseCaseController extends Slacklet {
         if (!currentLocs.isEmpty()){
             for (Location l: currentLocs) {
                 List<Device> currentLocationDevices = getCurrentLocationDevices(l);
-                for (Device device : currentLocationDevices) {
-                    turnSpecificDevice(device, l.getName());
+                if (!currentLocationDevices.isEmpty()){
+                    for (Device device : currentLocationDevices) {
+                        turnSpecificDevice(device, l.getName());
+                    }
                 }
             }
 
@@ -85,7 +87,9 @@ public class UseCaseController extends Slacklet {
             //loop through deviceApi for devices found in the environmentApi
             for (Device nD: messageController.getApp().getDeviceAPI().getDevices()) {
                 if(nD.getIdentifier().equals(envDevId)){
-                    mappedDevices.add(nD);
+                    if (nD.getProfileIdentifier().toLowerCase().contains("lamp")){
+                        mappedDevices.add(nD);
+                    }
                 }
             }
         }

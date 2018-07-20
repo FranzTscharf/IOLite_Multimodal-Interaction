@@ -445,6 +445,9 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 			}
 		}
 	}
+	/**
+	 *
+	 */
 	class InitilizeDialogFlow extends FrontendAPIRequestHandler {
 		@Override
 		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
