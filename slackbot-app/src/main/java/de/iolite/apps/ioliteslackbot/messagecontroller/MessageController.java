@@ -51,6 +51,8 @@ public class MessageController {
 	private UseCaseController useCaseController;
 	private UC_BlindsController blindsController;
 
+	
+
 	public MessageController(IoLiteSlackBotApp app) {
 		this.app = app;
 		this.turnOnController = new TurnOnController(this);
@@ -66,6 +68,10 @@ public class MessageController {
 		conversationStatus = ConversationStatus.NewConversation;
 	}
 
+	
+	/**
+	 * Analyses the slack request
+	 */
 	public void analyze(SlackletRequest req, SlackletResponse resp) {
 		this.request = req.getContent().toLowerCase();
 		this.response = resp;
@@ -93,9 +99,6 @@ public class MessageController {
 
 		}else if (prevCommand.contains("turn")) {
 			turnOnController.turn();
-		}
-		else if (prevCommand.contains("status")) {
-			getDeviceStateController.status();
 		}
 		else if (prevCommand.contains("is")) {
 			getDeviceStateController.is();
@@ -128,6 +131,9 @@ public class MessageController {
 
 	}
 
+	/**
+	 * Returns formatted rooms
+	 */
 	private StringBuilder getFormattedRooms() {
 		List<Location> availableRooms = getApp().getEnvironmentAPI().getLocations();
 		StringBuilder rsb = new StringBuilder();
@@ -140,6 +146,10 @@ public class MessageController {
 		return rsb;
 	}
 
+	
+	/**
+	 * Returns device by Name
+	 */
 	public ArrayList<Device> findDeviceByName() {
 ArrayList<Device> devs = new ArrayList<>();
 		for (Device dev : app.getDeviceAPI().getDevices()) {
@@ -152,6 +162,10 @@ ArrayList<Device> devs = new ArrayList<>();
 	}
 
 	
+	
+	/**
+	 * Returns all devices by profile
+	 */
 	public ArrayList<Device> getAllDevicesByProfile(String pProfile) {
 		ArrayList<Device> devices = new ArrayList<>();
 		for (Device dev : app.getDeviceAPI().getDevices()) {
@@ -166,6 +180,9 @@ ArrayList<Device> devs = new ArrayList<>();
 		return devices;
 	}
 	
+	/**
+	 * Returns all devices by profile and room.
+	 */
 	public ArrayList<Device> getAllDevicesByProfileAndRoom(String pProfile, String pRoom) {
 		ArrayList<String> identifiers = new ArrayList<>();
 		//Get all identifiers from one room
@@ -193,6 +210,9 @@ ArrayList<Device> devs = new ArrayList<>();
 		return devices;
 	}
 
+	/**
+	 * returns all locations
+	 */
 	public List<de.iolite.app.api.environment.Location> getAllLocations(){
 		List<de.iolite.app.api.environment.Location> rooms = new ArrayList<>();
 		rooms = app.getEnvironmentAPI().getLocations();

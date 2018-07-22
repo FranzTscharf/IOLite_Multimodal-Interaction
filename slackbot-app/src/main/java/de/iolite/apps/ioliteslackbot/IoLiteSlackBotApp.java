@@ -155,11 +155,11 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 			}
 			catch (final JSONException e) {
 				LOGGER.error("Could not handle devices request due to a JSON error: {}", e.getMessage(), e);
-				return new IOLITEHTTPStaticResponse(e.getMessage(), HTTPStatus.BAD_REQUEST, "text/plain");
+				return new IOLITEHTTPStaticResponse(e.getMessage(), HTTPStatus.BadRequest, "text/plain");
 			}
 			catch (final IOException e) {
 				LOGGER.error("Could not handle devices request due to an I/O error: {}", e.getMessage(), e);
-				return new IOLITEHTTPStaticResponse(e.getMessage(), HTTPStatus.BAD_REQUEST, "text/plain");
+				return new IOLITEHTTPStaticResponse(e.getMessage(), HTTPStatus.BadRequest, "text/plain");
 			}
 
 			final JSONArray jsonDeviceArray = new JSONArray();
@@ -204,7 +204,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 
 		@Override
 		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
-			return new IOLITEHTTPStaticResponse(HTTPStatus.NOT_FOUND, IOLITEHTTPResponse.HTML_CONTENT_TYPE);
+			return new IOLITEHTTPStaticResponse(HTTPStatus.NotFound, IOLITEHTTPResponse.HTML_CONTENT_TYPE);
 		}
 	}
 
@@ -441,7 +441,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 				sbs = null;
 				LOGGER.error(e.getMessage()+e.getLocalizedMessage());
 				object.append("serverTest", "false");
-				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.UNAUTHORIZED, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
 			}
 		}
 	}
@@ -459,7 +459,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.OK,IOLITEHTTPResponse.JSON_CONTENT_TYPE);
 			}catch(Exception e){
 				LOGGER.error("error inizialize DialogFlow");
-				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.UNAUTHORIZED, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
 			}
 		}
 	}
@@ -487,7 +487,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 				sbs = null;
 				LOGGER.error(e.getMessage()+e.getLocalizedMessage());
 				object.append("serverTest", "false");
-				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.UNAUTHORIZED, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
 			}
 			//test message \ server start kommt in die init methode etc.
 		}

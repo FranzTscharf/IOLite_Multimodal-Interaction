@@ -34,11 +34,11 @@ public class GetDeviceStateController {
 	
 	public void is()
 	{
-		if(mc.getRequest().contains("heater"))
+		if(mc.getRequest().contains(" heater "))
 		{
 			checkHeater();
 		}
-		else if(mc.getRequest().contains("on"))
+		else if(mc.getRequest().contains(" on "))
 		{
 			checkOn();
 		}
@@ -101,34 +101,6 @@ ArrayList<Device> devs = mc.findDeviceByName();
 		
 	}
 	
-	
-	public void status()
-	{
-		ArrayList<Device> devs = mc.findDeviceByName();
-		
-		for(Device dev : devs)
-		{
-			if(dev==null)
-			{
-				mc.getResponse().reply("Could not find this device!");
-			}
-			else if(dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID)==null)
-			{
-				mc.getResponse().reply("This device dosn't have an on/off state!");
-			}
-			else{
-				DeviceBooleanProperty bol = dev.getBooleanProperty(DriverConstants.PROPERTY_on_ID);
-				String state = "on";
-				if(!bol.getValue())
-					state = "off";
-				mc.getResponse().reply("The device \""+dev.getName()+"\" has the state \""+state+"\"");
-			}
-		}
-		
-		
-		
-		
-	}
 	
 	
 
