@@ -12,7 +12,7 @@ import de.iolite.app.api.device.access.DeviceProperty;
 import de.iolite.drivers.basic.DriverConstants;
 
 /**
- * Turns on/off devices
+ * Servs the use case if the user wants to go to bed.
  *
  * @author Johannes Hassler
  * @since 06.07.2018

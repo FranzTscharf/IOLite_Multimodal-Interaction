@@ -11,7 +11,7 @@ import de.iolite.drivers.basic.DriverConstants;
 /**
  * Turns on/off devices when getting home or leaving home.
  *
- * @author Elin Björnsson
+ * @author Johannes Hassler
  * @since 18.07.2018
  */
 public class UC_IAmHomeController {
@@ -29,7 +29,7 @@ public class UC_IAmHomeController {
 
 	public void turnOffLamps() {
 
-		mc.getResponse().reply("Okay, I will turn off all lamps");
+		mc.getResponse().reply("Okay, I will turn off all lamps!");
 		ArrayList<Device> lamps = mc.getAllDevicesByProfile("lamp");
 		ArrayList<Device> dimLamps = mc.getAllDevicesByProfile("dimmablelamp");
 		lamps.addAll(dimLamps);

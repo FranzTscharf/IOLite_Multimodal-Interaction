@@ -14,7 +14,7 @@ import de.iolite.app.api.environment.Location;
 import de.iolite.drivers.basic.DriverConstants;
 
 /**
- * Gets informations about devices in iolite
+ * Gets the current state of devices in iolite
  *
  * @author Johannes Hassler
  * @since 06.07.2018
