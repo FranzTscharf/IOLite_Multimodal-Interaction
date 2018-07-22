@@ -11,54 +11,34 @@ On the other side the the goal of the driver is to implement a gesture control o
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
-
+Make sure you have maven installed.
+```
+mvn -version
+```
+Also you need your maven Settingsfile to be able to pull the iolite dependencies.
 Pull the iolite repository in gitlab and start the server with the following command.
-
 ```
 java -jar iolite.jar -hccPort 8080
 ```
-
-### Installing
-
-For the Installation just copy the jar file IOLite-SlackBot.jar from the target folder inside the 
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
+## Getting starded
+### Copy jars
+## How to Compile the jars?
+### ChatBot Application
 Add additional notes about how to deploy this on a live system
+```
+cd IOLite_Multimodal-Interaction/slackbot-app/
+```
+
+### Gesture Diver
+
+
+## Installing changes
+
+### IOLite ChatBot Application Installation
+For the Installation just copy the jar file "IOLite_Multimodal-Interaction/slackbot-app/IOLite-SlackBot.jar" to <username>/.iolite/apps/ folder.
+  
+### IOLite Gesture Diver Installation
+For the Installation just copy the jar file "IOLite_Multimodal-Interaction/gesture-driver/target/gesture-driver.jar" to <username>/.iolite/driver/ folder.
 
 ## Built With
 

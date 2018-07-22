@@ -49,12 +49,14 @@ public class MessageController {
 	private UC_IAmHomeController homeController;
 	private GetDeviceStateController getDeviceStateController; 
 	private UseCaseController useCaseController;
+	private UC_BlindsController blindsController;
 
 	public MessageController(IoLiteSlackBotApp app) {
 		this.app = app;
 		this.turnOnController = new TurnOnController(this);
 		this.informationController = new InformationController(this);
 		this.bedController = new UC_BedController(this);
+		this.blindsController = new UC_BlindsController(this);
 		this.homeController = new UC_IAmHomeController(this);
 		this.getDeviceStateController = new GetDeviceStateController(this);
 		this.useCaseController = new UseCaseController(this);
@@ -108,6 +110,10 @@ public class MessageController {
 			homeController.turnOffLamps();
 		}else if (prevCommand.contains("home")) {
 			homeController.imHome();
+		}else if (prevCommand.contains("lower the blinds")||prevCommand.contains("close the blinds")) {
+			blindsController.lower_raise_blinds(false);
+		}else if (prevCommand.contains("raise the blinds")||prevCommand.contains("open the blinds")) {
+			blindsController.lower_raise_blinds(true);
 		}
 		else{
 			//make a dialogflow request

@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
+import de.iolite.apps.ioliteslackbot.dialogflow.DialogFlowClientApplication;
 import de.iolite.apps.ioliteslackbot.slack.SlackBotServer;
 import org.apache.commons.lang3.Validate;
 import org.json.JSONArray;
@@ -154,11 +155,11 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 			}
 			catch (final JSONException e) {
 				LOGGER.error("Could not handle devices request due to a JSON error: {}", e.getMessage(), e);
-				return new IOLITEHTTPStaticResponse(e.getMessage(), HTTPStatus.BadRequest, "text/plain");
+				return new IOLITEHTTPStaticResponse(e.getMessage(), HTTPStatus.BAD_REQUEST, "text/plain");
 			}
 			catch (final IOException e) {
 				LOGGER.error("Could not handle devices request due to an I/O error: {}", e.getMessage(), e);
-				return new IOLITEHTTPStaticResponse(e.getMessage(), HTTPStatus.BadRequest, "text/plain");
+				return new IOLITEHTTPStaticResponse(e.getMessage(), HTTPStatus.BAD_REQUEST, "text/plain");
 			}
 
 			final JSONArray jsonDeviceArray = new JSONArray();
@@ -203,7 +204,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 
 		@Override
 		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
-			return new IOLITEHTTPStaticResponse(HTTPStatus.NotFound, IOLITEHTTPResponse.HTML_CONTENT_TYPE);
+			return new IOLITEHTTPStaticResponse(HTTPStatus.NOT_FOUND, IOLITEHTTPResponse.HTML_CONTENT_TYPE);
 		}
 	}
 
@@ -440,7 +441,25 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 				sbs = null;
 				LOGGER.error(e.getMessage()+e.getLocalizedMessage());
 				object.append("serverTest", "false");
-				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.UNAUTHORIZED, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+			}
+		}
+	}
+	/**
+	 *
+	 */
+	class InitilizeDialogFlow extends FrontendAPIRequestHandler {
+		@Override
+		protected IOLITEHTTPResponse handleRequest(final IOLITEHTTPRequest request, final String subPath) {
+			JSONObject object = new JSONObject();
+			try {
+				LOGGER.warn("BackEnd init with DialofFlowAPIKey:"+storageAPI.loadString("apikeyDialogFlow"));
+				DialogFlowClientApplication dfca = new DialogFlowClientApplication(storageAPI.loadString("apikeyDialogFlow"),IoLiteSlackBotApp.this);
+				dfca.setEntities();
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.OK,IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+			}catch(Exception e){
+				LOGGER.error("error inizialize DialogFlow");
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.UNAUTHORIZED, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
 			}
 		}
 	}
@@ -468,7 +487,7 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 				sbs = null;
 				LOGGER.error(e.getMessage()+e.getLocalizedMessage());
 				object.append("serverTest", "false");
-				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.Unauthorized, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
+				return new IOLITEHTTPStaticResponse(object.toString(), HTTPStatus.UNAUTHORIZED, IOLITEHTTPResponse.JSON_CONTENT_TYPE);
 			}
 			//test message \ server start kommt in die init methode etc.
 		}
@@ -516,6 +535,8 @@ public final class IoLiteSlackBotApp extends AbstractIOLITEApp {
 		//Request handlers for the slackbot
 		this.frontendAPI.registerRequestHandler("startSlackBot", new StartSlackBot());
 		this.frontendAPI.registerRequestHandler("credentialCheck", new CredentialCheck());
+		this.frontendAPI.registerRequestHandler("inizializeDialogFlow", new InitilizeDialogFlow());
+
 
 		this.frontendAPI.registerRequestHandler("get_devices.json", new DeviceJSONRequestHandler());
 	}
